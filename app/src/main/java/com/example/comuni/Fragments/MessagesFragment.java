@@ -1,4 +1,4 @@
-package com.example.comuni.Activities;
+package com.example.comuni.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
