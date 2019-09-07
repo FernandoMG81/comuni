@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@drawable/ic_fondo_log"
     tools:context=".Activities.LoginActivity">
 
     <Button
@@ -26,8 +26,8 @@
         android:id="@+id/editTextUsuario"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:background="#A5C715"
         android:ems="10"
         android:hint="USUARIO"
@@ -44,9 +44,9 @@
         style="@android:style/Widget.DeviceDefault.EditText"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="6dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginRight="6dp"
+        android:layout_marginRight="16dp"
         android:background="#A5C715"
         android:ems="10"
         android:hint="CLAVE"
