@@ -4,6 +4,10 @@
     <string name="usuario">Usuario</string>
     <string name="ingresar">ingresar</string>
     <string name="textview">TextView</string>
+    <string name="comuniHeader">Comuni</string>
+    <string name="espaciosHeader">Espacios</string>
+    <string name="mensajeHeader">Mensajes</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
