@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Switch;
 import android.widget.TextView;
 
+import com.example.comuni.Fragments.HomeFragment;
+import com.example.comuni.Fragments.MessagesFragment;
+import com.example.comuni.Fragments.PlacesFragment;
 import com.example.comuni.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
