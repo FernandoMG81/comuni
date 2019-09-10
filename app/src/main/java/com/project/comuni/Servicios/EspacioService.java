@@ -1,6 +1,6 @@
-package com.example.comuni.Servicios;
+package com.project.comuni.Servicios;
 
-import com.example.comuni.Models.Espacio;
+import com.project.comuni.Models.Espacio;
 
 public class EspacioService {
     public Espacio matematica = new Espacio(1,"Matemática I", "Este es un espacio para que puedan consultar sus dudas sobre matemática.");

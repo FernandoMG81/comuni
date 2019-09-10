@@ -1,6 +1,6 @@
-package com.example.comuni.Servicios;
+package com.project.comuni.Servicios;
 
-import com.example.comuni.Models.Usuario;
+import com.project.comuni.Models.Usuario;
 
 public class UsuariosService {
     public Usuario profesor = new Usuario(1,"Profesor","Jirafales","ProfJirafales","asdasd","profjirafales@comuni.com");

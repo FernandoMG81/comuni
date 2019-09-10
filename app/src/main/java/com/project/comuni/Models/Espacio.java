@@ -1,4 +1,4 @@
-package com.example.comuni.Models;
+package com.project.comuni.Models;
 
 import java.util.Date;
 
