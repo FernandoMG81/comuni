@@ -1,9 +1,13 @@
 package com.example.comuni.Fragments;
 
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+
 import android.view.View;
 import android.view.ViewGroup;
+
 
 import com.example.comuni.R;
 
@@ -12,6 +16,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class HomeFragment extends Fragment {
+
+    private SharedPreferences prefs;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -19,4 +26,6 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         return view;
     }
+
+
 }
