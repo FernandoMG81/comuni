@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RLMensajes"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/ContactoMensajes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Juan Manuel"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/MensajeMensajes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ContactoMensajes"
+        android:layout_marginTop="11dp"
+        android:text="El mensaje de Juan manuel es este."
+        android:textSize="16sp" />
+</RelativeLayout>
