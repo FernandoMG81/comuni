@@ -8,22 +8,19 @@
     tools:context=".Fragments.MainFragment">
 
 
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="412dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="-10dp"
+    <TextView
+        android:id="@+id/header2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:paddingLeft="16px"
-        android:paddingTop="16px"
-        android:paddingRight="16px"
-        android:paddingBottom="16px"
+        android:includeFontPadding="false"
+        android:paddingLeft="24dp"
+        android:paddingTop="10dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="10dp"
         android:text="@string/espaciosHeader"
-        android:textSize="24sp"
+        android:textSize="@dimen/text_size_header"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.01"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
