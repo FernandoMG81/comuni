@@ -4,28 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e51c23"
-    tools:context=".Fragments.MainFragment">
+    android:background="#fff"
+    tools:context=".Activities.MainActivity">
 
-
-    <EditText
-        android:id="@+id/editText3"
-        android:layout_width="412dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="-10dp"
-        android:background="@color/colorPrimary"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:paddingLeft="16px"
-        android:paddingTop="16px"
-        android:paddingRight="16px"
-        android:paddingBottom="16px"
-        android:text="@string/comuniHeader"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.01"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewMensaje"
@@ -33,11 +14,11 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="HOME FRAGMENT"
+        android:textColor="#070707"
         android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-         />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
