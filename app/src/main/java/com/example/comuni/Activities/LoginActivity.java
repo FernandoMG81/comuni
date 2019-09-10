@@ -1,4 +1,4 @@
-package com.project.comuni.Activities;
+package com.example.comuni.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-import com.project.comuni.R;
+import com.example.comuni.R;
 
 public class LoginActivity extends AppCompatActivity {
 

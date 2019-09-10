@@ -1,6 +1,6 @@
-package com.project.comuni.Servicios;
+package com.example.comuni.Servicios;
 
-import com.project.comuni.Models.Post;
+import com.example.comuni.Models.Post;
 
 public class PostService {
 

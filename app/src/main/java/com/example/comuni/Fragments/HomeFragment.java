@@ -1,4 +1,4 @@
-package com.project.comuni.Fragments;
+package com.example.comuni.Fragments;
 
 
 import android.content.SharedPreferences;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.project.comuni.R;
+import com.example.comuni.R;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

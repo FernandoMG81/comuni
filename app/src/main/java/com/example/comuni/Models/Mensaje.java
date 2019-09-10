@@ -1,4 +1,4 @@
-package com.project.comuni.Models;
+package com.example.comuni.Models;
 
 public class Mensaje {
     private int id;
