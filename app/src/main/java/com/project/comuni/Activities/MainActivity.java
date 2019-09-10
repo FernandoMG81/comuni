@@ -1,4 +1,4 @@
-package com.example.comuni.Activities;
+package com.project.comuni.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,10 +14,10 @@ import android.widget.TextView;
 
 
 
-import com.example.comuni.Fragments.HomeFragment;
-import com.example.comuni.Fragments.MessagesFragment;
-import com.example.comuni.Fragments.PlacesFragment;
-import com.example.comuni.R;
+import com.project.comuni.Fragments.HomeFragment;
+import com.project.comuni.Fragments.MessagesFragment;
+import com.project.comuni.Fragments.PlacesFragment;
+import com.project.comuni.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 

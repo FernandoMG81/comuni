@@ -1,11 +1,11 @@
-package com.example.comuni.Fragments;
+package com.project.comuni.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.comuni.R;
+import com.project.comuni.R;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
