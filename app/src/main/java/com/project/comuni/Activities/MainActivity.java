@@ -101,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void removeSharedPreferences(){
-         prefs.edit().clear().apply();
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.remove("pass");
+        editor.apply();
     }
 }
