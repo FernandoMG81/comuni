@@ -1,17 +1,14 @@
 package com.project.comuni.Fragments;
 
 
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.Toast;
 
-
-import com.project.comuni.Adapters.RecycleAdapterNews;
+import com.project.comuni.Adapters.RecyclerAdapterNews;
 import com.project.comuni.R;
 
 import java.util.ArrayList;
@@ -25,42 +22,42 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeFragment extends Fragment {
 
-
-    private List<String> news;
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        news = this.getAllNews();
 
-        mRecyclerView = view.findViewById(R.id.RVNews);
-        mLayoutManager = new LinearLayoutManager(getContext());
+        RecyclerView recyclerView = view.findViewById(R.id.RVNews);
 
-        mAdapter = new RecycleAdapterNews(news, R.layout.recycler_view_news_item, new RecycleAdapterNews.OnItemClickListener() {
-            @Override
-            public void onItemClick(String name, int position) {
-                Toast.makeText(getActivity(), name + " - " + position, Toast.LENGTH_LONG).show();
-            }
-        });
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        try{
+            ArrayList<String> titulos = new ArrayList<>();
+            ArrayList<String> contenidos = new ArrayList<>();
 
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+            titulos.add("La universidad rankea en el puesto 21");
+            contenidos.add("Según la organizacion SQL nuestra universidad se encuentra en el 21° puesto " +
+                    "gracias a la excelente formación de sus profesores y a su espiritu orientado al emprendedurismo");
 
+            titulos.add("Felicitaciones al equipo de Ecoauto");
+            contenidos.add("Cinco alumnos de ingeniería mecánica alcanzaron el 2do puesto en la competencia Ecoauto, por una movilidad sustentable.");
+
+            titulos.add("La universidad sigue creciendo");
+            contenidos.add("La universidad ha sido la que más a crecido porcentualmente dentro de Argentina. Entre las razones que nos elijen se encuentran:" +
+                    "la excelente formación academica, el prestigio del egresado, la orientación hacia soluciones pŕácticas.");
+
+            titulos.add("Abrió la competencia TuAPP");
+            contenidos.add("Ha comenzado la competencia interuniversitaria e internacional donde los alumnos deben crear una aplicación" +
+                    "pasando por todas las etapas necesarias para ello, desde la formaciión de la idea, hasta el código mismo.");
+
+            RecyclerAdapterNews adapter = new RecyclerAdapterNews(titulos, contenidos, this.getContext());
+
+            recyclerView.setAdapter(adapter);
+
+            return view;} catch (Exception e) {
+            e.printStackTrace();
+        }
         return view;
     }
 
-    private List<String> getAllNews() {
-        return new ArrayList<String>() {{
-            add("La app Comuni a comenzado su desarrollo con exito");
-            add("La primera etapa ha concluido");
-            add("Continua el desarrollo de las secciones");
-            add("Estamos cerca de la fecha de entrega, a ponerle garra");
-        }};
-    }
 }
