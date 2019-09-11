@@ -1,16 +1,14 @@
 package com.project.comuni.Fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.project.comuni.Models.Mensaje;
 import com.project.comuni.Servicios.MensajeService;
 
 import com.project.comuni.R;
-import com.project.comuni.RecyclerAdapterMessages;
+import com.project.comuni.Adapters.RecyclerAdapterMessages;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

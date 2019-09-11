@@ -1,4 +1,4 @@
-package com.project.comuni;
+package com.project.comuni.Adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.project.comuni.Models.Mensaje;
+import com.project.comuni.R;
 
 import java.util.ArrayList;
 
