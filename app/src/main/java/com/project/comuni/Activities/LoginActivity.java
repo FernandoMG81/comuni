@@ -1,4 +1,4 @@
-package com.example.comuni.Activities;
+package com.project.comuni.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,7 +14,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-import com.example.comuni.R;
+import com.project.comuni.R;
+import com.project.comuni.Utils.Util;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -96,20 +97,11 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    //Obtiene mail guardado en preferences
-    private String getUserMailPrefs(){
-        return prefs.getString("email","");
-    }
-
-    //Obtiene pass guardado en preferences
-    private String getUserPassPrefs(){
-        return prefs.getString("pass","");
-    }
 
     //setea credenciales guardadas
     private void setCredentialIfExist(){
-        String email = getUserMailPrefs();
-        String pass = getUserPassPrefs();
+        String email = Util.getUserMailPrefs(prefs);
+        String pass = Util.getUserPassPrefs(prefs);
         if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(pass)){
             editTextLogin.setText(email);
             editTextPassword.setText(pass);

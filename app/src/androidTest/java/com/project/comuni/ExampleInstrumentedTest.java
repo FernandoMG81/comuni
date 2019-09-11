@@ -1,4 +1,4 @@
-package com.example.comuni;
+package com.project.comuni;
 
 import android.content.Context;
 
