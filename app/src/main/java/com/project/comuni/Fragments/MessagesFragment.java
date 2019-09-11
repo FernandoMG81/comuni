@@ -33,10 +33,23 @@ public class MessagesFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.RVMesages);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        this.mensajeService.fillData();
         try{
-        RecyclerAdapterMessages adapter = new RecyclerAdapterMessages(this.mensajeService.mensajes);
+            ArrayList<String> contactos = new ArrayList<>();
+            ArrayList<String> mensajes = new ArrayList<>();
+
+            contactos.add("Alumno 1");
+            mensajes.add("mensaje del alumno 1");
+
+            contactos.add("Alumno 2");
+            mensajes.add("mensaje del alumno 2");
+
+            contactos.add("Alumno 3");
+            mensajes.add("mensaje del alumno 3");
+
+            contactos.add("Alumno 4");
+            mensajes.add("mensaje del alumno 4");
+
+        RecyclerAdapterMessages adapter = new RecyclerAdapterMessages(mensajes, contactos, this.getContext());
 
         recyclerView.setAdapter(adapter);
 

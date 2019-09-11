@@ -1,10 +1,10 @@
 package com.project.comuni.Models;
 
 public class Mensaje {
-    private int id;
-    private Usuario Emisor;
-    private Usuario Receptor;
-    private String mensaje;
+    public int id;
+    public Usuario Emisor;
+    public Usuario Receptor;
+    public String mensaje;
 
     public Mensaje(int id, Usuario emisor, Usuario receptor, String mensaje) {
         this.id = id;

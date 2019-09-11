@@ -3,16 +3,16 @@ package com.project.comuni.Models;
 import java.util.Date;
 
 public class Usuario {
-    private int id = -1;
-    private String nombre = null;
-    private String apellido = null;
-    private String Usuario = null;
-    private String Contrasenia = null;
-    private String mail = null;
+    public int id = -1;
+    public String nombre = null;
+    public String apellido = null;
+    public String Usuario = null;
+    public String Contrasenia = null;
+    public String mail = null;
     //Para despues
-    private Date creado = null;
-    private Date modificado = null;
-    private Date eliminado = null;
+    public Date creado = null;
+    public Date modificado = null;
+    public Date eliminado = null;
 
     public Usuario(int id , String nombre, String apellido, String usuario, String contrasenia, String mail) {
         this.id = id;

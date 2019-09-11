@@ -1,5 +1,6 @@
 package com.project.comuni;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +18,20 @@ import java.util.ArrayList;
 public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapterMessages.ViewHolder> {
     private static final String TAG = "RecyclerAdapterMessages";
 
-    public RecyclerAdapterMessages(ArrayList<Mensaje> mensajesArray) {
+    private ArrayList<String> mensajesArray;
+    private ArrayList<String> contactosArray;
+    private Context context;
+
+    public RecyclerAdapterMessages(ArrayList<String> mensajesArray, ArrayList<String> contactosArray, Context context) {
         this.mensajesArray = mensajesArray;
+        this.contactosArray = contactosArray;
+        this.context = context;
     }
 
-    private ArrayList<Mensaje> mensajesArray = new ArrayList<>();
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_messages,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_messages,null,false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
@@ -33,18 +39,15 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: ");
-        try{
-            holder.Contacto.setText(mensajesArray.get(position).getEmisor().getNombre());
-            holder.Mensaje.setText(mensajesArray.get(position).getMensaje());
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            holder.Contacto.setText(contactosArray.get(position));
+            holder.Mensaje.setText(mensajesArray.get(position));
+
     }
 
     @Override
     public int getItemCount() {
-        return mensajesArray.size();
+        return contactosArray.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
