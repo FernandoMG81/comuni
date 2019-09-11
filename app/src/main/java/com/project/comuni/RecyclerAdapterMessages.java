@@ -1,0 +1,63 @@
+package com.project.comuni;
+
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.project.comuni.Models.Mensaje;
+
+import java.util.ArrayList;
+
+public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapterMessages.ViewHolder> {
+    private static final String TAG = "RecyclerAdapterMessages";
+
+    public RecyclerAdapterMessages(ArrayList<Mensaje> mensajesArray) {
+        this.mensajesArray = mensajesArray;
+    }
+
+    private ArrayList<Mensaje> mensajesArray = new ArrayList<>();
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_messages,parent,false);
+        ViewHolder holder = new ViewHolder(view);
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Log.d(TAG, "onBindViewHolder: ");
+        try{
+            holder.Contacto.setText(mensajesArray.get(position).getEmisor().getNombre());
+            holder.Mensaje.setText(mensajesArray.get(position).getMensaje());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return mensajesArray.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
+
+        TextView Contacto;
+        TextView Mensaje;
+        RelativeLayout RL;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            Contacto = itemView.findViewById(R.id.MessagesContacto);
+            Mensaje = itemView.findViewById(R.id.MessagesMensaje);
+            RL = itemView.findViewById(R.id.RVMesages);
+        }
+    }
+}

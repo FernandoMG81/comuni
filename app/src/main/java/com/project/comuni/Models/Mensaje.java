@@ -2,14 +2,14 @@ package com.project.comuni.Models;
 
 public class Mensaje {
     private int id;
-    private int postId;
-    private int UsuarioId;
+    private Usuario Emisor;
+    private Usuario Receptor;
     private String mensaje;
 
-    public Mensaje(int id, int postId, int usuarioId, String mensaje) {
+    public Mensaje(int id, Usuario emisor, Usuario receptor, String mensaje) {
         this.id = id;
-        this.postId = postId;
-        UsuarioId = usuarioId;
+        Emisor = emisor;
+        Receptor = receptor;
         this.mensaje = mensaje;
     }
 
@@ -21,20 +21,20 @@ public class Mensaje {
         this.id = id;
     }
 
-    public int getPostId() {
-        return postId;
+    public Usuario getEmisor() {
+        return Emisor;
     }
 
-    public void setPostId(int postId) {
-        this.postId = postId;
+    public void setEmisor(Usuario emisor) {
+        Emisor = emisor;
     }
 
-    public int getUsuarioId() {
-        return UsuarioId;
+    public Usuario getReceptor() {
+        return Receptor;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        UsuarioId = usuarioId;
+    public void setReceptor(Usuario receptor) {
+        Receptor = receptor;
     }
 
     public String getMensaje() {
