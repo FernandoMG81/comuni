@@ -7,19 +7,16 @@
     android:background="#fff"
     tools:context=".Activities.MainActivity">
 
-
-    <TextView
-        android:id="@+id/textViewMensaje"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_centerVertical="true"
-        android:text="ESPACIOS FRAGMENT"
-        android:textSize="30dp"
-        android:textColor="#000000"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RVPlaces"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

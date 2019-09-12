@@ -31,7 +31,8 @@ public class MessagesFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.RVMesages);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        try{
+
+
             ArrayList<String> contactos = new ArrayList<>();
             ArrayList<String> mensajes = new ArrayList<>();
 
@@ -51,9 +52,6 @@ public class MessagesFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
-        return view;} catch (Exception e) {
-           e.printStackTrace();
-       }
        return view;
     }
 
