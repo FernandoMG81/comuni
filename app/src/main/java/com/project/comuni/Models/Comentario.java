@@ -1,48 +1,60 @@
 package com.project.comuni.Models;
 
+import java.util.Date;
+
 public class Comentario {
 
-        private int id;
-        private int postId;
-        private int UsuarioId;
-        private String mensaje;
+    private int id;
+    private Post post;
+    private Usuario usuario;
+    private String texto;
+    private Date created;
 
-        public Comentario(int id, int postId, int usuarioId, String mensaje) {
-            this.id = id;
-            this.postId = postId;
-            UsuarioId = usuarioId;
-            this.mensaje = mensaje;
-        }
+    public Comentario(int id, Post post, Usuario usuario, String texto, Date created) {
+        this.id = id;
+        this.post = post;
+        this.usuario = usuario;
+        this.texto = texto;
+        this.created = created;
+    }
 
-        public int getId() {
-            return id;
-        }
+    public int getId() {
+        return id;
+    }
 
-        public void setId(int id) {
-            this.id = id;
-        }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-        public int getPostId() {
-            return postId;
-        }
+    public Post getPost() {
+        return post;
+    }
 
-        public void setPostId(int postId) {
-            this.postId = postId;
-        }
+    public void setPost(Post post) {
+        this.post = post;
+    }
 
-        public int getUsuarioId() {
-            return UsuarioId;
-        }
+    public Usuario getUsuario() {
+        return usuario;
+    }
 
-        public void setUsuarioId(int usuarioId) {
-            UsuarioId = usuarioId;
-        }
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
-        public String getMensaje() {
-            return mensaje;
-        }
+    public String getTexto() {
+        return texto;
+    }
 
-        public void setMensaje(String mensaje) {
-            this.mensaje = mensaje;
-        }
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
 }

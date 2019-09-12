@@ -3,19 +3,17 @@ package com.project.comuni.Models;
 import java.util.Date;
 
 public class Espacio {
+
     private int id = -1;
     private String nombre = null;
-    private String descripcion = null;
-
-    // Para despues
+    private String texto = null;
     private Date creado = null;
-    private Date modificado = null;
-    private Date eliminado = null;
 
-    public Espacio(int id, String nombre, String descripcion) {
+    public Espacio(int id, String nombre, String texto, Date creado) {
         this.id = id;
         this.nombre = nombre;
-        this.descripcion = descripcion;
+        this.texto = texto;
+        this.creado = creado;
     }
 
     public int getId() {
@@ -34,12 +32,12 @@ public class Espacio {
         this.nombre = nombre;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getTexto() {
+        return texto;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setTexto(String texto) {
+        this.texto = texto;
     }
 
     public Date getCreado() {
@@ -48,21 +46,5 @@ public class Espacio {
 
     public void setCreado(Date creado) {
         this.creado = creado;
-    }
-
-    public Date getModificado() {
-        return modificado;
-    }
-
-    public void setModificado(Date modificado) {
-        this.modificado = modificado;
-    }
-
-    public Date getEliminado() {
-        return eliminado;
-    }
-
-    public void setEliminado(Date eliminado) {
-        this.eliminado = eliminado;
     }
 }

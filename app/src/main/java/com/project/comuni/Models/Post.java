@@ -1,29 +1,28 @@
 package com.project.comuni.Models;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Post {
+
     private int id = -1;
-    private int espacioId = -1;
-    private int usuarioId = -1;
+    private Espacio espacio;
+    private Usuario usuario;
     private String titulo;
-    private String mensaje;
+    private String texto;
     private int upvotes;
-    private boolean importante;
-
-    // Para despues
+    private ArrayList <Tag> tags;
     private Date creado = null;
-    private Date modificado = null;
-    private Date eliminado = null;
 
-    public Post(int id, int espacioId, int usuarioId, String titulo, String mensaje, int upvotes, boolean importante) {
+    public Post(int id, Espacio espacio, Usuario usuario, String titulo, String texto, int upvotes, ArrayList<Tag> tags, Date creado) {
         this.id = id;
-        this.espacioId = espacioId;
-        this.usuarioId = usuarioId;
+        this.espacio = espacio;
+        this.usuario = usuario;
         this.titulo = titulo;
-        this.mensaje = mensaje;
+        this.texto = texto;
         this.upvotes = upvotes;
-        this.importante = importante;
+        this.tags = tags;
+        this.creado = creado;
     }
 
     public int getId() {
@@ -34,20 +33,20 @@ public class Post {
         this.id = id;
     }
 
-    public int getEspacioId() {
-        return espacioId;
+    public Espacio getEspacio() {
+        return espacio;
     }
 
-    public void setEspacioId(int espacioId) {
-        this.espacioId = espacioId;
+    public void setEspacio(Espacio espacio) {
+        this.espacio = espacio;
     }
 
-    public int getUsuarioId() {
-        return usuarioId;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public String getTitulo() {
@@ -58,12 +57,12 @@ public class Post {
         this.titulo = titulo;
     }
 
-    public String getMensaje() {
-        return mensaje;
+    public String getTexto() {
+        return texto;
     }
 
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
+    public void setTexto(String texto) {
+        this.texto = texto;
     }
 
     public int getUpvotes() {
@@ -74,12 +73,12 @@ public class Post {
         this.upvotes = upvotes;
     }
 
-    public boolean isImportante() {
-        return importante;
+    public ArrayList<Tag> getTags() {
+        return tags;
     }
 
-    public void setImportante(boolean importante) {
-        this.importante = importante;
+    public void setTags(ArrayList<Tag> tags) {
+        this.tags = tags;
     }
 
     public Date getCreado() {
@@ -88,21 +87,5 @@ public class Post {
 
     public void setCreado(Date creado) {
         this.creado = creado;
-    }
-
-    public Date getModificado() {
-        return modificado;
-    }
-
-    public void setModificado(Date modificado) {
-        this.modificado = modificado;
-    }
-
-    public Date getEliminado() {
-        return eliminado;
-    }
-
-    public void setEliminado(Date eliminado) {
-        this.eliminado = eliminado;
     }
 }
