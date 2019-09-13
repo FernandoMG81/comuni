@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.project.comuni.Models.Mensaje;
 import com.project.comuni.R;
 
 import java.util.ArrayList;
@@ -18,13 +19,11 @@ import java.util.ArrayList;
 public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapterMessages.ViewHolder> {
     private static final String TAG = "RecyclerAdapterMessages";
 
-    private ArrayList<String> mensajesArray;
-    private ArrayList<String> contactosArray;
+    private ArrayList<Mensaje> mensajes;
     private Context context;
 
-    public RecyclerAdapterMessages(ArrayList<String> mensajesArray, ArrayList<String> contactosArray, Context context) {
-        this.mensajesArray = mensajesArray;
-        this.contactosArray = contactosArray;
+    public RecyclerAdapterMessages(ArrayList<Mensaje> mensajesArray, Context context) {
+        this.mensajes = mensajesArray;
         this.context = context;
     }
 
@@ -40,14 +39,14 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: ");
 
-            holder.Contacto.setText(contactosArray.get(position));
-            holder.Mensaje.setText(mensajesArray.get(position));
+            holder.Contacto.setText(mensajes.get(position).getEmisor().getNombre() + mensajes.get(position).getEmisor().getApellido() );
+            holder.Mensaje.setText(mensajes.get(position).getTexto());
 
     }
 
     @Override
     public int getItemCount() {
-        return contactosArray.size();
+        return mensajes.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

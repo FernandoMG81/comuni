@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.project.comuni.Models.Post;
 import com.project.comuni.R;
 
 import java.util.ArrayList;
@@ -18,20 +19,18 @@ import java.util.ArrayList;
 public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterPlaces.ViewHolder> {
     private static final String TAG = "RecyclerAdapterMessages";
 
-    private ArrayList<String> TitulosArray;
-    private ArrayList<String> DescripcionesArray;
+    private ArrayList<Post> posts;
     private Context context;
 
-    public RecyclerAdapterPlaces(ArrayList<String> titulosArray, ArrayList<String> descripcionesArray, Context context) {
-        this.TitulosArray = titulosArray;
-        this.DescripcionesArray = descripcionesArray;
+    public RecyclerAdapterPlaces(ArrayList<Post> posts, Context context) {
+        this.posts = posts;
         this.context = context;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_messages,null,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_places,null,false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
@@ -40,14 +39,14 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: ");
 
-            holder.Titulo.setText(TitulosArray.get(position));
-            holder.Descripcion.setText(DescripcionesArray.get(position));
+            holder.Titulo.setText(posts.get(position).getTitulo());
+            holder.Descripcion.setText(posts.get(position).getTexto());
 
     }
 
     @Override
     public int getItemCount() {
-        return TitulosArray.size();
+        return posts.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

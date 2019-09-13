@@ -22,7 +22,7 @@
         android:id="@+id/PlacesDescripcionPosteo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/NewsTitulo"
+        android:layout_below="@+id/PlacesTituloPosteo"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"

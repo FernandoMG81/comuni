@@ -37,15 +37,12 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         NoticiaService noticiaService= new NoticiaService();
 
-        try {
-            this.noticias = noticiaService.fillData();
+        this.noticias = noticiaService.fillData();
 
-            RecyclerAdapterNews adapter = new RecyclerAdapterNews(this.noticias, this.getContext());
+        RecyclerAdapterNews adapter = new RecyclerAdapterNews(this.noticias, this.getContext());
 
-            recyclerView.setAdapter(adapter);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        recyclerView.setAdapter(adapter);
+
         return view;
     }
 

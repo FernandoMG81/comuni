@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.project.comuni.Models.Mensaje;
 import com.project.comuni.Servicios.MensajeService;
 
 import com.project.comuni.R;
@@ -20,7 +21,8 @@ import java.util.ArrayList;
 
 public class MessagesFragment extends Fragment {
 
-    private MensajeService mensajeService;
+    private MensajeService mensajeService = new MensajeService();
+    private ArrayList<Mensaje> mensajes = new ArrayList<>();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -32,23 +34,9 @@ public class MessagesFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        mensajes = mensajeService.fillData();
 
-            ArrayList<String> contactos = new ArrayList<>();
-            ArrayList<String> mensajes = new ArrayList<>();
-
-            contactos.add("Alumno 1");
-            mensajes.add("mensaje del alumno 1");
-
-            contactos.add("Alumno 2");
-            mensajes.add("mensaje del alumno 2");
-
-            contactos.add("Alumno 3");
-            mensajes.add("mensaje del alumno 3");
-
-            contactos.add("Alumno 4");
-            mensajes.add("mensaje del alumno 4");
-
-        RecyclerAdapterMessages adapter = new RecyclerAdapterMessages(mensajes, contactos, this.getContext());
+        RecyclerAdapterMessages adapter = new RecyclerAdapterMessages(mensajes, this.getContext());
 
         recyclerView.setAdapter(adapter);
 
