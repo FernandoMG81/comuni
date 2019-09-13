@@ -1,7 +1,8 @@
 package com.project.comuni.Models;
 
 import java.util.ArrayList;
-import java.util.Date;
+
+
 
 public class Post {
 
@@ -12,9 +13,9 @@ public class Post {
     private String texto;
     private int upvotes;
     private ArrayList <Tag> tags;
-    private Date creado = null;
+    private String creado = null;
 
-    public Post(int id, Espacio espacio, Usuario usuario, String titulo, String texto, int upvotes, ArrayList<Tag> tags, Date creado) {
+    public Post(int id, Espacio espacio, Usuario usuario, String titulo, String texto, int upvotes, ArrayList<Tag> tags, String creado) {
         this.id = id;
         this.espacio = espacio;
         this.usuario = usuario;
@@ -81,11 +82,11 @@ public class Post {
         this.tags = tags;
     }
 
-    public Date getCreado() {
+    public String getCreado() {
         return creado;
     }
 
-    public void setCreado(Date creado) {
+    public void setCreado(String creado) {
         this.creado = creado;
     }
 }

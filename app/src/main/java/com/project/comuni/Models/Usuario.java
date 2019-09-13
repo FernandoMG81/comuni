@@ -1,6 +1,5 @@
 package com.project.comuni.Models;
 
-import java.util.Date;
 
 public class Usuario {
 
@@ -10,9 +9,9 @@ public class Usuario {
     private String Usuario = null;
     private String Contrasenia = null;
     private String mail = null;
-    private Date creado = null;
+    private String creado = null;
 
-    public Usuario(int id, String nombre, String apellido, String usuario, String contrasenia, String mail, Date creado) {
+    public Usuario(int id, String nombre, String apellido, String usuario, String contrasenia, String mail, String creado) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -70,11 +69,11 @@ public class Usuario {
         this.mail = mail;
     }
 
-    public Date getCreado() {
+    public String getCreado() {
         return creado;
     }
 
-    public void setCreado(Date creado) {
+    public void setCreado(String creado) {
         this.creado = creado;
     }
 }

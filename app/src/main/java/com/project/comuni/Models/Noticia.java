@@ -1,17 +1,20 @@
 package com.project.comuni.Models;
 
-public class Comentario {
+
+public class Noticia {
 
     private int id;
-    private Post post;
     private Usuario usuario;
+    private String titulo;
     private String texto;
     private String created;
 
-    public Comentario(int id, Post post, Usuario usuario, String texto, String created) {
+    public Noticia() { }
+
+    public Noticia(int id, Usuario usuario, String titulo, String texto, String created) {
         this.id = id;
-        this.post = post;
         this.usuario = usuario;
+        this.titulo = titulo;
         this.texto = texto;
         this.created = created;
     }
@@ -24,20 +27,20 @@ public class Comentario {
         this.id = id;
     }
 
-    public Post getPost() {
-        return post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
-    }
-
     public Usuario getUsuario() {
         return usuario;
     }
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public String getTexto() {
@@ -56,3 +59,4 @@ public class Comentario {
         this.created = created;
     }
 }
+

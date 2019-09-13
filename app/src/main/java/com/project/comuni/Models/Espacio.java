@@ -1,15 +1,13 @@
 package com.project.comuni.Models;
 
-import java.util.Date;
-
 public class Espacio {
 
     private int id = -1;
     private String nombre = null;
     private String texto = null;
-    private Date creado = null;
+    private String creado = null;
 
-    public Espacio(int id, String nombre, String texto, Date creado) {
+    public Espacio(int id, String nombre, String texto, String creado) {
         this.id = id;
         this.nombre = nombre;
         this.texto = texto;
@@ -40,11 +38,11 @@ public class Espacio {
         this.texto = texto;
     }
 
-    public Date getCreado() {
+    public String getCreado() {
         return creado;
     }
 
-    public void setCreado(Date creado) {
+    public void setCreado(String creado) {
         this.creado = creado;
     }
 }
