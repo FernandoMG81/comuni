@@ -11,26 +11,27 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.project.comuni.Models.Mensaje;
+import com.project.comuni.Models.Comentario;
+import com.project.comuni.Models.Post;
 import com.project.comuni.R;
 
 import java.util.ArrayList;
 
-public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapterMessages.ViewHolder> {
+public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPosts.ViewHolder> {
     private static final String TAG = "RecyclerAdapterMessages";
 
-    private ArrayList<Mensaje> mensajes;
+    private ArrayList<Comentario> comentarios;
     private Context context;
 
-    public RecyclerAdapterMessages(ArrayList<Mensaje> mensajesArray, Context context) {
-        this.mensajes = mensajesArray;
+    public RecyclerAdapterPosts(ArrayList<Comentario> comentarios, Context context) {
+        this.comentarios = comentarios;
         this.context = context;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_messages,null,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_places,null,false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
@@ -39,27 +40,27 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: ");
 
-            holder.Contacto.setText(mensajes.get(position).getEmisor().getNombre() + " " + mensajes.get(position).getEmisor().getApellido() );
-            holder.Mensaje.setText(mensajes.get(position).getTexto());
+        holder.Usuario.setText(comentarios.get(position).getUsuario().getNombre() + " " +comentarios.get(position).getUsuario().getApellido());
+        holder.Comentario.setText(comentarios.get(position).getTexto());
 
     }
 
     @Override
     public int getItemCount() {
-        return mensajes.size();
+        return comentarios.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView Contacto;
-        TextView Mensaje;
+        TextView Usuario;
+        TextView Comentario;
         RelativeLayout RL;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            Contacto = itemView.findViewById(R.id.MessagesContacto);
-            Mensaje = itemView.findViewById(R.id.MessagesMensaje);
-            RL = itemView.findViewById(R.id.RVMesages);
+            Usuario = itemView.findViewById(R.id.PlacesTituloPosteo);
+            Comentario = itemView.findViewById(R.id.PlacesDescripcionPosteo);
+            RL = itemView.findViewById(R.id.RVPlaces);
         }
     }
 }
