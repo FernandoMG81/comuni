@@ -17,6 +17,13 @@ public class MensajeService {
         return mensajes;
     }
 
+    public  ArrayList<Mensaje> filterMensajesPorNVueltas (int numero){
+        ArrayList<Mensaje> mensajesFiltrados = new ArrayList<>();
+        for (int vuelta = 0; vuelta<numero; vuelta++){
+         mensajesFiltrados.add(mensajes.get(vuelta));
+        }
+        return mensajesFiltrados;
+    }
 //    public ArrayList<Mensaje> filterUnMensajePorContacto (Usuario usuarioLogueado){
 //
 //        ArrayList<Mensaje> mensajesFiltrados = new ArrayList<>();

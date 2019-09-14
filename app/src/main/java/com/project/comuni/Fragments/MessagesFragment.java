@@ -34,7 +34,7 @@ public class MessagesFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mensajes = mensajeService.getMensajes();
+        mensajes = mensajeService.filterMensajesPorNVueltas(4);
 
         RecyclerAdapterMessages adapter = new RecyclerAdapterMessages(mensajes, this.getContext());
 

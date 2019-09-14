@@ -39,7 +39,7 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: ");
 
-            holder.Contacto.setText(mensajes.get(position).getEmisor().getNombre() + " " + mensajes.get(position).getEmisor().getApellido() );
+            holder.Contacto.setText(mensajes.get(position).getEmisor().getNombre() + " " + mensajes.get(position).getEmisor().getApellido());
             holder.Mensaje.setText(mensajes.get(position).getTexto());
 
     }

@@ -17,6 +17,8 @@ import com.project.comuni.R;
 
 import java.util.ArrayList;
 
+import static com.project.comuni.Utils.Util.truncate;
+
 public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNews.ViewHolder> {
     private static final String TAG = "RecyclerAdapterNews";
 
@@ -39,8 +41,9 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        String TextoTruncado = truncate(noticias.get(position).getTexto(),75);
         holder.Titulo.setText(noticias.get(position).getTitulo());
-        holder.Texto.setText(noticias.get(position).getTexto());
+        holder.Texto.setText(TextoTruncado);
         holder.imagenUsuario.setImageResource(noticias.get(position).getImagen());
     }
 
