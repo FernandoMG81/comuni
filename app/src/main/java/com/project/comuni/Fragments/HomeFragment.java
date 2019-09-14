@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 
 import com.project.comuni.Adapters.RecyclerAdapterNews;
+import com.project.comuni.Adapters.RecyclerAdapterNewsPrueba;
 import com.project.comuni.Models.Noticia;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.NoticiaService;
