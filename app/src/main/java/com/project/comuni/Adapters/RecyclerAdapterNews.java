@@ -41,7 +41,7 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String TextoTruncado = truncate(noticias.get(position).getTexto(),75);
+        String TextoTruncado = truncate(noticias.get(position).getTexto(),120);
         holder.Titulo.setText(noticias.get(position).getTitulo());
         holder.Texto.setText(TextoTruncado);
         holder.imagenUsuario.setImageResource(noticias.get(position).getImagen());

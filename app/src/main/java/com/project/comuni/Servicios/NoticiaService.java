@@ -30,12 +30,30 @@ public class NoticiaService {
 
     public ArrayList<Noticia> fillData(){
 
+        noticia = new Noticia();
+        noticia.setId(1);
+        noticia.setTitulo("Recordatorio");
+        noticia.setTexto("Si el 20 clasificamos a la final están todos aprobados los que cursan conmigo, a darle caña a ese código!!!");
+        noticia.setCreated("14/09/2019");
+        noticia.setImagen(R.drawable.damian_natale);
+        noticias.add(noticia);
+
+
+        noticia = new Noticia();
+        noticia.setId(1);
+        noticia.setTitulo("Palabras de aliento");
+        noticia.setTexto("Vamos chicos, estoy muy orgulloso de ustedes y de las ganas que estan poniendole a este proyecto. Vamos a México");
+        noticia.setCreated("14/09/2019");
+        noticia.setImagen(R.drawable.damian_natale);
+        noticias.add(noticia);
+
         noticias.add( new Noticia(0, null,"La universidad rankea en el puesto 21",
                 "Según la organizacion SQL nuestra universidad se encuentra en el 21° puesto " +
                         "gracias a la excelente formación de sus profesores y a su espiritu orientado al emprendedurismo",
                 "15/09/2019",R.drawable.damian_natale));
 
 
+        noticia = new Noticia();
         noticia.setId(1);
         noticia.setTitulo("Felicitaciones al equipo de Ecoauto");
         noticia.setTexto("Cinco alumnos de ingeniería mecánica alcanzaron el 2do puesto en la competencia Ecoauto, " +
@@ -62,6 +80,14 @@ public class NoticiaService {
         noticia.setImagen(R.drawable.damian_natale);
         noticias.add(noticia);
 
+        noticia = new Noticia();
+        noticia.setId(3);
+        noticia.setTitulo("Abrió la competencia TuAPP");
+        noticia.setTexto("Ha comenzado la competencia interuniversitaria e internacional donde los alumnos deben crear una aplicación" +
+                "pasando por todas las etapas necesarias para ello, desde la formaciión de la idea, hasta el código mismo.");
+        noticia.setCreated("13/04/2019");
+        noticia.setImagen(R.drawable.damian_natale);
+        noticias.add(noticia);
 
         return noticias;
     }
