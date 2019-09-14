@@ -29,13 +29,14 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences prefs;
     private TextView textView;
+    private String Titulo = "Comuni";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       showToolbar("comuni",false);
+       showToolbar(Titulo,false);
 
       prefs = getSharedPreferences("PreferencesComuni", Context.MODE_PRIVATE);
 
@@ -64,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void showToolbar(String tittle, boolean upButton){
+    public void showToolbar(String title, boolean upButton){
         Toolbar toolbar = findViewById(R.id.my_toolbar); //Declaramos un objeto tipo Toolbar y lo instanciamos
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(tittle);
+        getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(upButton);
     }
 
@@ -80,16 +81,24 @@ public class MainActivity extends AppCompatActivity {
 
             switch(item.getItemId()){
                 case R.id.navigation_home:
+                    Titulo = "Comuni";
+                    showToolbar(Titulo,false);
                     selectedFragment = new HomeFragment();
                     selectedFragment.setEnterTransition(new Slide(Gravity.BOTTOM));
                     selectedFragment.setExitTransition(new Slide(Gravity.TOP));
                     break;
                 case R.id.navigation_places:
+                    Titulo = "Espacios";
                     selectedFragment = new PlacesFragment();
+
                     selectedFragment.setEnterTransition(new Slide(Gravity.BOTTOM));
                     selectedFragment.setExitTransition(new Slide(Gravity.TOP));
+                    showToolbar(Titulo,false);
+
                     break;
                 case R.id.navigation_messages:
+                    Titulo = "Mensajes";
+                    showToolbar(Titulo,false);
                     selectedFragment = new MessagesFragment();
                     selectedFragment.setEnterTransition(new Slide(Gravity.BOTTOM));
                     selectedFragment.setExitTransition(new Slide(Gravity.TOP));

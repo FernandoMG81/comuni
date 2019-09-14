@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
+import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Adapters.RecyclerAdapterNews;
 import com.project.comuni.Models.Noticia;
 import com.project.comuni.R;
@@ -29,7 +31,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
 
         RecyclerView recyclerView = view.findViewById(R.id.RVNews);
 
