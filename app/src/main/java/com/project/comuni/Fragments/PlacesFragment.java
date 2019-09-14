@@ -34,7 +34,7 @@ public class PlacesFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.RVPlaces);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        posts = postService.fillDataMatematica();
+        posts = postService.filterByEspacioNombre("Matemática");
 
         RecyclerAdapterPlaces adapter = new RecyclerAdapterPlaces(posts, this.getContext());
 

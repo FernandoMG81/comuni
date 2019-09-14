@@ -7,6 +7,8 @@ public class Espacio {
     private String texto = null;
     private String creado = null;
 
+    public Espacio() { }
+
     public Espacio(int id, String nombre, String texto, String creado) {
         this.id = id;
         this.nombre = nombre;

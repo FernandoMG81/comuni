@@ -10,9 +10,20 @@ import java.util.Calendar;
 
 public class NoticiaService {
 
-
     private ArrayList<Noticia> noticias = new ArrayList<>();
     private Noticia noticia = new Noticia();
+
+    public NoticiaService() {
+        fillData();
+    }
+
+    public ArrayList<Noticia> getNoticias() {
+        return noticias;
+    }
+
+//    public ArrayList<Noticia> FilterBy(){
+//
+//    }
 
     public ArrayList<Noticia> fillData(){
 
@@ -48,5 +59,7 @@ public class NoticiaService {
 
         return noticias;
     }
+
+
 
 }
