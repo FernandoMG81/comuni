@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -41,7 +40,6 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.Titulo.setText(noticias.get(position).getTitulo());
         holder.Texto.setText(noticias.get(position).getTexto());
-        holder.imagenUsuario.setImageResource(noticias.get(position).getImagen());
     }
 
     @Override
@@ -53,14 +51,12 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
 
         TextView Titulo;
         TextView Texto;
-        ImageView imagenUsuario;
         RelativeLayout RL;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imagenUsuario = itemView.findViewById(R.id.imageViewFotoUsuario);
-            Titulo = itemView.findViewById(R.id.textViewTituloNoticia);
-            Texto = itemView.findViewById(R.id.textViewNoticia);
+            Titulo = itemView.findViewById(R.id.NewsTitulo);
+            Texto = itemView.findViewById(R.id.NewsContenido);
             RL = itemView.findViewById(R.id.RVNews);
         }
     }
