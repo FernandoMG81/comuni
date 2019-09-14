@@ -10,16 +10,17 @@ public class Noticia {
     private String titulo;
     private String texto;
     private String created;
-    private Image imagen;
+    private int imagen;
 
     public Noticia() { }
 
-    public Noticia(int id, Usuario usuario, String titulo, String texto, String created) {
+    public Noticia(int id, Usuario usuario, String titulo, String texto, String created, int imagen) {
         this.id = id;
         this.usuario = usuario;
         this.titulo = titulo;
         this.texto = texto;
         this.created = created;
+        this.imagen = imagen;
 
     }
 
@@ -63,11 +64,11 @@ public class Noticia {
         this.created = created;
     }
 
-    public Image getImagen() {
+    public int getImagen() {
         return imagen;
     }
 
-    public void setImagen(Image imagen) {
+    public void setImagen(int imagen) {
         this.imagen = imagen;
     }
 }
