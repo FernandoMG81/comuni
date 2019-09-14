@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="16dp"
-    android:background="#eee"
-    app:layout_goneMarginBottom="16dp">
+    android:background="@drawable/text_rounded"
+    app:layout_goneMarginBottom="16dp"
+    >
 
     <TextView
         android:id="@+id/NewsTitulo"
@@ -16,7 +17,11 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:textColor="@color/textColorCommon"
-        android:textSize="@dimen/titulos" />
+        android:textSize="@dimen/titulos"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"/>
 
     <TextView
         android:id="@+id/NewsContenido"
@@ -28,6 +33,11 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="0dp"
         android:textColor="@color/textColorCommon"
-        android:textSize="@dimen/parrafos" />
+        android:textSize="@dimen/parrafos"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
+        />
 
 </RelativeLayout>

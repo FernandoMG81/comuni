@@ -1,6 +1,8 @@
 package com.project.comuni.Models;
 
 
+import android.media.Image;
+
 public class Noticia {
 
     private int id;
@@ -8,6 +10,7 @@ public class Noticia {
     private String titulo;
     private String texto;
     private String created;
+    private Image imagen;
 
     public Noticia() { }
 
@@ -17,6 +20,7 @@ public class Noticia {
         this.titulo = titulo;
         this.texto = texto;
         this.created = created;
+
     }
 
     public int getId() {
@@ -57,6 +61,14 @@ public class Noticia {
 
     public void setCreated(String created) {
         this.created = created;
+    }
+
+    public Image getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Image imagen) {
+        this.imagen = imagen;
     }
 }
 
