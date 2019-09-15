@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_comuni_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.SplashActivity"
+        <activity android:name=".Activities.bubbleActivity"> </activity>
+        <activity
+            android:name=".Activities.SplashActivity"
             android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,8 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.MainActivity" />
-        <activity android:name=".Activities.LoginActivity"/>
-
+        <activity android:name=".Activities.LoginActivity" />
     </application>
 
 </manifest>

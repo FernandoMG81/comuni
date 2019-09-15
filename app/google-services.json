@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1028888192619",
+    "firebase_url": "https://comuniapp-316d5.firebaseio.com",
+    "project_id": "comuniapp-316d5",
+    "storage_bucket": "comuniapp-316d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1028888192619:android:0e24429606006f46d0732e",
+        "android_client_info": {
+          "package_name": "com.project.comuni"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1028888192619-8994lvlist4cb9p38ljti881t9lq4680.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.project.comuni",
+            "certificate_hash": "f1ddb8adecf3b6e92c3e11c88862d8e2b2c76c62"
+          }
+        },
+        {
+          "client_id": "1028888192619-pichad4adpirj5jbvc234a90453l720g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLvINWZoJ8-detBiZCnmx-IRQm7lDmUIY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1028888192619-pichad4adpirj5jbvc234a90453l720g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
