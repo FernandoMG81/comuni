@@ -3,6 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="paddingExternoDIItems">8dp</dimen>
+    <dimen name="paddingExternoABItems">16dp</dimen>
     <!--Font Sizes -->
     <dimen name="titulos">17sp</dimen>
     <dimen name="parrafos">15sp</dimen>

@@ -4,6 +4,10 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <!--Background Colors-->
+    <color name="colorBackCasiBlanco">#f5f5f5</color>
+    <color name="colorBackItems">#5A8019</color>
+
     <!-- Text Color -->
     <color name="textColorCommon">#111</color>
 </resources>

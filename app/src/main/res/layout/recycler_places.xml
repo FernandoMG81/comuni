@@ -5,37 +5,92 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="16dp"
-    android:background="@drawable/text_rounded"
     app:layout_goneMarginBottom="16dp">
 
-    <TextView
-        android:id="@+id/PlacesTituloPosteo"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:textColor="@color/textColorCommon"
-        android:textSize="@dimen/titulos"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginStart="4dp"/>
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/text_rounded"
+        app:cardBackgroundColor="#f5f5f5">
 
-    <TextView
-        android:id="@+id/PlacesDescripcionPosteo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/PlacesTituloPosteo"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="0dp"
-        android:textColor="@color/textColorCommon"
-        android:textSize="@dimen/parrafos"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginStart="4dp"/>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="192dp"
+            android:background="@drawable/text_rounded"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:id="@+id/textViewUsuarioNoticia"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="7dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="192dp">
+
+                <ImageView
+                    android:id="@+id/imageViewFotoUsuario"
+                    android:layout_width="107dp"
+                    android:layout_height="107dp"
+                    android:background="@drawable/damian_natale" />
+
+                <TextView
+                    android:id="@+id/textViewIsNew"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:width="38dp"
+                    android:background="#1C9603"
+                    android:padding="2dp"
+                    android:text="New"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/PlacesTituloPosteo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/imageViewFotoUsuario"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Palabras de aliento"
+                    android:textAllCaps="true"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/PlacesDescripcionPosteo"
+                    android:layout_width="298dp"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/PlacesTituloPosteo"
+                    android:layout_marginStart="0dp"
+                    android:layout_toRightOf="@+id/imageViewFotoUsuario"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Vamos chicos, estoy muy orgulloso de ustedes y de las ganas que estan poniendole a este proyecto."
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="107dp"
+                    android:layout_height="132dp"
+                    android:layout_below="@+id/imageViewFotoUsuario"
+                    android:layout_marginTop="0dp"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="5dp"
+                    android:text="Damian Natale" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>

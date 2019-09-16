@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <solid android:color="#d0e9f4"/>
+    <solid android:color="#e9f0f8"/>
 
     <stroke android:width="2dp"
-        android:color="#5A8019"/>
+        android:color="@color/colorBackItems"/>
 
     <padding android:left="1dp"
         android:top="1dp"
@@ -13,3 +13,5 @@
 
     <corners android:radius="30px"/>
 </shape>
+
+<!-- d0e9f4 Color azul anterior -->
