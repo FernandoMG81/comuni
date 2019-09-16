@@ -17,7 +17,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 
-
+import com.google.firebase.auth.FirebaseAuth;
 import com.project.comuni.Fragments.HomeFragment;
 import com.project.comuni.Fragments.MessagesFragment;
 import com.project.comuni.Fragments.PlacesFragment;
@@ -27,7 +27,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SharedPreferences prefs;
+
     private TextView textView;
     private String Titulo = "Comuni";
 
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
        showToolbar(Titulo,false);
 
-      prefs = getSharedPreferences("PreferencesComuni", Context.MODE_PRIVATE);
+
 
       BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
       bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_logout:
-                removeSharedPreferences();
                 logOut();
                 return true;
             default:
@@ -113,17 +112,12 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void logOut (){
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
 
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(MainActivity.this,LoginActivity.class));
+        finish();
     }
 
-    private void removeSharedPreferences(){
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.remove("pass");
-        editor.apply();
-    }
 
    /* public void replaceFragmentWithAnimation(Fragment fragment, String tag){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

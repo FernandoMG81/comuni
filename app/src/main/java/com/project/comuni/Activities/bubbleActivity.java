@@ -3,11 +3,15 @@ package com.project.comuni.Activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -21,12 +25,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -34,6 +41,7 @@ import com.project.comuni.Adapters.RAdapterMensajes;
 import com.project.comuni.Models.MensajeEnviar;
 import com.project.comuni.Models.MensajePersonal;
 import com.project.comuni.Models.MensajeRecibir;
+import com.project.comuni.Models.User;
 import com.project.comuni.R;
 
 public class bubbleActivity extends AppCompatActivity {
@@ -48,6 +56,8 @@ public class bubbleActivity extends AppCompatActivity {
     private static final int PHOTO_SEND = 1;
     private static final int PHOTO_PERFIL = 2;
     private String fotoPerfilCadena;
+    private FirebaseAuth mAuth;
+    private String NOMBRE_USUARIO;
 
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
@@ -68,9 +78,11 @@ public class bubbleActivity extends AppCompatActivity {
         btnEnviarFoto = findViewById(R.id.bubbleEnviarImagen);
         fotoPerfilCadena = "";
 
+
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("chat");
         storage = FirebaseStorage.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
 
         adapter = new RAdapterMensajes(this);
@@ -81,7 +93,7 @@ public class bubbleActivity extends AppCompatActivity {
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseReference.push().setValue(new MensajeEnviar(mensaje.getText().toString(),nombre.getText().toString(),fotoPerfilCadena,"1", ServerValue.TIMESTAMP));
+                databaseReference.push().setValue(new MensajeEnviar(mensaje.getText().toString(),NOMBRE_USUARIO,fotoPerfilCadena,"1", ServerValue.TIMESTAMP));
             }
         });
 
@@ -140,12 +152,34 @@ public class bubbleActivity extends AppCompatActivity {
             }
         });
 
+        verifyStoragePermissions(this);
+
     }
 
     //Funcion para que la pantalla scrollee al ultimo mensaje
 private void setScrollbar (){
         rvMensajes.scrollToPosition(adapter.getItemCount()-1);
 }
+
+
+    public static boolean verifyStoragePermissions(Activity activity) {
+        String[] PERMISSIONS_STORAGE = {
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        };
+        int REQUEST_EXTERNAL_STORAGE = 1;
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+            return false;
+        }else{
+            return true;
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -160,7 +194,7 @@ private void setScrollbar (){
                     Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
                     while (!urlTask.isSuccessful());
                     Uri downloadUrl = urlTask.getResult();
-                    MensajeEnviar m = new MensajeEnviar("Javier te ha enviado una imagen",downloadUrl.toString(),nombre.getText().toString(),fotoPerfilCadena,"2",ServerValue.TIMESTAMP);
+                    MensajeEnviar m = new MensajeEnviar(NOMBRE_USUARIO+" te ha enviado una imagen",downloadUrl.toString(),NOMBRE_USUARIO,fotoPerfilCadena,"2",ServerValue.TIMESTAMP);
                     databaseReference.push().setValue(m);
                 }
             });
@@ -175,11 +209,39 @@ private void setScrollbar (){
                     while (!urlTask.isSuccessful());
                     Uri downloadUrl = urlTask.getResult();
                     fotoPerfilCadena = downloadUrl.toString();
-                    MensajeEnviar m = new MensajeEnviar("Javier ha actualizado su foto de perfil",downloadUrl.toString(),nombre.getText().toString(),"","2",ServerValue.TIMESTAMP);
+                    MensajeEnviar m = new MensajeEnviar(NOMBRE_USUARIO+" ha actualizado su foto de perfil",downloadUrl.toString(),NOMBRE_USUARIO,"","2",ServerValue.TIMESTAMP);
                     databaseReference.push().setValue(m);
                     Glide.with(bubbleActivity.this).load(downloadUrl.toString()).into(fotoPerfil);
                 }
             });
+        }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser!=null){
+            btnEnviar.setEnabled(false);
+            DatabaseReference reference = database.getReference("Usuarios/"+currentUser.getUid());
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    User usuario = dataSnapshot.getValue(User.class);
+                    NOMBRE_USUARIO = usuario.getNombre();
+                    nombre.setText(NOMBRE_USUARIO);
+                    btnEnviar.setEnabled(false);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }else{
+            startActivity(new Intent(bubbleActivity.this,LoginActivity.class));
+            finish();
         }
     }
 }
