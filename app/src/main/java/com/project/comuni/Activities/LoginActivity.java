@@ -1,5 +1,6 @@
 package com.project.comuni.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -14,6 +15,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.project.comuni.R;
 import com.project.comuni.Utils.Util;
 
@@ -23,6 +28,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextLogin;
     private EditText editTextPassword;
     private Button btnLogin;
+    private Button btnRegistro;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -36,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
         setCredentialIfExist();
 
-
+/*
      btnLogin.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
@@ -48,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
              }
          }
      });
-
+*/
 
 
     }
@@ -88,6 +95,55 @@ public class LoginActivity extends AppCompatActivity {
         editTextLogin = findViewById(R.id.editTextUsuario);
         editTextPassword = findViewById(R.id.editTextClave);
         btnLogin = findViewById(R.id.buttonIngresar);
+        btnRegistro = findViewById(R.id.buttonRegistrarse);
+        mAuth = FirebaseAuth.getInstance();
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String correo = editTextLogin.getText().toString();
+                if(isValidEmail(correo) && validarContraseña()){
+                    String contraseña = editTextPassword.getText().toString();
+                    mAuth.createUserWithEmailAndPassword(correo, contraseña)
+                            .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        Toast.makeText(LoginActivity.this,"Error, credenciales incorrectas", Toast.LENGTH_LONG).show();
+                                    }
+
+                                }
+                            });
+                }else{
+                    Toast.makeText(LoginActivity.this,"Error en la contraseña ingresada",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        btnRegistro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, RegistroActivity.class));
+            }
+        });
+    }
+
+    private boolean isValidEmail(CharSequence target){
+        return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    }
+
+    public boolean validarContraseña(){
+        String contraseña;
+        contraseña = editTextPassword.getText().toString();
+
+        if(contraseña.length()>=6 && contraseña.length()<=16){
+                return true;
+            } else return false;
+
     }
 
     //Ir al MailActivity

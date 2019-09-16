@@ -7,40 +7,6 @@
     android:background="@drawable/fondo"
     tools:context=".Activities.LoginActivity">
 
-    <Button
-        android:id="@+id/buttonIngresar"
-        android:layout_width="180dp"
-        android:layout_height="60dp"
-        android:background="@drawable/button_rounded"
-        android:text="INGRESAR"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.992"
-
-       />
-
-    <EditText
-        android:id="@+id/editTextUsuario"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@drawable/edittext_rounded"
-        android:ems="10"
-        android:hint="     USUARIO"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/buttonIngresar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.875"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.72" />
 
     <EditText
         android:id="@+id/editTextClave"
@@ -48,18 +14,60 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/edittext_rounded"
         android:ems="10"
         android:hint="     CONTRASEÑA"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
         android:inputType="textPassword"
         android:singleLine="false"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.875"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextUsuario" />
+
+    <EditText
+        android:id="@+id/editTextUsuario"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="388dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/edittext_rounded"
+        android:ems="10"
+        android:hint="     USUARIO"
+        android:inputType="textEmailAddress"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonIngresar"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/button_rounded"
+        android:text="INGRESAR"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextClave" />
+
+    <Button
+        android:id="@+id/buttonRegistrarse"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_rounded"
+        android:text="REGISTRARSE"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonIngresar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
