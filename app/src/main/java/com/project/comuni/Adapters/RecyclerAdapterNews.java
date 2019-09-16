@@ -55,8 +55,6 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
         holder.RL.setOnClickListener((view)-> {
             Toast.makeText(context, noticias.get(position).getTitulo(), Toast.LENGTH_SHORT).show();
 
-
-
         });
     }
 
