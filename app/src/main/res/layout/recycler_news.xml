@@ -14,7 +14,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/text_rounded"
+        app:cardBackgroundColor="#f5f5f5">
 
 
         <RelativeLayout
@@ -91,8 +93,6 @@
 
             </RelativeLayout>
         </RelativeLayout>
-
-
     </androidx.cardview.widget.CardView>
 
 

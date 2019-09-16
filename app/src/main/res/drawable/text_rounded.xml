@@ -4,7 +4,7 @@
     <solid android:color="#e9f0f8"/>
 
     <stroke android:width="2dp"
-        android:color="#5A8019"/>
+        android:color="@color/colorBackItems"/>
 
     <padding android:left="1dp"
         android:top="1dp"
