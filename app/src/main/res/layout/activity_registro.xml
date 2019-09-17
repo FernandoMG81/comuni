@@ -7,52 +7,85 @@
     tools:context=".Activities.RegistroActivity"
     android:background="#acff9e ">
 
-    <EditText
-        android:id="@+id/idRegistroNombre"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
-        android:hint="Nombre"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/idRegistroCorreo"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Correo"
-        android:inputType="textEmailAddress"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idRegistroNombre" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <EditText
-        android:id="@+id/idRegistroContraseña"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Contraseña"
-        android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idRegistroCorreo" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/idRegistroFotoPerfil"
+            android:layout_width="150sp"
+            android:layout_height="150sp"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
-    <EditText
-        android:id="@+id/idRegistroRepiteContraseña"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Repetir Contraseña"
-        android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idRegistroContraseña" />
+        <TextView
+            android:id="@+id/idRegistroTextoFoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Click para cambiar foto de perfil"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/idRegistroFotoPerfil" />
 
-    <Button
-        android:id="@+id/idBotonRegistro"
-        android:layout_width="134dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="48dp"
-        android:background="@drawable/button_rounded"
-        android:text="REGISTRARSE"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idRegistroRepiteContraseña" />
+        <EditText
+            android:id="@+id/idRegistroNombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Nombre"
+            app:layout_constraintTop_toBottomOf="@+id/idRegistroTextoFoto"
+            tools:layout_editor_absoluteX="0dp" />
 
+        <EditText
+            android:id="@+id/idRegistroCorreo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Correo"
+            android:inputType="textEmailAddress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/idRegistroNombre" />
+
+        <EditText
+            android:id="@+id/idRegistroContraseña"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/idRegistroCorreo" />
+
+        <EditText
+            android:id="@+id/idRegistroRepiteContraseña"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Repetir Contraseña"
+            android:inputType="textPassword"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/idRegistroContraseña" />
+
+        <Button
+            android:id="@+id/idBotonRegistro"
+            android:layout_width="134dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/button_rounded"
+            android:text="REGISTRARSE"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/idRegistroRepiteContraseña" />
+
+
+    </LinearLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
