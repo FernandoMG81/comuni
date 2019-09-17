@@ -3,7 +3,9 @@ package com.project.comuni.Models;
 
 import android.media.Image;
 
-public class Noticia {
+import java.io.Serializable;
+
+public class Noticia implements Serializable {
 
     private int id;
     private Usuario usuario;

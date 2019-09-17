@@ -2,18 +2,26 @@ package com.project.comuni.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.project.comuni.Activities.MainActivity;
+import com.project.comuni.Fragments.HomeFragment;
+import com.project.comuni.Fragments.InnerNoticiasFragment;
+import com.project.comuni.Fragments.MessagesFragment;
 import com.project.comuni.Fragments.PlacesFragment;
 import com.project.comuni.Models.Noticia;
 import com.project.comuni.R;
@@ -53,6 +61,7 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
         holder.imagenUsuario.setImageResource(noticias.get(position).getImagen());
 
         holder.RL.setOnClickListener((view)-> {
+            onClick(holder.RL);
             Toast.makeText(context, noticias.get(position).getTitulo(), Toast.LENGTH_SHORT).show();
 
         });
@@ -65,6 +74,9 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
 
     @Override
     public void onClick(View view) {
+        AppCompatActivity activity = (MainActivity) view.getContext();
+        Fragment myFragment = new InnerNoticiasFragment();
+        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
 
     }
 
@@ -74,6 +86,7 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
+        FrameLayout FL;
         TextView Titulo;
         TextView Texto;
         ImageView imagenUsuario;
@@ -81,6 +94,7 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            FL = itemView.findViewById(R.id.fragment_container);
             imagenUsuario = itemView.findViewById(R.id.imageViewFotoUsuario);
             Titulo = itemView.findViewById(R.id.textViewTituloNoticia);
             Texto = itemView.findViewById(R.id.textViewNoticia);

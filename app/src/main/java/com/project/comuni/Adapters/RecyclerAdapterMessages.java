@@ -9,16 +9,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.project.comuni.Activities.MainActivity;
+import com.project.comuni.Fragments.InnerMessagesFragment;
+import com.project.comuni.Fragments.InnerNoticiasFragment;
 import com.project.comuni.Models.Mensaje;
 import com.project.comuni.R;
 
 import java.util.ArrayList;
 
-public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapterMessages.ViewHolder> {
+public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapterMessages.ViewHolder>  implements View.OnClickListener {
     private static final String TAG = "RecyclerAdapterMessages";
 
+    private View.OnClickListener listener;
     private ArrayList<Mensaje> mensajes;
     private Context context;
 
@@ -32,6 +38,7 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_messages,null,false);
         ViewHolder holder = new ViewHolder(view);
+        view.setOnClickListener(this);
         return holder;
     }
 
@@ -47,6 +54,14 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
     @Override
     public int getItemCount() {
         return mensajes.size();
+    }
+
+    @Override
+    public void onClick(View view) {
+        AppCompatActivity activity = (MainActivity) view.getContext();
+        Fragment myFragment = new InnerMessagesFragment();
+        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
