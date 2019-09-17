@@ -19,8 +19,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,8 +43,12 @@ import com.project.comuni.Adapters.RAdapterMensajes;
 import com.project.comuni.Models.Firebase.MensajePersonal;
 import com.project.comuni.Models.Firebase.User;
 import com.project.comuni.Models.Logica.LMensajePersonal;
+import com.project.comuni.Models.Logica.LUser;
 import com.project.comuni.Persistencia.UsuarioDAO;
 import com.project.comuni.R;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MensajeriaActivity extends AppCompatActivity {
 
@@ -132,11 +139,34 @@ public class MensajeriaActivity extends AppCompatActivity {
         });
 
         databaseReference.addChildEventListener(new ChildEventListener() {
+
+            Map<String, LUser> mapUsuariosTemporales = new HashMap<>();
+
+
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                MensajePersonal mensaje = dataSnapshot.getValue(MensajePersonal.class);
-                LMensajePersonal lMensaje = new LMensajePersonal(dataSnapshot.getKey(),mensaje);
-                adapter.addMensaje(lMensaje);
+                final MensajePersonal mensaje = dataSnapshot.getValue(MensajePersonal.class);
+                final LMensajePersonal lMensaje = new LMensajePersonal(dataSnapshot.getKey(),mensaje);
+                final int posicion = adapter.addMensaje(lMensaje);
+
+                if(mapUsuariosTemporales.get(mensaje.getKeyEmisor())!=null){
+                    lMensaje.setlUsuario(mapUsuariosTemporales.get(mensaje.getKeyEmisor()));
+                    adapter.actualizarMensaje(posicion,lMensaje);
+                }else{
+                    UsuarioDAO.getInstance().obtenerInformacionUsuarioPorLlave(mensaje.getKeyEmisor(), new UsuarioDAO.IDevolverUsuario() {
+                        @Override
+                        public void devolverUsuario(LUser lUsuario) {
+                            mapUsuariosTemporales.put(mensaje.getKeyEmisor(),lUsuario);
+                            lMensaje.setlUsuario(lUsuario);
+                            adapter.actualizarMensaje(posicion,lMensaje);
+                        }
+
+                        @Override
+                        public void devolverError(String error) {
+                            Toast.makeText(MensajeriaActivity.this,"Error "+error,Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
             }
 
             @Override
@@ -189,46 +219,63 @@ private void setScrollbar (){
         }
     }
 
+
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PHOTO_SEND && resultCode == RESULT_OK){
+        if(requestCode == PHOTO_SEND && resultCode == RESULT_OK){
             Uri u = data.getData();
-            storageReference = storage.getReference("imagenesChat");
+            storageReference = storage.getReference("imagenes_chat");//imagenes_chat
             final StorageReference fotoReferencia = storageReference.child(u.getLastPathSegment());
-            fotoReferencia.putFile(u).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            fotoReferencia.putFile(u).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
-                    while (!urlTask.isSuccessful());
-                    Uri downloadUrl = urlTask.getResult();
-                    MensajePersonal mensaje = new MensajePersonal();
-                    mensaje.setMensaje("El Usuario ha enviado una imagen");
-                    mensaje.setUrlFoto(downloadUrl.toString());
-                    mensaje.setContieneFoto(true);
-                    mensaje.setKeyEmisor(UsuarioDAO.getInstance().getKeyUsuario());
-                    databaseReference.push().setValue(mensaje);
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if(!task.isSuccessful()){
+                        throw task.getException();
+                    }
+                    return fotoReferencia.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if(task.isSuccessful()){
+                        Uri uri = task.getResult();
+                        MensajePersonal mensaje = new MensajePersonal();
+                        mensaje.setMensaje("El usuario ha enviado una imagen");
+                        mensaje.setUrlFoto(uri.toString());
+                        mensaje.setContieneFoto(true);
+                        mensaje.setKeyEmisor(UsuarioDAO.getInstance().getKeyUsuario());
+                        databaseReference.push().setValue(mensaje);
+                    }
                 }
             });
-        }/* else if(requestCode == PHOTO_PERFIL && resultCode == RESULT_OK){
+        }/*else if(requestCode == PHOTO_PERFIL && resultCode == RESULT_OK){
             Uri u = data.getData();
-            storageReference = storage.getReference("foto_perfil");
+            storageReference = storage.getReference("foto_perfil");//imagenes_chat
             final StorageReference fotoReferencia = storageReference.child(u.getLastPathSegment());
-            fotoReferencia.putFile(u).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            fotoReferencia.putFile(u).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
-                    while (!urlTask.isSuccessful());
-                    Uri downloadUrl = urlTask.getResult();
-                    fotoPerfilCadena = downloadUrl.toString();
-                    MensajeEnviar m = new MensajeEnviar(NOMBRE_USUARIO+" ha actualizado su foto de perfil",downloadUrl.toString(),NOMBRE_USUARIO,"","2",ServerValue.TIMESTAMP);
-                    databaseReference.push().setValue(m);
-                    Glide.with(MensajeriaActivity.this).load(downloadUrl.toString()).into(fotoPerfil);
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if(!task.isSuccessful()){
+                        throw task.getException();
+                    }
+                    return fotoReferencia.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if(task.isSuccessful()){
+                        Uri uri = task.getResult();
+                        fotoPerfilCadena = uri.toString();
+                        MensajeEnviar m = new MensajeEnviar(NOMBRE_USUARIO+" ha actualizado su foto de perfil",uri.toString(),NOMBRE_USUARIO,fotoPerfilCadena,"2",ServerValue.TIMESTAMP);
+                        databaseReference.push().setValue(m);
+                        Glide.with(MensajeriaActivity.this).load(uri.toString()).into(fotoPerfil);
+                    }
                 }
             });
         }*/
     }
-
 
     @Override
     protected void onResume() {

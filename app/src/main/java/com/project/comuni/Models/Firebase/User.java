@@ -8,7 +8,7 @@ public class User {
     private String fotoPerfilURL;
     private String nombre;
     private String email;
-    private long fechaDeNacimiento;
+
 
 
 
@@ -40,16 +40,6 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public long getFechaDeNacimiento() {
-        return fechaDeNacimiento;
-    }
-
-    public void setFechaDeNacimiento(long fechaDeNacimiento) {
-        this.fechaDeNacimiento = fechaDeNacimiento;
-    }
-
-
 
 
 }
