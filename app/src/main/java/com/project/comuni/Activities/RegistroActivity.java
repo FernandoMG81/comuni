@@ -18,8 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.project.comuni.Models.User;
-import com.project.comuni.Models.Usuario;
+import com.project.comuni.Models.Firebase.User;
 import com.project.comuni.R;
 
 public class RegistroActivity extends AppCompatActivity {

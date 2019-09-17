@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.RegistroActivity"></activity>
-        <activity android:name=".Activities.bubbleActivity"></activity>
+        <activity android:name=".Activities.MensajeriaActivity"></activity>
         <activity
             android:name=".Activities.SplashActivity"
             android:theme="@style/SplashScreen">

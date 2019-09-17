@@ -15,11 +15,9 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -38,18 +36,19 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project.comuni.Adapters.RAdapterMensajes;
-import com.project.comuni.Models.MensajeEnviar;
-import com.project.comuni.Models.MensajePersonal;
-import com.project.comuni.Models.MensajeRecibir;
-import com.project.comuni.Models.User;
+
+import com.project.comuni.Models.Firebase.MensajePersonal;
+import com.project.comuni.Models.Firebase.User;
+import com.project.comuni.Models.Logica.LMensajePersonal;
+import com.project.comuni.Persistencia.UsuarioDAO;
 import com.project.comuni.R;
 
-public class bubbleActivity extends AppCompatActivity {
+public class MensajeriaActivity extends AppCompatActivity {
 
     private CircleImageView fotoPerfil;
-    private TextView nombre;
+    private TextView txtNombre;
     private RecyclerView rvMensajes;
-    private EditText mensaje;
+    private EditText txtMensaje;
     private Button btnEnviar;
     private RAdapterMensajes adapter;
     private ImageButton btnEnviarFoto;
@@ -67,13 +66,13 @@ public class bubbleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bubble);
+        setContentView(R.layout.activity_mensajeria);
 
 
         fotoPerfil = findViewById(R.id.bubbleFotoPerfil);
-        nombre = findViewById(R.id.bubbleNombreUsuario);
+        txtNombre = findViewById(R.id.bubbleNombreUsuario);
         rvMensajes = findViewById(R.id.bubbleRV);
-        mensaje = findViewById(R.id.bubbleMensaje);
+        txtMensaje = findViewById(R.id.bubbleMensaje);
         btnEnviar = findViewById(R.id.bubbleEnviar);
         btnEnviarFoto = findViewById(R.id.bubbleEnviarImagen);
         fotoPerfilCadena = "";
@@ -93,7 +92,15 @@ public class bubbleActivity extends AppCompatActivity {
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseReference.push().setValue(new MensajeEnviar(mensaje.getText().toString(),NOMBRE_USUARIO,fotoPerfilCadena,"1", ServerValue.TIMESTAMP));
+                String mensajeEnviar = txtMensaje.getText().toString();
+                if(!mensajeEnviar.isEmpty()){
+                    MensajePersonal mensaje = new MensajePersonal();
+                    mensaje.setMensaje(mensajeEnviar);
+                    mensaje.setContieneFoto(false);
+                    mensaje.setKeyEmisor(UsuarioDAO.getInstance().getKeyUsuario());
+                    databaseReference.push().setValue(mensaje);
+                    txtMensaje.setText("");
+                }
             }
         });
 
@@ -127,8 +134,9 @@ public class bubbleActivity extends AppCompatActivity {
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                MensajeRecibir m = dataSnapshot.getValue(MensajeRecibir.class);
-                adapter.addMensaje(m);
+                MensajePersonal mensaje = dataSnapshot.getValue(MensajePersonal.class);
+                LMensajePersonal lMensaje = new LMensajePersonal(dataSnapshot.getKey(),mensaje);
+                adapter.addMensaje(lMensaje);
             }
 
             @Override
@@ -194,11 +202,15 @@ private void setScrollbar (){
                     Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
                     while (!urlTask.isSuccessful());
                     Uri downloadUrl = urlTask.getResult();
-                    MensajeEnviar m = new MensajeEnviar(NOMBRE_USUARIO+" te ha enviado una imagen",downloadUrl.toString(),NOMBRE_USUARIO,fotoPerfilCadena,"2",ServerValue.TIMESTAMP);
-                    databaseReference.push().setValue(m);
+                    MensajePersonal mensaje = new MensajePersonal();
+                    mensaje.setMensaje("El Usuario ha enviado una imagen");
+                    mensaje.setUrlFoto(downloadUrl.toString());
+                    mensaje.setContieneFoto(true);
+                    mensaje.setKeyEmisor(UsuarioDAO.getInstance().getKeyUsuario());
+                    databaseReference.push().setValue(mensaje);
                 }
             });
-        } else if(requestCode == PHOTO_PERFIL && resultCode == RESULT_OK){
+        }/* else if(requestCode == PHOTO_PERFIL && resultCode == RESULT_OK){
             Uri u = data.getData();
             storageReference = storage.getReference("foto_perfil");
             final StorageReference fotoReferencia = storageReference.child(u.getLastPathSegment());
@@ -211,10 +223,10 @@ private void setScrollbar (){
                     fotoPerfilCadena = downloadUrl.toString();
                     MensajeEnviar m = new MensajeEnviar(NOMBRE_USUARIO+" ha actualizado su foto de perfil",downloadUrl.toString(),NOMBRE_USUARIO,"","2",ServerValue.TIMESTAMP);
                     databaseReference.push().setValue(m);
-                    Glide.with(bubbleActivity.this).load(downloadUrl.toString()).into(fotoPerfil);
+                    Glide.with(MensajeriaActivity.this).load(downloadUrl.toString()).into(fotoPerfil);
                 }
             });
-        }
+        }*/
     }
 
 
@@ -230,7 +242,7 @@ private void setScrollbar (){
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     User usuario = dataSnapshot.getValue(User.class);
                     NOMBRE_USUARIO = usuario.getNombre();
-                    nombre.setText(NOMBRE_USUARIO);
+                    txtNombre.setText(NOMBRE_USUARIO);
                     btnEnviar.setEnabled(false);
                 }
 
@@ -240,7 +252,7 @@ private void setScrollbar (){
                 }
             });
         }else{
-            startActivity(new Intent(bubbleActivity.this,LoginActivity.class));
+            startActivity(new Intent(MensajeriaActivity.this,LoginActivity.class));
             finish();
         }
     }
