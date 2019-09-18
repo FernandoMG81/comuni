@@ -21,52 +21,63 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/editTextHintUsuario"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextUsuario"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Usuario" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:orientation="vertical" >
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/editTextHintClave"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editTextHintClave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextClave"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Contraseña" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextClave"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Contraseña" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/buttonIngresar"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/ingresar" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editTextHintUsuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextUsuario"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Usuario" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/buttonRegistrarse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/TextoRegistrarse"
-                android:textAlignment="center"
-                android:textColor="#222" />
-        </LinearLayout>
+                <Button
+                    android:id="@+id/buttonIngresar"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ingresar" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/buttonRegistrarse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/TextoRegistrarse"
+                        android:textAlignment="center"
+                        android:textColor="#222" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fondo_log"
+    android:minHeight="800dp"
     tools:context=".Activities.RegistroActivity">
 
     <ScrollView
@@ -113,6 +114,7 @@
                     android:text="Registrarse" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
