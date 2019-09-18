@@ -25,7 +25,7 @@ import com.project.comuni.Utils.Util;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private SharedPreferences prefs;
+    //private SharedPreferences prefs;
     private EditText editTextLogin;
     private EditText editTextPassword;
     private Button btnLogin;
@@ -77,9 +77,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        prefs = getSharedPreferences("PreferencesComuni", Context.MODE_PRIVATE);
+      //  prefs = getSharedPreferences("PreferencesComuni", Context.MODE_PRIVATE);
 
-        setCredentialIfExist();
+       // setCredentialIfExist();
 
 /*
      btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -151,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     //setea credenciales guardadas
-    private void setCredentialIfExist(){
+/*    private void setCredentialIfExist(){
         String email = Util.getUserMailPrefs(prefs);
         String pass = Util.getUserPassPrefs(prefs);
         if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(pass)){
@@ -159,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
             editTextPassword.setText(pass);
         }
     }
-
+*/
 
     @Override
     protected void onResume() {

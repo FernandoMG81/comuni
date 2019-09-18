@@ -79,9 +79,6 @@ public class RAdapterMensajes extends RecyclerView.Adapter<RAdapterMensajes.Hold
             holder.getMensaje().setVisibility(View.VISIBLE);
         }
 
-        Glide.with(c).load(lMensaje.getlUsuario().getUsuario().getFotoPerfilURL()).into(holder.getFotoMensajePerfil());
-
-
         holder.getHora().setText(lMensaje.fechaCreacionMensaje());
     }
 

@@ -2,6 +2,7 @@ package com.project.comuni.Fragments;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import android.view.View;
@@ -23,7 +24,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class HomeFragment extends Fragment {
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
+public class HomeFragment extends Fragment implements RecyclerAdapterNews.OnItemListener {
 
     private ArrayList<Noticia> noticias = new ArrayList<>();
 
@@ -39,11 +42,15 @@ public class HomeFragment extends Fragment {
 
         this.noticias = noticiaService.getNoticias();
 
-        RecyclerAdapterNews adapter = new RecyclerAdapterNews(this.noticias, this.getContext());
+        RecyclerAdapterNews adapter = new RecyclerAdapterNews(this.noticias, this.getContext(),this);
 
         recyclerView.setAdapter(adapter);
 
         return view;
     }
 
+    @Override
+    public void onItemClick(int position) {
+        Log.d(TAG, "onItemClick: Clicked.");
+    }
 }

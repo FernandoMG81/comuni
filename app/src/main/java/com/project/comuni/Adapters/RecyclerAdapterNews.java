@@ -32,21 +32,24 @@ import static com.project.comuni.Utils.Util.truncate;
 
 public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNews.ViewHolder> implements View.OnClickListener {
     private static final String TAG = "RecyclerAdapterNews";
-
     private View.OnClickListener listener;
-    private ArrayList<Noticia> noticias;
-    private Context context;
 
-    public RecyclerAdapterNews(ArrayList<Noticia> noticias, Context context) {
+    private ArrayList<Noticia> noticias;
+    private OnItemListener mOnItemListener;
+    private Context context;
+    private String txtPrueba;
+
+    public RecyclerAdapterNews(ArrayList<Noticia> noticias, Context context, OnItemListener onItemListener) {
         this.noticias = noticias;
         this.context = context;
+        this.mOnItemListener = onItemListener;
     }
 
     @NonNull
     @Override
     public RecyclerAdapterNews.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_news,null,false);
-        RecyclerAdapterNews.ViewHolder holder = new RecyclerAdapterNews.ViewHolder(view);
+        RecyclerAdapterNews.ViewHolder holder = new RecyclerAdapterNews.ViewHolder(view, mOnItemListener);
 
         view.setOnClickListener(this);
 
@@ -72,10 +75,15 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
         return noticias.size();
     }
 
+
+
     @Override
     public void onClick(View view) {
         AppCompatActivity activity = (MainActivity) view.getContext();
         Fragment myFragment = new InnerNoticiasFragment();
+        Bundle args = new Bundle();
+        args.putString("texto", txtPrueba);
+        myFragment.setArguments(args);
         activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
 
     }
@@ -84,21 +92,34 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
         this.listener = listener;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         FrameLayout FL;
         TextView Titulo;
         TextView Texto;
         ImageView imagenUsuario;
         RelativeLayout RL;
+        OnItemListener onItemListener;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnItemListener onItemListener) {
             super(itemView);
             FL = itemView.findViewById(R.id.fragment_container);
             imagenUsuario = itemView.findViewById(R.id.imageViewFotoUsuario);
             Titulo = itemView.findViewById(R.id.textViewTituloNoticia);
             Texto = itemView.findViewById(R.id.textViewNoticia);
             RL = itemView.findViewById(R.id.RVNews);
+
+            this.onItemListener = onItemListener;
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            onItemListener.onItemClick(getAdapterPosition());
+        }
+    }
+
+    public interface OnItemListener{
+        void onItemClick(int position);
     }
 }

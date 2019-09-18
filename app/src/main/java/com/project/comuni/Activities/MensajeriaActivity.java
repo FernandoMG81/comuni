@@ -290,7 +290,7 @@ private void setScrollbar (){
                     User usuario = dataSnapshot.getValue(User.class);
                     NOMBRE_USUARIO = usuario.getNombre();
                     txtNombre.setText(NOMBRE_USUARIO);
-                    btnEnviar.setEnabled(false);
+                    btnEnviar.setEnabled(true);
                 }
 
                 @Override
