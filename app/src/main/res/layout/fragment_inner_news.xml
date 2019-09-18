@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/InnerNewsContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackCasiBlanco"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/paddingExternoDIItems"
+        android:layout_marginTop="@dimen/paddingExternoABItems"
+        android:layout_marginRight="@dimen/paddingExternoDIItems"
+        android:layout_marginBottom="@dimen/paddingExternoDIItems">
+
+        <TextView
+            android:id="@+id/InnerNewsTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/paddingExternoABItems"
+            android:paddingBottom="@dimen/paddingExternoABItems"
+            android:text="Palabras de aliento"
+            android:textAllCaps="true"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/InnerNewsLinea"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#aaa" />
+
+        <TextView
+            android:id="@+id/InnerNewsTexto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoText="false"
+            android:includeFontPadding="true"
+            android:paddingTop="@dimen/paddingExternoABItems"
+            android:paddingBottom="@dimen/paddingExternoABItems"
+            android:text="Vamos chicos, estoy muy orgulloso de ustedes y de las ganas que estan poniendole a este proyecto. \n\nYa va faltando menos, y la aplicación va quedando cada vez mejor. A seguir con este esfuerzo que así se llega lejos!\n\nQue hayamos llegado hasta acá es un logro tremendo y pone la vara alta para que, el año que viene, los que les sigan, lleven su trabajo aún más lejos."
+            android:textSize="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/paddingExternoABItems">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/view2"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_gravity="center_horizontal"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:id="@+id/InnerNewsFotoUsuario"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="right"
+                    android:background="@drawable/damian_natale" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/InnerNewsUsuario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:paddingLeft="@dimen/paddingExternoABItems"
+                android:paddingTop="24dp"
+                android:paddingRight="24dp"
+                android:text="Damian Natale"
+                android:textAlignment="gravity"
+                android:textSize="17sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
