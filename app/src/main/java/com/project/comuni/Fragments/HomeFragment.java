@@ -3,10 +3,13 @@ package com.project.comuni.Fragments;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 
@@ -29,7 +32,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 public class HomeFragment extends Fragment implements RecyclerAdapterNews.OnItemListener {
 
     private ArrayList<Noticia> noticias = new ArrayList<>();
-
+    private SearchView search;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
