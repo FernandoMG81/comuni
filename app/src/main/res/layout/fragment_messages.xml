@@ -10,7 +10,7 @@
 
 
     <Button
-        android:id="@+id/addBtn2"
+        android:id="@+id/addBtnMensaje"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"
