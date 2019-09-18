@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondo"
+    android:background="@drawable/fondo_log"
     tools:context=".Activities.LoginActivity">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="@dimen/paddingExternoABItems"
         android:gravity="bottom"
         android:orientation="vertical"
         android:paddingLeft="@dimen/paddingExternoABItems"
@@ -28,7 +28,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="300dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/logo_comuni_fondo_transparente" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/editTextHintClave"
