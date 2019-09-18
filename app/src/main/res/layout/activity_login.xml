@@ -8,65 +8,66 @@
     tools:context=".Activities.LoginActivity">
 
 
-    <Button
-        android:id="@+id/buttonIngresar"
-        android:layout_width="180dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="48dp"
-        android:background="@drawable/button_rounded"
-        android:text="INGRESAR"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextClave" />
-
-    <Button
-        android:id="@+id/buttonRegistrarse"
-        android:layout_width="180dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/button_rounded"
-        android:text="REGISTRARSE"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonIngresar" />
-
-    <EditText
-        android:id="@+id/editTextClave"
-        style="@android:style/Widget.DeviceDefault.EditText"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginRight="16dp"
-        android:background="@drawable/edittext_rounded"
-        android:ems="10"
-        android:hint="     CONTRASEÑA"
-        android:inputType="textPassword"
-        android:singleLine="false"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/paddingExternoABItems"
+        android:paddingRight="@dimen/paddingExternoABItems"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextUsuario" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/editTextUsuario"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@drawable/edittext_rounded"
-        android:ems="10"
-        android:hint="     USUARIO"
-        android:inputType="textEmailAddress"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editTextHintUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Usuario" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editTextHintClave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextClave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Contraseña" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/buttonIngresar"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ingresar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/buttonRegistrarse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/registrarse"
+                android:textAlignment="center"
+                android:textColor="#222" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
