@@ -18,6 +18,7 @@ import com.project.comuni.Fragments.InnerNoticiasFragment;
 import com.project.comuni.Fragments.InnerPlacesFragment;
 import com.project.comuni.Models.Post;
 import com.project.comuni.R;
+import static com.project.comuni.Utils.Util.truncate;
 
 import java.util.ArrayList;
 
@@ -47,7 +48,9 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
         Log.d(TAG, "onBindViewHolder: ");
 
             holder.Titulo.setText(posts.get(position).getTitulo());
-            holder.Descripcion.setText(posts.get(position).getTexto());
+            holder.Fecha.setText(posts.get(position).getCreado());
+            String TextoTruncado = truncate(posts.get(position).getTexto(),50);
+            holder.Descripcion.setText(TextoTruncado);
 
     }
 
@@ -66,12 +69,14 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
+        TextView Fecha;
         TextView Titulo;
         TextView Descripcion;
         RelativeLayout RL;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            Fecha = itemView.findViewById(R.id.PlacesFecha);
             Titulo = itemView.findViewById(R.id.PlacesTituloPosteo);
             Descripcion = itemView.findViewById(R.id.PlacesDescripcionPosteo);
             RL = itemView.findViewById(R.id.RVPlaces);

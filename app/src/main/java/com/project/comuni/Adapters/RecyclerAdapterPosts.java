@@ -40,6 +40,7 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: ");
 
+        holder.Fecha.setText((comentarios.get(position).getCreated()));
         holder.Usuario.setText(comentarios.get(position).getUsuario().getNombre() + " " +comentarios.get(position).getUsuario().getApellido());
         holder.Comentario.setText(comentarios.get(position).getTexto());
 
@@ -52,12 +53,14 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
+        TextView Fecha;
         TextView Usuario;
         TextView Comentario;
         RelativeLayout RL;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            Fecha = itemView.findViewById(R.id.PlacesFecha);
             Usuario = itemView.findViewById(R.id.PlacesTituloPosteo);
             Comentario = itemView.findViewById(R.id.PlacesDescripcionPosteo);
             RL = itemView.findViewById(R.id.RVPlaces);
