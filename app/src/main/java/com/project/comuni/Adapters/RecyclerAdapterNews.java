@@ -61,6 +61,7 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
         String TextoTruncado = truncate(noticias.get(position).getTexto(),120);
         holder.Titulo.setText(noticias.get(position).getTitulo());
         holder.Texto.setText(TextoTruncado);
+        holder.Fecha.setText(noticias.get(position).getCreated());
         holder.imagenUsuario.setImageResource(noticias.get(position).getImagen());
 
         holder.RL.setOnClickListener((view)-> {
@@ -97,6 +98,7 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
         FrameLayout FL;
         TextView Titulo;
         TextView Texto;
+        TextView Fecha;
         ImageView imagenUsuario;
         RelativeLayout RL;
         OnItemListener onItemListener;
@@ -107,6 +109,7 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
             imagenUsuario = itemView.findViewById(R.id.imageViewFotoUsuario);
             Titulo = itemView.findViewById(R.id.textViewTituloNoticia);
             Texto = itemView.findViewById(R.id.textViewNoticia);
+            Fecha = itemView.findViewById(R.id.NewsFecha);
             RL = itemView.findViewById(R.id.RVNews);
 
             this.onItemListener = onItemListener;

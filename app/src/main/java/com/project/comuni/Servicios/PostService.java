@@ -9,6 +9,7 @@ public class PostService {
     private ArrayList<Post> posts = new ArrayList<>();
     private UsuarioService usuarioService = new UsuarioService();
     private EspacioService espacioService = new EspacioService();
+    private TagService tagService = new TagService();
 
     public PostService() {
         fillData();
@@ -37,7 +38,7 @@ public class PostService {
             "Recuerden que el 20/09 tenemos parcial.",
             "No van a poder usar calculadora, deberán traer solo lápiz, goma y papel.",
             7,
-            null,
+            tagService.getTagImnportante(),
             "10/09/2019"
             );
     posts.add(post);
@@ -45,31 +46,34 @@ public class PostService {
             2,
             espacioService.filterByName("Matemática"),
             usuarioService.getAlumno3(),
-            "¿Alguien resolvió el ejercicio 2.A?","Me da raiz cuadrada de -2...",
+            "¿Alguien resolvió el ejercicio 2.A?","Me da raiz cuadrada de -2. Eso es imposible no? Creo que la raiz cuadrada de -2 es un imposible.",
             4,
-            null,
+             tagService.getTagAyuda(),
             "7/09/2019");
+
      posts.add(post);
+        post = new Post(
+                3,
+                espacioService.filterByName("Matemática"),
+                usuarioService.getAlumno1(),
+                "Alguien quiere juntarse a estudiar?",
+                "Vengo flojo para el parcial y me gustaría estudiar con alguien, asi podemos avanzar más rápido!",
+                1,
+                tagService.getTagReuniones(),
+                "06/09/2019");
+        posts.add(post);
+
     post = new Post(
-            3,
+            4,
             espacioService.filterByName("Matemática"),
             usuarioService.getAlumno4(),
             "¿Se puede sumar dos matrices de distinto orden?",
-            "Hice la suma, pero no se si esta bien",
+            "Hice la suma, pero no se si esta bien. Me da que es de 4*4, y para lo que vimos en clase, creo que se me hizo muy grande.",
             1,
-            null,
-            "23/08/2019");
+            tagService.getTagAyuda(),
+            "03/09/2019");
     posts.add(post);
-     post = new Post(
-            4,
-            espacioService.filterByName("Matemática"),
-            usuarioService.getAlumno1(),
-            "Alguien resolvió elejercicio 1.E de la guía?",
-            "Simplemente no me sale.",
-            1,
-            null,
-            "20/08/2019");
-     posts.add(post);
+
 
     //Posteos Programación
     post = new Post(

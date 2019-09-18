@@ -34,7 +34,7 @@ public class NoticiaService {
         noticia.setId(1);
         noticia.setTitulo("Recordatorio");
         noticia.setTexto("Si el 20 clasificamos a la final están todos aprobados los que cursan conmigo, a darle caña a ese código!!!");
-        noticia.setCreated("14/09/2019");
+        noticia.setCreated("18/09/2019");
         noticia.setImagen(R.drawable.damian_natale);
         noticias.add(noticia);
 
@@ -43,7 +43,7 @@ public class NoticiaService {
         noticia.setId(1);
         noticia.setTitulo("Palabras de aliento");
         noticia.setTexto("Vamos chicos, estoy muy orgulloso de ustedes y de las ganas que estan poniendole a este proyecto. Vamos a México");
-        noticia.setCreated("14/09/2019");
+        noticia.setCreated("17/09/2019");
         noticia.setImagen(R.drawable.damian_natale);
         noticias.add(noticia);
 

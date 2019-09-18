@@ -51,4 +51,14 @@ public class EspacioService {
         return espacio;
     }
 
+    public Espacio getEspacioById(int id){
+        for (Espacio espacio:espacios) {
+            if (espacio.getId() == id){
+                return espacio;
+            }
+        }
+        Espacio espacio = new Espacio();
+        return espacio;
+    }
+
 }
