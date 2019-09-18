@@ -14,11 +14,13 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,11 +45,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RegistroActivity extends AppCompatActivity {
 
     private CircleImageView fotoPerfil;
-    private EditText txtNombre;
-    private EditText txtCorreo;
-    private EditText txtContraseña;
-    private EditText txtContraseñaRepetida;
+    private TextInputEditText txtNombre;
+    private TextInputEditText txtCorreo;
+    private TextInputEditText txtContraseña;
+    private TextInputEditText txtContraseñaRepetida;
     private Button btnRegistrar;
+    private TextView btnIngresar;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private ImagePicker imagePicker;
@@ -68,6 +71,7 @@ public class RegistroActivity extends AppCompatActivity {
         txtContraseña = findViewById(R.id.idRegistroContraseña);
         txtContraseñaRepetida = findViewById(R.id.idRegistroRepiteContraseña);
         btnRegistrar = findViewById(R.id.idBotonRegistro);
+        btnIngresar = findViewById(R.id.buttonIrAIngreso);
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -75,6 +79,13 @@ public class RegistroActivity extends AppCompatActivity {
         cameraPicker = new CameraImagePicker(this);
 
         cameraPicker.setCacheLocation(CacheLocation.EXTERNAL_STORAGE_APP_DIR);
+
+        btnIngresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegistroActivity.this, LoginActivity.class));
+            }
+        });
 
         imagePicker.setImagePickerCallback(new ImagePickerCallback() {
             @Override
@@ -247,5 +258,7 @@ public class RegistroActivity extends AppCompatActivity {
         }
         super.onRestoreInstanceState(savedInstanceState);
     }
+
+
 
 }
