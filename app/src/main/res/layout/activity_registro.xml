@@ -92,7 +92,8 @@
                         android:id="@+id/idRegistroContraseña"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/clave" />
+                        android:hint="@string/clave"
+                        android:inputType="textPassword" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -103,7 +104,8 @@
                         android:id="@+id/idRegistroRepiteContraseña"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/repiteClave" />
+                        android:hint="@string/repiteClave"
+                        android:inputType="textPassword" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
