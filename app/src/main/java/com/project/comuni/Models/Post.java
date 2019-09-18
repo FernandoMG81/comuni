@@ -12,17 +12,17 @@ public class Post {
     private String titulo;
     private String texto;
     private int upvotes;
-    private ArrayList <Tag> tags;
+    private Tag tag;
     private String creado = null;
 
-    public Post(int id, Espacio espacio, Usuario usuario, String titulo, String texto, int upvotes, ArrayList<Tag> tags, String creado) {
+    public Post(int id, Espacio espacio, Usuario usuario, String titulo, String texto, int upvotes, Tag tag, String creado) {
         this.id = id;
         this.espacio = espacio;
         this.usuario = usuario;
         this.titulo = titulo;
         this.texto = texto;
         this.upvotes = upvotes;
-        this.tags = tags;
+        this.tag = tag;
         this.creado = creado;
     }
 
@@ -74,12 +74,12 @@ public class Post {
         this.upvotes = upvotes;
     }
 
-    public ArrayList<Tag> getTags() {
-        return tags;
+    public Tag getTag() {
+        return tag;
     }
 
-    public void setTags(ArrayList<Tag> tags) {
-        this.tags = tags;
+    public void setTags(Tag tag) {
+        this.tag = tag;
     }
 
     public String getCreado() {

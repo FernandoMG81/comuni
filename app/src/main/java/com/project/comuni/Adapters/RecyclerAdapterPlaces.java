@@ -1,6 +1,7 @@
 package com.project.comuni.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,9 @@ import com.project.comuni.Fragments.InnerNoticiasFragment;
 import com.project.comuni.Fragments.InnerPlacesFragment;
 import com.project.comuni.Models.Post;
 import com.project.comuni.R;
+
+import org.w3c.dom.Text;
+
 import static com.project.comuni.Utils.Util.truncate;
 
 import java.util.ArrayList;
@@ -48,10 +52,12 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
         Log.d(TAG, "onBindViewHolder: ");
 
             holder.Titulo.setText(posts.get(position).getTitulo());
+            holder.Tag.setText(posts.get(position).getTag().getText());
+            holder.Tag.setBackgroundColor(Color.parseColor(posts.get(position).getTag().getBackgroundColor()));
+            holder.Tag.setTextColor(Color.parseColor(posts.get(position).getTag().getTextColor()));
             holder.Fecha.setText(posts.get(position).getCreado());
             String TextoTruncado = truncate(posts.get(position).getTexto(),50);
             holder.Descripcion.setText(TextoTruncado);
-
     }
 
     @Override
@@ -69,14 +75,16 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView Fecha;
         TextView Titulo;
+        TextView Tag;
+        TextView Fecha;
         TextView Descripcion;
         RelativeLayout RL;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             Fecha = itemView.findViewById(R.id.PlacesFecha);
+            Tag = itemView.findViewById(R.id.Tag);
             Titulo = itemView.findViewById(R.id.PlacesTituloPosteo);
             Descripcion = itemView.findViewById(R.id.PlacesDescripcionPosteo);
             RL = itemView.findViewById(R.id.RVPlaces);
