@@ -18,9 +18,16 @@ import android.widget.TextView;
 
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.project.comuni.Fragments.HomeFragment;
 import com.project.comuni.Fragments.MessagesFragment;
 import com.project.comuni.Fragments.PlacesFragment;
+import com.project.comuni.Models.Firebase.User;
+import com.project.comuni.Persistencia.UsuarioDAO;
 import com.project.comuni.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -127,5 +134,17 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 */
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(UsuarioDAO.getInstance().isUserLogged()){
+            //el usuario logueado
+        }else{
+            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            finish();
+        }
+    }
+
 
 }

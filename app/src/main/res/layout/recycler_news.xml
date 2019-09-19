@@ -51,6 +51,7 @@
                     android:width="38dp"
                     android:background="#1C9603"
                     android:padding="2dp"
+                    android:visibility="visible"
                     android:text="New"
                     android:textAlignment="center"
                     android:textColor="#ffffff"
