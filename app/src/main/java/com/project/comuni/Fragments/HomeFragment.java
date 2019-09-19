@@ -32,7 +32,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 public class HomeFragment extends Fragment implements RecyclerAdapterNews.OnItemListener {
 
     private ArrayList<Noticia> noticias = new ArrayList<>();
-    private SearchView search;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

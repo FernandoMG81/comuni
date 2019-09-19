@@ -71,16 +71,16 @@ public class PlacesFragment extends Fragment {
             }
         });
 
-//        button.setOnClickListener(new onClickListener () {
-//            @Override
-//            public void onClick(View view) {
-//                AppCompatActivity activity = (MainActivity) view.getContext();
-//                Fragment myFragment = new InnerNoticiasFragment();
-//                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
-//
-//            }
-//        }
-        
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (MainActivity) view.getContext();
+                Fragment myFragment = new CreatePostFragment();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
+
+            }
+        });
+
         return view;
     }
 
