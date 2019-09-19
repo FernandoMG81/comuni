@@ -4,7 +4,6 @@
     android:id="@+id/RVMesages"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="4dp"
     android:paddingBottom="4dp">
 
     <LinearLayout
@@ -51,7 +50,8 @@
                     android:paddingEnd="4dp"
                     android:text="Damian Natale"
                     android:textColor="@color/textColorCommon"
-                    android:textSize="@dimen/titulos" />
+                    android:textSize="@dimen/titulos"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/MessagesMensaje"
@@ -68,7 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#ccc"
-                    android:paddingTop="4dp"
+                    android:paddingTop="8dp"
                     android:paddingBottom="4dp" />
             </LinearLayout>
 
