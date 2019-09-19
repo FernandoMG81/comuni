@@ -20,24 +20,32 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:paddingStart="@dimen/paddingExternoDIItems"
             android:paddingTop="@dimen/paddingExternoABItems"
-            android:paddingEnd="@dimen/paddingExternoDIItems">
+            android:paddingEnd="@dimen/paddingExternoDIItems"
+            android:paddingBottom="@dimen/paddingExternoDIItems">
 
-            <SearchView
+            <ImageView
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:background="@drawable/search">
+
+            </ImageView>
+
+            <EditText
                 android:id="@+id/NewsSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/searchbox"
+                android:hint="Buscar"
+                android:paddingStart="15dp"
                 android:paddingTop="2dp"
-                android:paddingEnd="4dp"
-                android:paddingRight="4dp"
+                android:paddingEnd="10dp"
                 android:paddingBottom="2dp"
-                android:queryHint="Buscar"
-                >
+                android:queryHint="Buscar">
 
-            </SearchView>
+            </EditText>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

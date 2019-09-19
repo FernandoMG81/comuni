@@ -15,14 +15,13 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/text_rounded"
-        app:cardBackgroundColor="#f5f5f5">
+        app:cardBackgroundColor="#f5f5f5"
+        app:cardCornerRadius="10dp">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="192dp"
-            android:background="@drawable/text_rounded"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
             android:paddingRight="10dp"

@@ -29,7 +29,7 @@ public class EspacioService {
         espacios.add(espacio);
 
         espacio = new Espacio(
-                4,"Sisteme de Procesamiento de datos",
+                4,"Sistema de Procesamiento de datos",
                 "Veremos como funciona físicamente y como calcula los datos la computadora. Quiero oir sus consultas!.",
                 "01/06/2019");
         espacios.add(espacio);
@@ -51,7 +51,7 @@ public class EspacioService {
         return espacio;
     }
 
-    public Espacio getEspacioById(int id){
+    public Espacio filterEspacioById(int id){
         for (Espacio espacio:espacios) {
             if (espacio.getId() == id){
                 return espacio;
@@ -61,4 +61,7 @@ public class EspacioService {
         return espacio;
     }
 
+    public ArrayList<Espacio> getEspacios() {
+        return espacios;
+    }
 }

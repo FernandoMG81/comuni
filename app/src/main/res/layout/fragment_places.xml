@@ -7,16 +7,6 @@
     android:background="#fff"
     tools:context=".Activities.MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/RVPlaces"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/addBtn"
         android:layout_width="50dp"
@@ -31,4 +21,64 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    }
+
+        <Spinner
+            android:id="@+id/PlacesSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/paddingExternoDIItems"
+            android:paddingTop="@dimen/paddingExternoDIItems"
+            android:paddingEnd="@dimen/paddingExternoDIItems" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/paddingExternoDIItems"
+            android:paddingTop="@dimen/paddingExternoDIItems"
+            android:paddingEnd="@dimen/paddingExternoDIItems"
+            android:paddingBottom="@dimen/paddingExternoDIItems">
+
+            <ImageView
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:background="@drawable/search">
+
+            </ImageView>
+
+            <EditText
+                android:id="@+id/NewsSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/searchbox"
+                android:hint="Buscar"
+                android:paddingStart="15dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="2dp"
+                android:queryHint="Buscar">
+
+            </EditText>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RVPlaces"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

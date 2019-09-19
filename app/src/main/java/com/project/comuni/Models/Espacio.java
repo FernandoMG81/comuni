@@ -47,4 +47,9 @@ public class Espacio {
     public void setCreado(String creado) {
         this.creado = creado;
     }
+
+    @Override
+    public String toString(){
+        return this.nombre;
+    }
 }
