@@ -44,11 +44,14 @@ import com.project.comuni.Models.Firebase.MensajePersonal;
 import com.project.comuni.Models.Firebase.User;
 import com.project.comuni.Models.Logica.LMensajePersonal;
 import com.project.comuni.Models.Logica.LUser;
+import com.project.comuni.Persistencia.MensajeriaDAO;
 import com.project.comuni.Persistencia.UsuarioDAO;
 import com.project.comuni.R;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.project.comuni.Utils.Constantes.NODO_MENSAJES;
 
 public class MensajeriaActivity extends AppCompatActivity {
 
@@ -64,9 +67,9 @@ public class MensajeriaActivity extends AppCompatActivity {
     private String fotoPerfilCadena;
     private FirebaseAuth mAuth;
     private String NOMBRE_USUARIO;
+    private String KEY_RECEPTOR;
 
-    private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
+
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
@@ -75,7 +78,12 @@ public class MensajeriaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mensajeria);
 
-
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null){
+            KEY_RECEPTOR = bundle.getString("key_receptor");
+        }else{
+            finish();
+        }
         fotoPerfil = findViewById(R.id.bubbleFotoPerfil);
         txtNombre = findViewById(R.id.bubbleNombreUsuario);
         rvMensajes = findViewById(R.id.bubbleRV);
@@ -84,9 +92,6 @@ public class MensajeriaActivity extends AppCompatActivity {
         btnEnviarFoto = findViewById(R.id.bubbleEnviarImagen);
         fotoPerfilCadena = "";
 
-
-        database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("chat");
         storage = FirebaseStorage.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
@@ -105,7 +110,7 @@ public class MensajeriaActivity extends AppCompatActivity {
                     mensaje.setMensaje(mensajeEnviar);
                     mensaje.setContieneFoto(false);
                     mensaje.setKeyEmisor(UsuarioDAO.getInstance().getKeyUsuario());
-                    databaseReference.push().setValue(mensaje);
+                    MensajeriaDAO.getInstance().nuevoMensaje(UsuarioDAO.getInstance().getKeyUsuario(),KEY_RECEPTOR,mensaje);
                     txtMensaje.setText("");
                 }
             }
@@ -138,7 +143,12 @@ public class MensajeriaActivity extends AppCompatActivity {
             }
         });
 
-        databaseReference.addChildEventListener(new ChildEventListener() {
+        FirebaseDatabase
+                .getInstance()
+                .getReference(NODO_MENSAJES)
+                .child(UsuarioDAO.getInstance().getKeyUsuario())
+                .child(KEY_RECEPTOR)
+                .addChildEventListener(new ChildEventListener() {
 
             Map<String, LUser> mapUsuariosTemporales = new HashMap<>();
 
@@ -246,7 +256,7 @@ private void setScrollbar (){
                         mensaje.setUrlFoto(uri.toString());
                         mensaje.setContieneFoto(true);
                         mensaje.setKeyEmisor(UsuarioDAO.getInstance().getKeyUsuario());
-                        databaseReference.push().setValue(mensaje);
+                        MensajeriaDAO.getInstance().nuevoMensaje(UsuarioDAO.getInstance().getKeyUsuario(),KEY_RECEPTOR,mensaje);
                     }
                 }
             });
@@ -276,7 +286,7 @@ private void setScrollbar (){
             });
         }*/
     }
-
+/*
     @Override
     protected void onResume() {
         super.onResume();
@@ -303,4 +313,5 @@ private void setScrollbar (){
             finish();
         }
     }
+*/
 }
