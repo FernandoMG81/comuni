@@ -7,46 +7,36 @@ public class UsuarioService {
             1,
             "Damian",
             "Natale",
-            "dnatale",
-            "asdasd",
-            "dnatale@comuni.com",
-            "01/01/2019");
+            "damian_natale.png",
+            "asdasd");
 
     private Usuario alumno1 = new Usuario(
             2,
             "Javier",
             "Angelelli",
-            "jangelelli@comuni.com",
-            "asdasd",
-            "jangelelli@comuni.com",
-            "01/01/2019");
+            "http://empleosm.com/resume/javier-txn5fldtv-psicologo-programador-tigre/",
+            "asdasd");
 
     private Usuario alumno2 = new Usuario(
             3,
             "Fernando",
             "Gordillo",
-            "fgordillo",
-            "asdasd",
-            "fgordillo@comuni.com",
-            "01/01/2019");
+            "javier_angelelli.png",
+            "asdasd");
 
     private Usuario alumno3 = new Usuario(
             4,
             "Alan",
             "Murua",
-            "amurua",
-            "asdasd",
-            "amurua@comuni.com",
-            "01/01/2019");
+            "javier_angelelli.png",
+            "asdasd");
 
     private Usuario alumno4 = new Usuario(
             5,
             "Federico",
             "Vega",
-            "fvega",
-            "asdasd",
-            "fvega@comuni.com",
-            "01/01/2019");
+            "@drawable/federico_vega.jpeg",
+            "asdasd");
 
     public UsuarioService() { }
 

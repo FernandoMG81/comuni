@@ -44,7 +44,6 @@ public class MessagesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_messages, container, false);
 
         RecyclerView recyclerView = view.findViewById(R.id.RVMesages);
-
         Button botonNuevoMensaje = view.findViewById(R.id.addBtnMensaje);
 
 

@@ -47,7 +47,10 @@ public class NoticiaService {
         noticia.setImagen(R.drawable.damian_natale);
         noticias.add(noticia);
 
-        noticias.add( new Noticia(0, null,"La universidad rankea en el puesto 21",
+        noticias.add( new Noticia(
+                0,
+                null,
+                "La universidad rankea en el puesto 21",
                 "Según la organizacion SQL nuestra universidad se encuentra en el 21° puesto " +
                         "gracias a la excelente formación de sus profesores y a su espiritu orientado al emprendedurismo",
                 "15/09/2019",R.drawable.damian_natale));
@@ -68,15 +71,6 @@ public class NoticiaService {
         noticia.setTexto("La universidad ha sido la que más a crecido porcentualmente dentro de Argentina. Entre las razones que nos elijen se encuentran:" +
                 "la excelente formación academica, el prestigio del egresado, la orientación hacia soluciones pŕácticas.");
         noticia.setCreated("21/06/2019");
-        noticia.setImagen(R.drawable.damian_natale);
-        noticias.add(noticia);
-
-        noticia = new Noticia();
-        noticia.setId(3);
-        noticia.setTitulo("Abrió la competencia TuAPP");
-        noticia.setTexto("Ha comenzado la competencia interuniversitaria e internacional donde los alumnos deben crear una aplicación" +
-                "pasando por todas las etapas necesarias para ello, desde la formaciión de la idea, hasta el código mismo.");
-        noticia.setCreated("13/04/2019");
         noticia.setImagen(R.drawable.damian_natale);
         noticias.add(noticia);
 

@@ -2,10 +2,12 @@ package com.project.comuni.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -14,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Fragments.InnerNoticiasFragment;
 import com.project.comuni.Fragments.InnerPlacesFragment;
@@ -58,6 +61,8 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
             holder.Fecha.setText(posts.get(position).getCreado());
             String TextoTruncado = truncate(posts.get(position).getTexto(),50);
             holder.Descripcion.setText(TextoTruncado);
+            Glide.with(this.context).load(posts.get(position).getUsuario().getFoto()).into(holder.FotoUsuario);
+            holder.NombreUsuario.setText(posts.get(position).getUsuario().getNombre() + " " + posts.get(position).getUsuario().getApellido());
     }
 
     @Override
@@ -79,6 +84,8 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
         TextView Tag;
         TextView Fecha;
         TextView Descripcion;
+        ImageView FotoUsuario;
+        TextView NombreUsuario;
         RelativeLayout RL;
 
         public ViewHolder(@NonNull View itemView) {
@@ -88,6 +95,8 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
             Titulo = itemView.findViewById(R.id.PlacesTituloPosteo);
             Descripcion = itemView.findViewById(R.id.PlacesDescripcionPosteo);
             RL = itemView.findViewById(R.id.RVPlaces);
+            FotoUsuario = itemView.findViewById(R.id.PlacesFotoUsuario);
+            NombreUsuario = itemView.findViewById(R.id.PlacesUsuario);
         }
     }
 }

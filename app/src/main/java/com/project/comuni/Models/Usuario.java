@@ -6,18 +6,14 @@ public class Usuario {
     private int id = -1;
     private String nombre = null;
     private String apellido = null;
-    private String Usuario = null;
-    private String Contrasenia = null;
-    private String mail = null;
+    private String foto = null;
     private String creado = null;
 
-    public Usuario(int id, String nombre, String apellido, String usuario, String contrasenia, String mail, String creado) {
+    public Usuario(int id, String nombre, String apellido, String foto, String creado) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
-        Usuario = usuario;
-        Contrasenia = contrasenia;
-        this.mail = mail;
+        this.foto = foto;
         this.creado = creado;
     }
 
@@ -45,28 +41,12 @@ public class Usuario {
         this.apellido = apellido;
     }
 
-    public String getUsuario() {
-        return Usuario;
+    public String getFoto() {
+        return foto;
     }
 
-    public void setUsuario(String usuario) {
-        Usuario = usuario;
-    }
-
-    public String getContrasenia() {
-        return Contrasenia;
-    }
-
-    public void setContrasenia(String contrasenia) {
-        Contrasenia = contrasenia;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 
     public String getCreado() {

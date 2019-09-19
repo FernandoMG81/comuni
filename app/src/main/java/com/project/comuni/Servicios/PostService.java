@@ -169,6 +169,14 @@ public class PostService {
     }
 
 
-
+    public Post filterPostById(int id){
+        for (Post post:posts) {
+            if (post.getId() == id){
+                return post;
+            }
+        }
+        Post post = new Post();
+        return post;
+    }
 
 }

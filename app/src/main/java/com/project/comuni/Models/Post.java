@@ -26,6 +26,8 @@ public class Post {
         this.creado = creado;
     }
 
+    public Post() {    }
+
     public int getId() {
         return id;
     }

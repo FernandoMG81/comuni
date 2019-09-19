@@ -16,6 +16,9 @@ public class Comentario {
         this.created = created;
     }
 
+    public Comentario() {
+    }
+
     public int getId() {
         return id;
     }

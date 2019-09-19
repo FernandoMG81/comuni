@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/InnerNewsContainer"
+    android:id="@+id/InnerPlacesContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackCasiBlanco"
@@ -28,7 +28,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/InnerNewsTitulo"
+                    android:id="@+id/InnerPlacesTitulo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/paddingExternoABItems"
@@ -38,7 +38,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/InnerNewsUsuario"
+                    android:id="@+id/InnerPlacesUsuario"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -64,7 +64,7 @@
                         app:cardCornerRadius="5dp">
 
                         <TextView
-                            android:id="@+id/Tag"
+                            android:id="@+id/InnerPlacesTag"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0"
@@ -83,7 +83,7 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        android:id="@+id/PlacesFecha"
+                        android:id="@+id/InnerPlacesFecha"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="bottom"
@@ -98,7 +98,7 @@
                     android:background="#aaa" />
 
                 <TextView
-                    android:id="@+id/InnerNewsTexto"
+                    android:id="@+id/InnerPlacesDescripcion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autoText="false"
@@ -121,6 +121,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#fff"
         android:gravity="bottom"
         android:orientation="horizontal">
 

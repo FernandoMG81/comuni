@@ -130,7 +130,7 @@
                         app:cardElevation="0dp">
 
                         <ImageView
-                            android:id="@+id/InnerNewsFotoUsuario"
+                            android:id="@+id/PlacesFotoUsuario"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_gravity="right"
@@ -138,7 +138,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <TextView
-                        android:id="@+id/InnerNewsUsuario"
+                        android:id="@+id/PlacesUsuario"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
