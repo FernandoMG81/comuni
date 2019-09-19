@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1028888192619-383dsb4l5nnrasl20j4k6qk3qgn15q08.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.project.comuni",
+            "certificate_hash": "d39e4e9450e92848eb2f7e59871f90066d467e10"
+          }
+        },
+        {
           "client_id": "1028888192619-8994lvlist4cb9p38ljti881t9lq4680.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
