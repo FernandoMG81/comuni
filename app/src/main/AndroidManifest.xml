@@ -24,7 +24,14 @@
         </activity>
         <activity android:name=".Activities.MainActivity" />
         <activity android:name=".Activities.LoginActivity" />
+
+        <service android:name=".Utils.MyFirebaseMessagingService">
+            <intent-filter><action android:name="com.google.firebase.MESSAGING_EVENT">
+
+            </action></intent-filter></service>
     </application>
+
+
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
