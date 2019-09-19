@@ -15,7 +15,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
-        app:cardBackgroundColor="#f5f5f5"
+        app:cardBackgroundColor="#fff"
         app:cardCornerRadius="10dp">
 
 
@@ -51,11 +51,11 @@
                     android:width="38dp"
                     android:background="#1C9603"
                     android:padding="2dp"
-                    android:visibility="visible"
                     android:text="New"
                     android:textAlignment="center"
                     android:textColor="#ffffff"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/textViewTituloNoticia"

@@ -15,7 +15,7 @@
         <EditText
             android:id="@+id/CreatePostTitulo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="27dp"
             android:background="@drawable/searchbox"
             android:hint="Titulo del Post"
             android:paddingStart="15dp"
@@ -32,9 +32,11 @@
         <EditText
             android:id="@+id/CreatePostDescripción"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/searchbox"
             android:hint="Descripción del Post"
+            android:maxHeight="200dp"
+            android:minHeight="120dp"
             android:paddingStart="15dp"
             android:paddingTop="2dp"
             android:paddingEnd="10dp"
