@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
+import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Adapters.RecyclerAdapterMessages;
 import com.project.comuni.Adapters.RecyclerAdapterPlaces;
 import com.project.comuni.Models.Espacio;
@@ -18,6 +20,7 @@ import com.project.comuni.Servicios.PostService;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +36,7 @@ public class PlacesFragment extends Fragment {
 
     private Spinner spinner;
     private RecyclerView recyclerView;
+    private Button button;
 
     @Nullable
     @Override
@@ -43,7 +47,8 @@ public class PlacesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_places, container, false);
 
         recyclerView = view.findViewById(R.id.RVPlaces);
-        spinner = (Spinner) view.findViewById(R.id.PlacesSpinner);
+        spinner = view.findViewById(R.id.PlacesSpinner);
+        button = view.findViewById(R.id.PlacesButton);
 
         ArrayAdapter<Espacio> spinnerAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_item, espacioService.getEspacios());
 
@@ -66,6 +71,16 @@ public class PlacesFragment extends Fragment {
             }
         });
 
+//        button.setOnClickListener(new onClickListener () {
+//            @Override
+//            public void onClick(View view) {
+//                AppCompatActivity activity = (MainActivity) view.getContext();
+//                Fragment myFragment = new InnerNoticiasFragment();
+//                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
+//
+//            }
+//        }
+        
         return view;
     }
 

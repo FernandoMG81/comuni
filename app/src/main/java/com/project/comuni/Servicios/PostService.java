@@ -93,7 +93,7 @@ public class PostService {
             "Hoy no voy a poder asistir a clases.",
             "Les pido perdón por avisar a tan corto plazo, pero ocurrió un imprevisto.",
             0,
-            null,
+            tagService.getTagAyuda(),
             "20/08/2019");
     posts.add(post);
     post = new Post (
@@ -103,7 +103,7 @@ public class PostService {
             "Problemas con el fopen",
             "¿Qué parametros toma?",
             3,
-            null,
+            tagService.getTagAyuda(),
             "20/08/2019");
     posts.add(post);
     post = new Post (
@@ -113,7 +113,7 @@ public class PostService {
             "¿Cómo era el tema del encapsulamiento?",
             "No entiendo como accedo a un atributo private si, justamente, lo hace inaccesible...",
             4,
-            null,
+            tagService.getTagAyuda(),
             "20/08/2019");
     posts.add(post);
 
@@ -125,7 +125,7 @@ public class PostService {
             "Problemas instalando SQLServer.",
             "¿Alguno me podrá pasar un tutorial?",
             3,
-            null,
+            tagService.getTagAyuda(),
             "20/08/2019");
     posts.add(post);
 
