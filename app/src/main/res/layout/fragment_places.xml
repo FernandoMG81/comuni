@@ -29,13 +29,23 @@
         app:layout_constraintTop_toTopOf="parent">
         }
 
-        <Spinner
-            android:id="@+id/PlacesSpinner"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingStart="@dimen/paddingExternoDIItems"
-            android:paddingTop="@dimen/paddingExternoDIItems"
-            android:paddingEnd="@dimen/paddingExternoDIItems" />
+            android:paddingTop="3dp"
+            android:paddingRight="@dimen/paddingExternoDIItems">
+
+            <Spinner
+                android:id="@+id/PlacesSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/spinner_style"
+                android:paddingStart="@dimen/paddingExternoDIItems"
+                android:paddingTop="@dimen/paddingExternoDIItems"
+                android:paddingEnd="@dimen/paddingExternoDIItems" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
