@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 
@@ -68,6 +69,8 @@ public class MensajeriaActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String NOMBRE_USUARIO;
     private String KEY_RECEPTOR;
+    private String PHOTO_RECEPTOR;
+    private String NAME_RECEPTOR;
 
 
     private FirebaseStorage storage;
@@ -81,11 +84,15 @@ public class MensajeriaActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null){
             KEY_RECEPTOR = bundle.getString("key_receptor");
+            PHOTO_RECEPTOR = bundle.getString("photo_receptor");
+            NAME_RECEPTOR = bundle.getString("name_receptor");
         }else{
             finish();
         }
         fotoPerfil = findViewById(R.id.bubbleFotoPerfil);
+        Glide.with(MensajeriaActivity.this).load(PHOTO_RECEPTOR).into(fotoPerfil);
         txtNombre = findViewById(R.id.bubbleNombreUsuario);
+        txtNombre.setText(NAME_RECEPTOR);
         rvMensajes = findViewById(R.id.bubbleRV);
         txtMensaje = findViewById(R.id.bubbleMensaje);
         btnEnviar = findViewById(R.id.bubbleEnviar);
@@ -111,6 +118,7 @@ public class MensajeriaActivity extends AppCompatActivity {
                     mensaje.setContieneFoto(false);
                     mensaje.setKeyEmisor(UsuarioDAO.getInstance().getKeyUsuario());
                     MensajeriaDAO.getInstance().nuevoMensaje(UsuarioDAO.getInstance().getKeyUsuario(),KEY_RECEPTOR,mensaje);
+                    SendNotification();
                     txtMensaje.setText("");
                 }
             }
@@ -126,7 +134,7 @@ public class MensajeriaActivity extends AppCompatActivity {
             }
         });
 
-        fotoPerfil.setOnClickListener(new View.OnClickListener() {
+       /* fotoPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent (Intent.ACTION_GET_CONTENT);
@@ -134,7 +142,7 @@ public class MensajeriaActivity extends AppCompatActivity {
                 i.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
                 startActivityForResult(Intent.createChooser(i,"Selecciona una imagen"),PHOTO_PERFIL);
             }
-        });
+        });*/
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
@@ -201,6 +209,10 @@ public class MensajeriaActivity extends AppCompatActivity {
         });
 
         verifyStoragePermissions(this);
+
+    }
+
+    private void SendNotification() {
 
     }
 

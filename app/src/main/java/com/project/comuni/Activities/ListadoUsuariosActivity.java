@@ -78,6 +78,8 @@ public class ListadoUsuariosActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent(ListadoUsuariosActivity.this, MensajeriaActivity.class);
                         intent.putExtra("key_receptor",lUsuario.getKey());
+                        intent.putExtra("photo_receptor",model.getFotoPerfilURL());
+                        intent.putExtra("name_receptor",model.getNombre());
                         startActivity(intent);
                     }
                 });
