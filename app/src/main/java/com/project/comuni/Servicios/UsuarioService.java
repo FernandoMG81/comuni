@@ -13,7 +13,7 @@ public class UsuarioService {
             R.drawable.damian_natale,
             "asdasd");
 
-    private Usuario profesor2 = new Usuario(
+    private Usuario alumno5 = new Usuario(
             5,
             "Kara",
             "Johnson",
@@ -68,6 +68,10 @@ public class UsuarioService {
 
     public Usuario getAlumno4() {
         return alumno4;
+    }
+
+    public Usuario getAlumno5() {
+        return alumno5;
     }
 }
 

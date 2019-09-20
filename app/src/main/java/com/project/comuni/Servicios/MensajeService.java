@@ -88,21 +88,21 @@ public class MensajeService {
         ));
 
         mensajes.add(new Mensaje(2,
-                usuarioService.getAlumno1(),
+                usuarioService.getAlumno5(),
                 usuarioService.getProfesor(),
                 "Che, de casualidad,tendrás los apuntes de progrmación al día?",
                 "10/09;"
         ));
 
         mensajes.add(new Mensaje(3,
-                usuarioService.getAlumno2(),
+                usuarioService.getAlumno3(),
                 usuarioService.getProfesor(),
                 "Mañana sale juntarnos a estudiar? Me esta volviendo loco esto del switch.",
                 "15/09;"
         ));
 
         mensajes.add(new Mensaje(4,
-                usuarioService.getAlumno3(),
+                usuarioService.getAlumno4(),
                 usuarioService.getProfesor(),
                 "Hiciste el TP 2? Necesito una mano si podés.",
                 "15/09;"
