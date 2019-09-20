@@ -13,6 +13,13 @@ public class UsuarioService {
             R.drawable.damian_natale,
             "asdasd");
 
+    private Usuario profesor2 = new Usuario(
+            5,
+            "Kara",
+            "Johnson",
+            R.drawable.mujer,
+            "asdasd");
+
     private Usuario alumno1 = new Usuario(
             2,
             "Javier",
@@ -24,21 +31,21 @@ public class UsuarioService {
             3,
             "Fernando",
             "Gordillo",
-            R.drawable.damian_natale,
+            R.drawable.bruce,
             "asdasd");
 
     private Usuario alumno3 = new Usuario(
             4,
             "Alan",
             "Murua",
-            R.drawable.javier_angelelli,
+            R.drawable.user_default,
             "asdasd");
 
     private Usuario alumno4 = new Usuario(
             5,
-            "Federico",
-            "Vega",
-            R.drawable.federico_vega,
+            "Diana",
+            "Kent",
+            R.drawable.mujer_maravilla,
             "asdasd");
 
     public UsuarioService() { }

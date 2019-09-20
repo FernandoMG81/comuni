@@ -34,7 +34,7 @@ public class CreatePostFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        RecyclerAdapterTags adapter = new RecyclerAdapterTags(this.tagService.getTags(), this.getContext());
+        RecyclerAdapterTags adapter = new RecyclerAdapterTags(this.tagService.filterTagsByEspacioId(1), this.getContext());
 
         recyclerView.setAdapter(adapter);
 

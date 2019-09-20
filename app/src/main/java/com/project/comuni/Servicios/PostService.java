@@ -48,7 +48,7 @@ public class PostService {
             "Recuerden que el 20/09 tenemos parcial.",
             "No van a poder usar calculadora, deberán traer solo lápiz, goma y papel.",
             7,
-            tagService.getTagImnportante(),
+            tagService.filterTagById(1),
             "10/09/2019"
             );
     posts.add(post);
@@ -58,7 +58,7 @@ public class PostService {
             usuarioService.getAlumno3(),
             "¿Alguien resolvió el ejercicio 2.A?","Me da raiz cuadrada de -2. Eso es imposible no? Creo que la raiz cuadrada de -2 es un imposible.",
             4,
-             tagService.getTagAyuda(),
+             tagService.filterTagById(2),
             "7/09/2019");
 
      posts.add(post);
@@ -69,7 +69,7 @@ public class PostService {
                 "Alguien quiere juntarse a estudiar?",
                 "Vengo flojo para el parcial y me gustaría estudiar con alguien, asi podemos avanzar más rápido!",
                 1,
-                tagService.getTagReuniones(),
+                tagService.filterTagById(3),
                 "06/09/2019");
         posts.add(post);
 
@@ -80,7 +80,7 @@ public class PostService {
             "¿Se puede sumar dos matrices de distinto orden?",
             "Hice la suma, pero no se si esta bien. Me da que es de 4*4, y para lo que vimos en clase, creo que se me hizo muy grande.",
             1,
-            tagService.getTagAyuda(),
+            tagService.filterTagById(2),
             "03/09/2019");
     posts.add(post);
 
@@ -93,7 +93,7 @@ public class PostService {
             "Hoy no voy a poder asistir a clases.",
             "Les pido perdón por avisar a tan corto plazo, pero ocurrió un imprevisto.",
             0,
-            tagService.getTagAyuda(),
+            tagService.filterTagById(1),
             "20/08/2019");
     posts.add(post);
     post = new Post (
@@ -103,7 +103,7 @@ public class PostService {
             "Problemas con el fopen",
             "¿Qué parametros toma?",
             3,
-            tagService.getTagAyuda(),
+            tagService.filterTagById(2),
             "20/08/2019");
     posts.add(post);
     post = new Post (
@@ -113,7 +113,7 @@ public class PostService {
             "¿Cómo era el tema del encapsulamiento?",
             "No entiendo como accedo a un atributo private si, justamente, lo hace inaccesible...",
             4,
-            tagService.getTagAyuda(),
+            tagService.filterTagById(2),
             "20/08/2019");
     posts.add(post);
 
@@ -125,7 +125,7 @@ public class PostService {
             "Problemas instalando SQLServer.",
             "¿Alguno me podrá pasar un tutorial?",
             3,
-            tagService.getTagAyuda(),
+            tagService.filterTagById(2),
             "20/08/2019");
     posts.add(post);
 
@@ -138,7 +138,7 @@ public class PostService {
                 "La verdad me pierdo un poco con el tema. Cuando los numeros " +
                         "binarios no son de 4 cifras todo ok, pero cuando hablamos de BCD me pierdo.",
                 3,
-                tagService.getTagAyuda(),
+                tagService.filterTagById(4),
                 "20/09/2019");
         posts.add(post);
 
@@ -149,7 +149,7 @@ public class PostService {
                 "Alguien para juntarse el sábado a estudiar?",
                 "Los primeros temas me va re bien. Si saben de lectura de disco, eso es lo que mas me falta.",
                 3,
-                tagService.getTagReuniones(),
+                tagService.filterTagById(5),
                 "20/09/2019");
         posts.add(post);
 
@@ -157,10 +157,10 @@ public class PostService {
                 10,
                 espacioService.filterEspacioById(4),
                 usuarioService.getAlumno4(),
-                "Que es el overflow?",
+                "El sistema Aiken",
                 "Me re pertido con este tema, y por lo poco que entiendo, es algo bastante importante",
                 3,
-                tagService.getTagAyuda(),
+                tagService.filterTagById(4),
                 "20/09/2019");
         posts.add(post);
 
@@ -168,8 +168,7 @@ public class PostService {
         return posts;
     }
 
-
-    public Post filterPostById(int id){
+    public  Post  filterPostById(int id){
         for (Post post:posts) {
             if (post.getId() == id){
                 return post;
