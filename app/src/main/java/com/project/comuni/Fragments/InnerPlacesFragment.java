@@ -58,7 +58,7 @@ public class InnerPlacesFragment extends Fragment {
         Tag.setText(post.getTag().getText());
         Tag.setTextColor(Color.parseColor(post.getTag().getTextColor()));
         Tag.setBackgroundColor(Color.parseColor(post.getTag().getBackgroundColor()));
-        NombreUsuario.setText(post.getUsuario().getNombre());
+        NombreUsuario.setText(post.getUsuario().getNombre() + " " + post.getUsuario().getApellido());
         Fecha.setText(post.getCreado());
 
 
