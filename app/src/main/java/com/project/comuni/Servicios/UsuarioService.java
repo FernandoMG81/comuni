@@ -1,41 +1,44 @@
 package com.project.comuni.Servicios;
 
+import android.graphics.drawable.Drawable;
+
 import com.project.comuni.Models.Usuario;
+import com.project.comuni.R;
 
 public class UsuarioService {
     private Usuario profesor = new Usuario(
             1,
             "Damian",
             "Natale",
-            "damian_natale.png",
+            R.drawable.damian_natale,
             "asdasd");
 
     private Usuario alumno1 = new Usuario(
             2,
             "Javier",
             "Angelelli",
-            "http://empleosm.com/resume/javier-txn5fldtv-psicologo-programador-tigre/",
+            R.drawable.javier_angelelli,
             "asdasd");
 
     private Usuario alumno2 = new Usuario(
             3,
             "Fernando",
             "Gordillo",
-            "javier_angelelli.png",
+            R.drawable.damian_natale,
             "asdasd");
 
     private Usuario alumno3 = new Usuario(
             4,
             "Alan",
             "Murua",
-            "javier_angelelli.png",
+            R.drawable.javier_angelelli,
             "asdasd");
 
     private Usuario alumno4 = new Usuario(
             5,
             "Federico",
             "Vega",
-            "@drawable/federico_vega.jpeg",
+            R.drawable.federico_vega,
             "asdasd");
 
     public UsuarioService() { }

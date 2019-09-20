@@ -1,15 +1,17 @@
 package com.project.comuni.Models;
 
 
+import android.graphics.drawable.Drawable;
+
 public class Usuario {
 
     private int id = -1;
     private String nombre = null;
     private String apellido = null;
-    private String foto = null;
+    private int foto;
     private String creado = null;
 
-    public Usuario(int id, String nombre, String apellido, String foto, String creado) {
+    public Usuario(int id, String nombre, String apellido, int foto, String creado) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -41,11 +43,11 @@ public class Usuario {
         this.apellido = apellido;
     }
 
-    public String getFoto() {
+    public int getFoto() {
         return foto;
     }
 
-    public void setFoto(String foto) {
+    public void setFoto(int foto) {
         this.foto = foto;
     }
 

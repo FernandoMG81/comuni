@@ -61,7 +61,7 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
             holder.Fecha.setText(posts.get(position).getCreado());
             String TextoTruncado = truncate(posts.get(position).getTexto(),50);
             holder.Descripcion.setText(TextoTruncado);
-            Glide.with(this.context).load(posts.get(position).getUsuario().getFoto()).into(holder.FotoUsuario);
+            holder.FotoUsuario.setBackgroundResource(posts.get(position).getUsuario().getFoto());
             holder.NombreUsuario.setText(posts.get(position).getUsuario().getNombre() + " " + posts.get(position).getUsuario().getApellido());
     }
 

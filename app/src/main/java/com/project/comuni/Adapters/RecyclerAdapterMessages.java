@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -48,6 +49,7 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
 
             holder.Contacto.setText(mensajes.get(position).getEmisor().getNombre() + " " + mensajes.get(position).getEmisor().getApellido());
             holder.Mensaje.setText(mensajes.get(position).getTexto());
+           holder.FotoUsuario.setBackgroundResource(mensajes.get(position).getEmisor().getFoto());
 
     }
 
@@ -68,6 +70,7 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
 
         TextView Contacto;
         TextView Mensaje;
+        ImageView FotoUsuario;
         RelativeLayout RL;
 
         public ViewHolder(@NonNull View itemView) {
@@ -75,6 +78,7 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
             Contacto = itemView.findViewById(R.id.MessagesContacto);
             Mensaje = itemView.findViewById(R.id.MessagesMensaje);
             RL = itemView.findViewById(R.id.RVMesages);
+            FotoUsuario = itemView.findViewById(R.id.MessagesFotoUsuario);
         }
     }
 }
