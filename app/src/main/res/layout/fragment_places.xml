@@ -83,7 +83,7 @@
             android:id="@+id/RVPlaces"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/fondo_acromatico"
+            android:background="@drawable/fondo_vacio_cromatico"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

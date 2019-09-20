@@ -52,7 +52,7 @@
             android:id="@+id/RVNews"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/fondo_acromatico">
+            android:background="@drawable/fondo_vacio_cromatico">
 
         </androidx.recyclerview.widget.RecyclerView>
 
