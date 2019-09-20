@@ -46,6 +46,7 @@ public class ListadoUsuariosActivity extends AppCompatActivity {
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
                 .child(NODO_USUARIOS)
+                .orderByChild("nombre")
                 ; //Paginacion.
 
 
