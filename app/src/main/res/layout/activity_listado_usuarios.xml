@@ -45,7 +45,7 @@
                     android:id="@+id/iconToolbar"
                     android:layout_width="27dp"
                     android:layout_height="27dp"
-                    android:background="@drawable/_ionicons_3dots"
+                    android:background="@mipmap/_ionicons_3dots"
                     android:gravity="right" />
             </LinearLayout>
 

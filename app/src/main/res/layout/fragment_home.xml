@@ -29,7 +29,7 @@
             <ImageView
                 android:layout_width="27dp"
                 android:layout_height="27dp"
-                android:background="@drawable/search">
+                android:background="@mipmap/search">
 
             </ImageView>
 
@@ -52,7 +52,7 @@
             android:id="@+id/RVNews"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/fondo_vacio_cromatico">
+            android:background="@mipmap/fondo_vacio_cromatico">
 
         </androidx.recyclerview.widget.RecyclerView>
 

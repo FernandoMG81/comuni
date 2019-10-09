@@ -24,7 +24,7 @@ public class UsuarioService {
             2,
             "Javier",
             "Angelelli",
-            R.drawable.javier_angelelli,
+            R.mipmap.javier_angelelli,
             "asdasd");
 
     private Usuario alumno2 = new Usuario(
@@ -38,7 +38,7 @@ public class UsuarioService {
             4,
             "Alan",
             "Murua",
-            R.drawable.user_default,
+            R.mipmap.user_default,
             "asdasd");
 
     private Usuario alumno4 = new Usuario(
