@@ -54,7 +54,6 @@ dependencies {
     implementation 'com.kbeanie:multipicker:1.6' //Multipicker de archivos para chat
     implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
 
-
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

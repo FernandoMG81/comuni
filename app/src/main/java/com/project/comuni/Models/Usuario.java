@@ -1,7 +1,6 @@
 package com.project.comuni.Models;
 
 
-import android.graphics.drawable.Drawable;
 
 public class Usuario {
 

@@ -1,15 +1,12 @@
 package com.project.comuni.Models.Firebase;
 
-import com.google.firebase.database.Exclude;
-import com.google.firebase.database.ServerValue;
 
 public class User {
 
     private String fotoPerfilURL;
     private String nombre;
     private String email;
-
-
+    private String tipoUsuario;
 
 
     public User(){
@@ -19,6 +16,14 @@ public class User {
 
     public String getFotoPerfilURL() {
         return fotoPerfilURL;
+    }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
 
     public void setFotoPerfilURL(String fotoPerfilURL) {

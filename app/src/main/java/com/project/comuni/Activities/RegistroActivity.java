@@ -12,8 +12,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,12 +34,14 @@ import com.kbeanie.multipicker.api.ImagePicker;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
+import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.User;
 import com.project.comuni.Persistencia.UsuarioDAO;
 import com.project.comuni.R;
 import com.project.comuni.Utils.Constantes;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -45,6 +49,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RegistroActivity extends AppCompatActivity {
 
     private CircleImageView fotoPerfil;
+    private Spinner tipoSeleccionado;
+    private TextInputEditText txtClaveProfesional;
     private TextInputEditText txtNombre;
     private TextInputEditText txtCorreo;
     private TextInputEditText txtContraseña;
@@ -66,12 +72,40 @@ public class RegistroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
         fotoPerfil = findViewById(R.id.idRegistroFotoPerfil);
+        tipoSeleccionado = findViewById(R.id.idRegistroTipo);
+        txtClaveProfesional = findViewById(R.id.idRegistroClaveProfesional);
         txtNombre = findViewById(R.id.idRegistroNombre);
         txtCorreo = findViewById(R.id.idRegistroCorreo);
         txtContraseña = findViewById(R.id.idRegistroContraseña);
         txtContraseñaRepetida = findViewById(R.id.idRegistroRepiteContraseña);
         btnRegistrar = findViewById(R.id.idBotonRegistro);
         btnIngresar = findViewById(R.id.buttonIrAIngreso);
+
+        //Tipo de usuario
+        ArrayList<String> listaTipos = new ArrayList<>();
+        listaTipos.add(" ");
+        listaTipos.add("Profesional");
+        listaTipos.add("Estudiante");
+        ArrayAdapter<String> tipoAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,listaTipos);
+        tipoSeleccionado.setAdapter(tipoAdapter);
+        tipoSeleccionado.setSelection(0);
+
+        tipoSeleccionado.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(tipoSeleccionado.getSelectedItem().equals("Profesional")){
+                    txtClaveProfesional.setVisibility(View.VISIBLE);
+                }
+                if(tipoSeleccionado.getSelectedItem().equals("Estudiante")){
+                    txtClaveProfesional.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -152,6 +186,7 @@ public class RegistroActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String correo = txtCorreo.getText().toString();
                 String nombre = txtNombre.getText().toString();
+                String tipo = tipoSeleccionado.toString();
                 if(isValidEmail(correo) && validarContraseña() && validaNombre(nombre)){
                     String contraseña = txtContraseña.getText().toString();
 
@@ -170,6 +205,7 @@ public class RegistroActivity extends AppCompatActivity {
                                                 User usuario = new User();
                                                 usuario.setEmail(correo);
                                                 usuario.setNombre(nombre);
+                                                usuario.setTipoUsuario(tipo);
                                                 usuario.setFotoPerfilURL(url);
                                                 FirebaseUser currentUser = mAuth.getCurrentUser();
                                                 DatabaseReference reference = database.getReference("Usuarios/"+currentUser.getUid());
@@ -184,6 +220,7 @@ public class RegistroActivity extends AppCompatActivity {
                                             User usuario = new User();
                                             usuario.setEmail(correo);
                                             usuario.setNombre(nombre);
+                                            usuario.setTipoUsuario(tipo);
                                             usuario.setFotoPerfilURL(Constantes.URL_FOTO_POR_DEFECTO_USUARIOS);
                                             FirebaseUser currentUser = mAuth.getCurrentUser();
                                             DatabaseReference reference = database.getReference("Usuarios/"+currentUser.getUid());
