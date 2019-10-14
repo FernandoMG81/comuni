@@ -1,6 +1,8 @@
 package com.project.comuni.Models;
 
-public class Espacio {
+import java.io.Serializable;
+
+public class Espacio implements Serializable {
 
     private int id = -1;
     private String nombre = null;

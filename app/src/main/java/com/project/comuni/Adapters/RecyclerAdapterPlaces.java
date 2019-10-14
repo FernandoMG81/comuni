@@ -3,6 +3,7 @@ package com.project.comuni.Adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.media.Image;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
 public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterPlaces.ViewHolder> implements View.OnClickListener {
     private static final String TAG = "RecyclerAdapterMessages";
 
+    private Post post = new Post();
     private View.OnClickListener listener;
     private ArrayList<Post> posts;
     private Context context;
@@ -63,6 +66,12 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
             holder.Descripcion.setText(TextoTruncado);
             holder.FotoUsuario.setBackgroundResource(posts.get(position).getUsuario().getFoto());
             holder.NombreUsuario.setText(posts.get(position).getUsuario().getNombre() + " " + posts.get(position).getUsuario().getApellido());
+
+            holder.RL.setOnClickListener((view)-> {
+            this.post = posts.get(position);
+            Toast.makeText(context, post.getTitulo(), Toast.LENGTH_SHORT).show();
+            onClick(holder.RL);
+        });
     }
 
     @Override
@@ -74,6 +83,9 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
     public void onClick(View view) {
         AppCompatActivity activity = (MainActivity) view.getContext();
         Fragment myFragment = new InnerPlacesFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("post",post);
+        myFragment.setArguments(args);
         activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
 
     }

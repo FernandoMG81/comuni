@@ -16,13 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.comuni.Adapters.RecyclerAdapterComentarios;
 import com.project.comuni.Models.Comentario;
-import com.project.comuni.Models.Noticia;
 import com.project.comuni.Models.Post;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.ComentarioService;
-import com.project.comuni.Servicios.PostService;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -34,19 +30,17 @@ public class InnerPlacesFragment extends Fragment {
     private TextView NombreUsuario;
     private TextView Fecha;
 
-    private Post post;
-    private PostService postService = new PostService();
+    private Post post = new Post();
 
     private ArrayList<Comentario> comentarios = new ArrayList<>();
     private ComentarioService comentarioService= new ComentarioService();
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_inner_posts, container, false);
+    public void setPost() {
+        Bundle bundle = getArguments();
+        this.post = (Post) bundle.getSerializable("post");
+    }
 
-        post = postService.filterPostById(1);
-
+    public void cargarPagina(View view){
         Titulo = view.findViewById(R.id.InnerPlacesTitulo);
         Descripcion = view.findViewById(R.id.InnerPlacesDescripcion);
         Tag = view.findViewById(R.id.InnerPlacesTag);
@@ -60,11 +54,18 @@ public class InnerPlacesFragment extends Fragment {
         Tag.setBackgroundColor(Color.parseColor(post.getTag().getBackgroundColor()));
         NombreUsuario.setText(post.getUsuario().getNombre() + " " + post.getUsuario().getApellido());
         Fecha.setText(post.getCreado());
+    }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        setPost();
+        View view = inflater.inflate(R.layout.fragment_inner_posts, container, false);
+        cargarPagina(view);
 
         RecyclerView recyclerView = view.findViewById(R.id.RVInnerPosts);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        comentarios = comentarioService.getComentarios();
+        comentarios = comentarioService.getComentariosByEspacioId(post.getId());
         RecyclerAdapterComentarios adapter = new RecyclerAdapterComentarios(comentarios,this.getContext());
         recyclerView.setAdapter(adapter);
 

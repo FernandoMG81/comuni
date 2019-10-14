@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.comuni.Adapters.RecyclerAdapterTags;
+import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Noticia;
 import com.project.comuni.Models.Tag;
 import com.project.comuni.R;
@@ -23,18 +26,25 @@ import java.util.ArrayList;
 
 public class CreatePostFragment extends Fragment {
 
-    private TagService tagService = new TagService();
+    private  TagService tagService = new TagService();
+    private Espacio espacio;
+
+    public void setEspacio() {
+        Bundle bundle = getArguments();
+        this.espacio = (Espacio) bundle.getSerializable("espacioActual");
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        setEspacio();
         View view = inflater.inflate(R.layout.fragment_create_post, container, false);
 
         RecyclerView recyclerView = view.findViewById(R.id.RVTags);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        RecyclerAdapterTags adapter = new RecyclerAdapterTags(this.tagService.filterTagsByEspacioId(1), this.getContext());
+        RecyclerAdapterTags adapter = new RecyclerAdapterTags(this.tagService.filterTagsByEspacioId(espacio.getId()), this.getContext());
 
         recyclerView.setAdapter(adapter);
 

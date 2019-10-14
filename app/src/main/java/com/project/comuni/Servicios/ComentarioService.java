@@ -26,7 +26,7 @@ public class ComentarioService {
                 "10/09/2019"
         ));
         comentarios.add(new Comentario(
-                2,
+                3,
                 postService.filterPostById(1),
                 usuarioService.getProfesor(),
                 "Si chicos, entra todo lo que vimos hasta la última clase.",
@@ -40,5 +40,16 @@ public class ComentarioService {
 
     public ArrayList<Comentario> getComentarios() {
         return comentarios;
+    }
+
+    public ArrayList<Comentario> getComentariosByEspacioId(int id) {
+
+        ArrayList<Comentario> comentariosAux = new ArrayList<>();
+        for (Comentario comentario:this.getComentarios()) {
+            if (comentario.getPost().getId() == id){
+                comentariosAux.add(comentario);
+            }
+        }
+        return comentariosAux;
     }
 }

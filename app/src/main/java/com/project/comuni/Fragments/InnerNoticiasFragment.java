@@ -45,8 +45,8 @@ public class InnerNoticiasFragment extends Fragment {
         texto.setText(this.noticia.getTexto());
         usuario.setText(this.noticia.getUsuario().getNombre() +" " + this.noticia.getUsuario().getApellido());
         imagenUsuario.setImageResource(this.noticia.getImagen());
-
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

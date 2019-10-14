@@ -25,12 +25,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class PlacesFragment extends Fragment {
 
     private ArrayList<Post> posts = new ArrayList<>();
     private PostService postService = new PostService();
+
+    private Espacio espacioActual = new Espacio();
 
     private EspacioService espacioService = new EspacioService();
 
@@ -57,8 +60,9 @@ public class PlacesFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Espacio espacio = (Espacio) adapterView.getSelectedItem();
-                posts = postService.filterByEspacioId(espacio.getId());
+                espacioActual = (Espacio) adapterView.getSelectedItem();
+
+                posts = postService.filterByEspacioId(espacioActual.getId());
 
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 RecyclerAdapterPlaces adapter = new RecyclerAdapterPlaces(posts, getContext());
@@ -76,6 +80,9 @@ public class PlacesFragment extends Fragment {
             public void onClick(View view) {
                 AppCompatActivity activity = (MainActivity) view.getContext();
                 Fragment myFragment = new CreatePostFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("espacioActual", espacioActual);
+                myFragment.setArguments(args);
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
 
             }

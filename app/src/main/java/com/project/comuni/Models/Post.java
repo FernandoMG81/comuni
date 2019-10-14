@@ -1,10 +1,11 @@
 package com.project.comuni.Models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
 
-public class Post {
+public class Post implements Serializable {
 
     private int id = -1;
     private Espacio espacio;

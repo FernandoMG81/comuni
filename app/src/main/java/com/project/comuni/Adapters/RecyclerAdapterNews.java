@@ -68,9 +68,8 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
 
         holder.RL.setOnClickListener((view)-> {
             this.noticia = noticias.get(position);
+            Toast.makeText(context, noticia.getTitulo(), Toast.LENGTH_SHORT).show();
             onClick(holder.RL);
-            Toast.makeText(context, noticias.get(position).getTitulo(), Toast.LENGTH_SHORT).show();
-
         });
     }
 
@@ -78,8 +77,6 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
     public int getItemCount() {
         return noticias.size();
     }
-
-
 
     @Override
     public void onClick(View view) {
