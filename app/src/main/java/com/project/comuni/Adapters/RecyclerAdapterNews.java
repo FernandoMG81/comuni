@@ -35,6 +35,8 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
     private View.OnClickListener listener;
 
     private ArrayList<Noticia> noticias;
+    private Noticia noticia;
+
     private OnItemListener mOnItemListener;
     private Context context;
     private String txtPrueba;
@@ -65,6 +67,7 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
         holder.imagenUsuario.setImageResource(noticias.get(position).getImagen());
 
         holder.RL.setOnClickListener((view)-> {
+            this.noticia = noticias.get(position);
             onClick(holder.RL);
             Toast.makeText(context, noticias.get(position).getTitulo(), Toast.LENGTH_SHORT).show();
 
@@ -83,7 +86,7 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
         AppCompatActivity activity = (MainActivity) view.getContext();
         Fragment myFragment = new InnerNoticiasFragment();
         Bundle args = new Bundle();
-        args.putString("texto", txtPrueba);
+        args.putSerializable("noticia", this.noticia);
         myFragment.setArguments(args);
         activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
 
