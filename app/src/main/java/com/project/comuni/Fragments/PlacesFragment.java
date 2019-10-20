@@ -39,7 +39,7 @@ public class PlacesFragment extends Fragment {
 
     private Spinner spinner;
     private RecyclerView recyclerView;
-    private Button button;
+    private Button newPlaceButton;
 
     @Nullable
     @Override
@@ -51,7 +51,7 @@ public class PlacesFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.RVPlaces);
         spinner = view.findViewById(R.id.PlacesSpinner);
-        button = view.findViewById(R.id.PlacesButton);
+        newPlaceButton = view.findViewById(R.id.PlacesButton);
 
         ArrayAdapter<Espacio> spinnerAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_item, espacioService.getEspacios());
 
@@ -75,7 +75,7 @@ public class PlacesFragment extends Fragment {
             }
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
+        newPlaceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity = (MainActivity) view.getContext();
@@ -84,7 +84,6 @@ public class PlacesFragment extends Fragment {
                 args.putSerializable("espacioActual", espacioActual);
                 myFragment.setArguments(args);
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
-
             }
         });
 

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.addNewsFragment">
+
+
+    <EditText
+        android:id="@+id/CreateNewsTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/searchbox"
+        android:hint="Titulo de la noticia"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:queryHint="Buscar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></EditText>
+
+    <EditText
+        android:id="@+id/CreateNewsDescripción"
+        android:layout_width="match_parent"
+        android:layout_height="319dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/searchbox"
+        android:gravity="top|left"
+        android:hint="Descripción de la noticia"
+        android:inputType="textMultiLine"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:queryHint="Buscar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/CreateNewsTitulo">
+
+    </EditText>
+
+    <ImageView
+        android:id="@+id/postNews"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@drawable/circle_bg"
+        android:src="@drawable/ic_edit_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/CreateNewsDescripción"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/CreateNewsDescripción" />
+
+    <ProgressBar
+        android:visibility="invisible"
+        android:id="@+id/progressBarNews"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/postNews"
+        app:layout_constraintEnd_toEndOf="@+id/postNews"
+        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintStart_toStartOf="@+id/postNews"
+        app:layout_constraintTop_toTopOf="@+id/postNews" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

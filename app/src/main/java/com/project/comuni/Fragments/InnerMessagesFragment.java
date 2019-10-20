@@ -26,7 +26,7 @@ public class InnerMessagesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_news, container, false);
         Intent intent = new Intent(getActivity(), MensajeriaActivity.class);
         getActivity().startActivity(intent);
         return view;
