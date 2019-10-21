@@ -33,7 +33,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="right"
-                    android:background="@drawable/damian_natale" />
+                    android:background="@mipmap/user_default" />
             </androidx.cardview.widget.CardView>
 
             <LinearLayout

@@ -10,14 +10,14 @@ public class UsuarioService {
             1,
             "Damian",
             "Natale",
-            R.drawable.damian_natale,
+            R.mipmap.user_default,
             "asdasd");
 
     private Usuario alumno5 = new Usuario(
             5,
             "Kara",
             "Johnson",
-            R.drawable.mujer,
+            R.mipmap.user_default,
             "asdasd");
 
     private Usuario alumno1 = new Usuario(
@@ -31,7 +31,7 @@ public class UsuarioService {
             3,
             "Fernando",
             "Gordillo",
-            R.drawable.bruce,
+            R.mipmap.user_default,
             "asdasd");
 
     private Usuario alumno3 = new Usuario(
@@ -45,7 +45,7 @@ public class UsuarioService {
             5,
             "Diana",
             "Kent",
-            R.drawable.mujer_maravilla,
+            R.mipmap.user_default,
             "asdasd");
 
     public UsuarioService() { }

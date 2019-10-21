@@ -1,15 +1,24 @@
 package com.project.comuni.Fragments;
 
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toolbar;
 
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Adapters.RecyclerAdapterNews;
 import com.project.comuni.Models.Noticia;
@@ -30,8 +39,12 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItemListener {
 
     private ArrayList<Noticia> noticias = new ArrayList<>();
-    private Button addNewsButton;
+    private FloatingActionButton addNewsButton;
     private RecyclerView recyclerNews;
+    private Dialog popAddNews;
+    private ImageView popupAddBtn;
+    private TextView popupTitle, popupDescription;
+    ProgressBar popupClickProgress;
 
 
     @Nullable
@@ -45,6 +58,9 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
         recyclerNews.setLayoutManager(new LinearLayoutManager(getContext()));
         NoticiaService noticiaService= new NoticiaService();
 
+        //Dialog nueva noticia
+        iniPopup();
+
         this.noticias = noticiaService.getNoticias();
 
         RecyclerAdapterNews adapter = new RecyclerAdapterNews(this.noticias, this.getContext(),this);
@@ -54,17 +70,39 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
         addNewsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppCompatActivity activity = (MainActivity) view.getContext();
-                Fragment myFragment = new addNewsFragment();
-                Bundle args = new Bundle();
-                //args.putSerializable("NoticiaActual", noticiaActual);
-                myFragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
-
+                popAddNews.show();
             }
         });
 
         return view;
+
+
+    }
+
+    private void iniPopup() {
+        popAddNews = new Dialog(getContext());
+        popAddNews.setContentView(R.layout.fragment_add_news);
+        popAddNews.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popAddNews.getWindow().setLayout(Toolbar.LayoutParams.MATCH_PARENT,Toolbar.LayoutParams.WRAP_CONTENT);
+        popAddNews.getWindow().getAttributes().gravity = Gravity.TOP;
+
+        //Inicio de los widgets
+
+        popupTitle = popAddNews.findViewById(R.id.createNewsTitulo);
+        popupDescription = popAddNews.findViewById(R.id.createNewsDescripción);
+        popupClickProgress = popAddNews.findViewById(R.id.createProgressBarNews);
+        popupAddBtn = popAddNews.findViewById(R.id.createPostNews);
+
+
+        //Agregar Noticia Listener
+
+        popupAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupAddBtn.setVisibility(View.INVISIBLE);
+                popupClickProgress.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override

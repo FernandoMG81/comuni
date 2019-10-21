@@ -5,7 +5,7 @@
 
     <item>
         <bitmap android:gravity="fill"
-            android:src="@drawable/fondo_log2"/>
+            android:src="@mipmap/fondo_log2"/>
 
     </item>
 </layer-list>

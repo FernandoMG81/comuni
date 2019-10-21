@@ -40,7 +40,7 @@
                     android:id="@+id/imageViewFotoUsuario"
                     android:layout_width="107dp"
                     android:layout_height="107dp"
-                    android:background="@drawable/damian_natale" />
+                    android:background="@mipmap/user_default" />
 
                 <TextView
                     android:id="@+id/textViewIsNew"
