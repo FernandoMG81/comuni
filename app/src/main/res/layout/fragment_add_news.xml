@@ -19,7 +19,6 @@
         android:hint="Titulo de la noticia"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:queryHint="Buscar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></EditText>
@@ -37,7 +36,6 @@
         android:inputType="textMultiLine"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:queryHint="Buscar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createNewsTitulo">

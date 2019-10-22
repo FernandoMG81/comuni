@@ -43,8 +43,8 @@ public class InnerNoticiasFragment extends Fragment {
 
         titulo.setText(this.noticia.getTitulo());
         texto.setText(this.noticia.getTexto());
-        usuario.setText(this.noticia.getUsuario().getNombre() +" " + this.noticia.getUsuario().getApellido());
-        imagenUsuario.setImageResource(this.noticia.getImagen());
+        //usuario.setText(this.noticia.getUsuario().getNombre() +" " + this.noticia.getUsuario().getApellido());
+        //imagenUsuario.setImageResource(this.noticia.getImagen()); // TODO Traer imagen del creador
     }
 
     @Nullable

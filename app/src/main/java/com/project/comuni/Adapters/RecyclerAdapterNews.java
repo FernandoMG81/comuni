@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Fragments.InnerNoticiasFragment;
 import com.project.comuni.Models.Noticia;
@@ -34,7 +35,6 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
 
     private OnItemListener mOnItemListener;
     private Context context;
-    private String txtPrueba;
 
     public RecyclerAdapterNews(ArrayList<Noticia> noticias, Context context, OnItemListener onItemListener) {
         this.noticias = noticias;
@@ -59,7 +59,8 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
         holder.Titulo.setText(noticias.get(position).getTitulo());
         holder.Texto.setText(TextoTruncado);
         holder.Fecha.setText(noticias.get(position).getCreated());
-        holder.imagenUsuario.setImageResource(noticias.get(position).getImagen());
+        //Glide.with(context).load(noticias.get(position).).into(holder.imgPostProfile);
+        //holder.imagenUsuario.setImageResource(noticias.get(position).getImagen()); // TODO Traer imagen del creador
 
         holder.RL.setOnClickListener((view)-> {
             this.noticia = noticias.get(position);

@@ -1,45 +1,52 @@
 package com.project.comuni.Models;
 
 
-import android.media.Image;
+import com.google.firebase.database.ServerValue;
 
 import java.io.Serializable;
 
 public class Noticia implements Serializable {
 
-    private int id;
-    private Usuario usuario;
+    private String newsKey;
+    private String userId;
     private String titulo;
     private String texto;
     private String created;
-    private int imagen;
+    private Object timeStamp;
 
     public Noticia() { }
 
-    public Noticia(int id, Usuario usuario, String titulo, String texto, String created, int imagen) {
-        this.id = id;
-        this.usuario = usuario;
+    public Noticia(String userId, String titulo, String texto) {
+        this.userId = userId;
         this.titulo = titulo;
         this.texto = texto;
-        this.created = created;
-        this.imagen = imagen;
-
+        //this.created = created;
+        //this.imagen = imagen;
+        this.timeStamp = ServerValue.TIMESTAMP;
     }
 
-    public int getId() {
-        return id;
+    public Object getTimeStamp() {
+        return timeStamp;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTimeStamp(Object timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public String getNewsKey() {
+        return newsKey;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setNewsKey(String newsKey) {
+        this.newsKey = newsKey;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getTitulo() {
@@ -66,12 +73,6 @@ public class Noticia implements Serializable {
         this.created = created;
     }
 
-    public int getImagen() {
-        return imagen;
-    }
 
-    public void setImagen(int imagen) {
-        this.imagen = imagen;
-    }
 }
 
