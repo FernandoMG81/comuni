@@ -1,4 +1,4 @@
-package com.project.comuni.Fragments;
+package com.project.comuni.Fragments.Espacios;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,7 +13,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.project.comuni.Activities.MainActivity;
-import com.project.comuni.Adapters.RecyclerAdapterPlaces;
+import com.project.comuni.Adapters.Espacios.RecyclerAdapterPlaces;
+import com.project.comuni.Fragments.Espacios.CreatePostFragment;
 import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Post;
 import com.project.comuni.R;

@@ -1,4 +1,4 @@
-package com.project.comuni.Fragments;
+package com.project.comuni.Fragments.Mensajes;
 
 
 import android.content.Intent;

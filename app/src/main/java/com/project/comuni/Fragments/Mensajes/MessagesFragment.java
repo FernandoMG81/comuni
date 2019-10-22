@@ -1,4 +1,4 @@
-package com.project.comuni.Fragments;
+package com.project.comuni.Fragments.Mensajes;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,28 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.project.comuni.Activities.ListadoUsuariosActivity;
-import com.project.comuni.Models.Firebase.User;
 import com.project.comuni.Models.Mensaje;
 import com.project.comuni.Servicios.MensajeService;
 
 import com.project.comuni.R;
-import com.project.comuni.Adapters.RecyclerAdapterMessages;
-import com.project.comuni.Servicios.UsuarioService;
+import com.project.comuni.Adapters.Mensajes.RecyclerAdapterMessages;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import java.util.ArrayList;
 

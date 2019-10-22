@@ -1,4 +1,4 @@
-package com.project.comuni.Adapters;
+package com.project.comuni.Adapters.Espacios;
 
 import android.content.Context;
 import android.util.Log;
@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.comuni.Models.Comentario;
-import com.project.comuni.Models.Post;
 import com.project.comuni.R;
 
 import java.util.ArrayList;

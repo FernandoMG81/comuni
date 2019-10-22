@@ -1,13 +1,11 @@
-package com.project.comuni.Fragments;
+package com.project.comuni.Fragments.Espacios;
 
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,23 +15,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.project.comuni.Adapters.RecyclerAdapterTags;
+import com.project.comuni.Adapters.Espacios.RecyclerAdapterTags;
 import com.project.comuni.Models.Espacio;
-import com.project.comuni.Models.Noticia;
 import com.project.comuni.Models.Post;
-import com.project.comuni.Models.Tag;
 import com.project.comuni.R;
-import com.project.comuni.Servicios.NoticiaService;
 import com.project.comuni.Servicios.TagService;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 
 public class CreatePostFragment extends Fragment {
 

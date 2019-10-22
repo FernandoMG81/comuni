@@ -1,4 +1,4 @@
-package com.project.comuni.Adapters;
+package com.project.comuni.Adapters.Espacios;
 
 import android.content.Context;
 import android.util.Log;

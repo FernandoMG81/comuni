@@ -1,4 +1,4 @@
-package com.project.comuni.Fragments;
+package com.project.comuni.Fragments.Espacios;
 
 
 import android.graphics.Color;
@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.project.comuni.Adapters.RecyclerAdapterComentarios;
+import com.project.comuni.Adapters.Espacios.RecyclerAdapterComentarios;
 import com.project.comuni.Models.Comentario;
 import com.project.comuni.Models.Post;
 import com.project.comuni.R;

@@ -1,4 +1,4 @@
-package com.project.comuni.Adapters;
+package com.project.comuni.Adapters.Mensajes;
 
 import android.content.Context;
 import android.view.LayoutInflater;

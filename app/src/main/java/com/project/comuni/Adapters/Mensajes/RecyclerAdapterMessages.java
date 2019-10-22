@@ -1,4 +1,4 @@
-package com.project.comuni.Adapters;
+package com.project.comuni.Adapters.Mensajes;
 
 import android.content.Context;
 import android.util.Log;
@@ -15,8 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.comuni.Activities.MainActivity;
-import com.project.comuni.Fragments.InnerMessagesFragment;
-import com.project.comuni.Fragments.InnerNoticiasFragment;
+import com.project.comuni.Fragments.Mensajes.InnerMessagesFragment;
 import com.project.comuni.Models.Mensaje;
 import com.project.comuni.R;
 

@@ -1,4 +1,4 @@
-package com.project.comuni.Fragments;
+package com.project.comuni.Fragments.Noticias;
 
 
 import android.app.Dialog;
@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,27 +20,18 @@ import android.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.project.comuni.Activities.MainActivity;
-import com.project.comuni.Adapters.RecyclerAdapterNews;
+import com.project.comuni.Adapters.Noticias.RecyclerAdapterNews;
 import com.project.comuni.Models.Noticia;
 import com.project.comuni.Persistencia.UsuarioDAO;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.NoticiaService;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;

@@ -1,4 +1,4 @@
-package com.project.comuni.Fragments;
+package com.project.comuni.Fragments.Noticias;
 
 
 import android.os.Bundle;

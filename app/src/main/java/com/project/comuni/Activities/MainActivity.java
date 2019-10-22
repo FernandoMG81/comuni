@@ -15,9 +15,9 @@ import android.widget.TextView;
 
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.project.comuni.Fragments.NewsFragment;
-import com.project.comuni.Fragments.MessagesFragment;
-import com.project.comuni.Fragments.PlacesFragment;
+import com.project.comuni.Fragments.Noticias.NewsFragment;
+import com.project.comuni.Fragments.Mensajes.MessagesFragment;
+import com.project.comuni.Fragments.Espacios.PlacesFragment;
 import com.project.comuni.Persistencia.UsuarioDAO;
 import com.project.comuni.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

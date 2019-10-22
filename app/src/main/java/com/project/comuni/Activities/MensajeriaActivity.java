@@ -28,21 +28,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.project.comuni.Adapters.RAdapterMensajes;
+import com.project.comuni.Adapters.Mensajes.RAdapterMensajes;
 
 import com.project.comuni.Models.Firebase.MensajePersonal;
-import com.project.comuni.Models.Firebase.User;
 import com.project.comuni.Models.Logica.LMensajePersonal;
 import com.project.comuni.Models.Logica.LUser;
 import com.project.comuni.Persistencia.MensajeriaDAO;

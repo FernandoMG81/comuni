@@ -1,4 +1,4 @@
-package com.project.comuni.Adapters;
+package com.project.comuni.Adapters.Noticias;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -16,9 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.project.comuni.Activities.MainActivity;
-import com.project.comuni.Fragments.InnerNoticiasFragment;
+import com.project.comuni.Fragments.Noticias.InnerNoticiasFragment;
 import com.project.comuni.Models.Noticia;
 import com.project.comuni.R;
 

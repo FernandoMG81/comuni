@@ -1,4 +1,4 @@
-package com.project.comuni.Fragments;
+package com.project.comuni.Fragments.Noticias;
 
 
 import android.os.Bundle;
@@ -11,15 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.project.comuni.Adapters.RecyclerAdapterNews;
 import com.project.comuni.Models.Noticia;
 import com.project.comuni.R;
-import com.project.comuni.Servicios.NoticiaService;
-
-import java.util.ArrayList;
 
 public class InnerNoticiasFragment extends Fragment {
 
