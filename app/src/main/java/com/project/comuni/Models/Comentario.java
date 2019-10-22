@@ -2,13 +2,13 @@ package com.project.comuni.Models;
 
 public class Comentario {
 
-    private int id;
+    private String id;
     private Post post;
     private Usuario usuario;
     private String texto;
     private String created;
 
-    public Comentario(int id, Post post, Usuario usuario, String texto, String created) {
+    public Comentario(String id, Post post, Usuario usuario, String texto, String created) {
         this.id = id;
         this.post = post;
         this.usuario = usuario;
@@ -19,11 +19,11 @@ public class Comentario {
     public Comentario() {
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

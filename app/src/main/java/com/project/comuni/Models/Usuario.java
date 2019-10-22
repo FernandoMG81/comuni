@@ -4,13 +4,16 @@ package com.project.comuni.Models;
 
 public class Usuario {
 
-    private int id = -1;
+    private String id = "-1";
     private String nombre = null;
     private String apellido = null;
     private int foto;
     private String creado = null;
 
-    public Usuario(int id, String nombre, String apellido, int foto, String creado) {
+    public Usuario() {
+    }
+
+    public Usuario(String id, String nombre, String apellido, int foto, String creado) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -18,11 +21,11 @@ public class Usuario {
         this.creado = creado;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -14,31 +14,31 @@ public class TagService {
 
     public void fillData(){
         tags.add(new Tag(
-                1,
+                "1",
                 new Espacio(),
                 "Importante",
                 "#EC6227",
                 "#ffffff"));
         tags.add(new Tag(
-                2,
+                "2",
                 espacioService.filterEspacioById("1"),
                 "Ayuda",
                 "#63a9ea",
                 "#ffffff"));
         tags.add(new Tag(
-                3,
+                "3",
                 espacioService.filterEspacioById("1"),
                 "Reuniones",
                 "#c3ea6f",
                 "#111111"));
         tags.add(new Tag(
-                4,
+                "4",
                 espacioService.filterEspacioById("4"),
                 "N° Binarios",
                 "#8B4513",
                 "#ffffff"));
         tags.add(new Tag(
-                5,
+                "5",
                 espacioService.filterEspacioById("4"),
                 "Disco",
                 "#FBFB82",
@@ -56,7 +56,7 @@ public class TagService {
         return filterTags;
     }
 
-    public Tag filterTagById(int id) {
+    public Tag filterTagById(String id) {
         for (Tag tag : tags) {
             if (tag.getId() == id) {
                 return tag;

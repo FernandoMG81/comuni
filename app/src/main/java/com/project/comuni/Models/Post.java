@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Post implements Serializable {
 
-    private int id = -1;
+    private String id = "-1";
     private Espacio espacio;
     private Usuario usuario;
     private String titulo;
@@ -16,7 +16,7 @@ public class Post implements Serializable {
     private Tag tag;
     private String creado = null;
 
-    public Post(int id, Espacio espacio, Usuario usuario, String titulo, String texto, int upvotes, Tag tag, String creado) {
+    public Post(String id, Espacio espacio, Usuario usuario, String titulo, String texto, int upvotes, Tag tag, String creado) {
         this.id = id;
         this.espacio = espacio;
         this.usuario = usuario;
@@ -29,11 +29,11 @@ public class Post implements Serializable {
 
     public Post() {    }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

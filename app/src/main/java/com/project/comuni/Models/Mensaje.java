@@ -3,13 +3,13 @@ package com.project.comuni.Models;
 
 public class Mensaje {
 
-    private int id;
+    private String id;
     private Usuario Emisor;
     private Usuario Receptor;
     private String texto;
     private String created;
 
-    public Mensaje(int id, Usuario emisor, Usuario receptor, String texto, String created) {
+    public Mensaje(String id, Usuario emisor, Usuario receptor, String texto, String created) {
         this.id = id;
         Emisor = emisor;
         Receptor = receptor;
@@ -17,11 +17,11 @@ public class Mensaje {
         this.created = created;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

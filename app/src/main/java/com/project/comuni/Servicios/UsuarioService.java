@@ -7,42 +7,42 @@ import com.project.comuni.R;
 
 public class UsuarioService {
     private Usuario profesor = new Usuario(
-            1,
+            "1",
             "Damian",
             "Natale",
             R.mipmap.user_default,
             "asdasd");
 
     private Usuario alumno5 = new Usuario(
-            5,
+            "5",
             "Kara",
             "Johnson",
             R.mipmap.user_default,
             "asdasd");
 
     private Usuario alumno1 = new Usuario(
-            2,
+            "2",
             "Javier",
             "Angelelli",
             R.mipmap.javier_angelelli,
             "asdasd");
 
     private Usuario alumno2 = new Usuario(
-            3,
+            "3",
             "Fernando",
             "Gordillo",
             R.mipmap.user_default,
             "asdasd");
 
     private Usuario alumno3 = new Usuario(
-            4,
+            "4",
             "Alan",
             "Murua",
             R.mipmap.user_default,
             "asdasd");
 
     private Usuario alumno4 = new Usuario(
-            5,
+            "5",
             "Diana",
             "Kent",
             R.mipmap.user_default,

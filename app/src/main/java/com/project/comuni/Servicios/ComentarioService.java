@@ -11,23 +11,23 @@ public class ComentarioService {
 
     public void fillData() {
         comentarios.add(new Comentario(
-                1,
-                postService.filterPostById(1),
+                "1",
+                postService.filterPostById("1"),
                 usuarioService.getAlumno1(),
                 "Matrices entra profe?",
                 "10/09/2019"
         ));
 
         comentarios.add(new Comentario(
-                2,
-                postService.filterPostById(1),
+                "2",
+                postService.filterPostById("1"),
                 usuarioService.getAlumno3(),
                 "Yo entendi que matrices si lo toma.",
                 "10/09/2019"
         ));
         comentarios.add(new Comentario(
-                3,
-                postService.filterPostById(1),
+                "3",
+                postService.filterPostById("1"),
                 usuarioService.getProfesor(),
                 "Si chicos, entra todo lo que vimos hasta la última clase.",
                 "10/09/2019"
@@ -42,7 +42,7 @@ public class ComentarioService {
         return comentarios;
     }
 
-    public ArrayList<Comentario> getComentariosByEspacioId(int id) {
+    public ArrayList<Comentario> getComentariosByEspacioId(String id) {
 
         ArrayList<Comentario> comentariosAux = new ArrayList<>();
         for (Comentario comentario:this.getComentarios()) {

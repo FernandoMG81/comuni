@@ -24,19 +24,32 @@ import com.project.comuni.Servicios.TagService;
 
 public class CreatePostFragment extends Fragment {
 
+    //Db
+    private FirebaseStorage dbF;
+
+    //Variables
     private  TagService tagService = new TagService();
     private Espacio espacio;
 
+    //Layout
     private TextView titulo;
     private TextView descripcion;
+    private RecyclerView recyclerView;
     private Button submit;
 
-    private FirebaseStorage dbF;
+    private void getData() {
+        Bundle bundle = getArguments();
+        this.espacio = (Espacio) bundle.getSerializable("espacioActual");
+    }
 
-    public void setLayout(View view){
+    private void setLayoutReference(View view){
         titulo = view.findViewById(R.id.CreatePostTitulo);
         descripcion = view.findViewById(R.id.CreatePostDescripción);
         submit = view.findViewById(R.id.CreatePostSubmit);
+        recyclerView = view.findViewById(R.id.RVTags);
+    }
+
+    private void setBoton(){
         submit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -51,12 +64,13 @@ public class CreatePostFragment extends Fragment {
         });
     }
 
-    public void setEspacio() {
-        Bundle bundle = getArguments();
-        this.espacio = (Espacio) bundle.getSerializable("espacioActual");
+    private void setRecyclerTags(){
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        RecyclerAdapterTags adapter = new RecyclerAdapterTags(this.tagService.filterTagsByEspacioId(espacio.getId()), this.getContext());
+        recyclerView.setAdapter(adapter);
     }
 
-//    public void GuardarDatos(){
+    private void GuardarDatos(){
 //        dbF = FirebaseStorage.getInstance();
 //        FirebaseDatabase
 //                .getInstance()
@@ -65,23 +79,17 @@ public class CreatePostFragment extends Fragment {
 //                .addChildEventListener(new ChildEventListener() {
 //                //asd
 //                }
-//    }
-
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        setEspacio();
         View view = inflater.inflate(R.layout.fragment_create_post, container, false);
-        setLayout(view);
 
-        RecyclerView recyclerView = view.findViewById(R.id.RVTags);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        RecyclerAdapterTags adapter = new RecyclerAdapterTags(this.tagService.filterTagsByEspacioId(espacio.getId()), this.getContext());
-
-        recyclerView.setAdapter(adapter);
+        getData();
+        setLayoutReference(view);
+        setRecyclerTags();
+        setBoton();
 
         return view;
     }

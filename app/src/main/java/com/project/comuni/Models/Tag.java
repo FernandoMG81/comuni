@@ -2,13 +2,13 @@ package com.project.comuni.Models;
 
 public class Tag {
 
-    private int id;
+    private String id;
     private Espacio espacio;
     private String text;
     private String backgroundColor;
     private String textColor;
 
-    public Tag(int id, Espacio espacio, String text, String backgroundColor, String textColor) {
+    public Tag(String id, Espacio espacio, String text, String backgroundColor, String textColor) {
         this.id = id;
         this.espacio = espacio;
         this.text = text;
@@ -19,11 +19,11 @@ public class Tag {
     public Tag() {
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

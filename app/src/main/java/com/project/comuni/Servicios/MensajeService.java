@@ -80,35 +80,35 @@ public class MensajeService {
 
     private ArrayList<Mensaje> fillData() {
 
-        mensajes.add(new Mensaje(1,
+        mensajes.add(new Mensaje("1",
                 usuarioService.getProfesor(),
                 usuarioService.getAlumno4(),
                 "Recorda traer el justificativo mañana.",
                 "15/09;"
         ));
 
-        mensajes.add(new Mensaje(2,
+        mensajes.add(new Mensaje("2",
                 usuarioService.getAlumno5(),
                 usuarioService.getProfesor(),
                 "Che, de casualidad,tendrás los apuntes de progrmación al día?",
                 "10/09;"
         ));
 
-        mensajes.add(new Mensaje(3,
+        mensajes.add(new Mensaje("3",
                 usuarioService.getAlumno3(),
                 usuarioService.getProfesor(),
                 "Mañana sale juntarnos a estudiar? Me esta volviendo loco esto del switch.",
                 "15/09;"
         ));
 
-        mensajes.add(new Mensaje(4,
+        mensajes.add(new Mensaje("4",
                 usuarioService.getAlumno4(),
                 usuarioService.getProfesor(),
                 "Hiciste el TP 2? Necesito una mano si podés.",
                 "15/09;"
         ));
 
-        mensajes.add(new Mensaje(5,
+        mensajes.add(new Mensaje("5",
                 usuarioService.getAlumno1(),
                 usuarioService.getProfesor(),
                 "No encuentro mis apuntes...",
