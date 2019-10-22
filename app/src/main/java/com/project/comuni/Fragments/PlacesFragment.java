@@ -37,7 +37,7 @@ public class PlacesFragment extends Fragment {
     private ArrayList<Espacio> espacios = new ArrayList<>();
 
     //Variables Filtrado
-    private String searchText;
+    private String searchText = "";
     private Espacio espacioActual = new Espacio();
 
     // Layout
@@ -79,6 +79,7 @@ public class PlacesFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
                 searchText = editable.toString();
                 filterData();
+                setRecycler();
             }
         });
     }
@@ -110,12 +111,17 @@ public class PlacesFragment extends Fragment {
 
     private void filterData(){
 
-        //post.getTitulo() == searchText || post.getTexto() ==searchText)
-        //                 &
-
+        postsAMostrar.clear();
         for (Post post: posts){
-            if ( (post.getEspacio().getId() == espacioActual.getId() )){
-                postsAMostrar.add(post);
+            if (post.getEspacio().getId() == espacioActual.getId()){
+                if (!searchText.isEmpty()){
+                    if (post.getTitulo().contains(searchText) || post.getTexto().contains(searchText)){
+                        postsAMostrar.add(post);
+                    }
+                }
+                else {
+                    postsAMostrar.add(post);
+                }
             }
         }
     }
@@ -142,9 +148,7 @@ public class PlacesFragment extends Fragment {
         getData();
         setLayout(view);
         setSpinner();
-//        setSearch();
-        filterData();
-//        setRecycler();
+        setSearch();
         setAddButton();
         return view;
     }
