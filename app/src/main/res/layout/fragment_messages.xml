@@ -49,7 +49,7 @@
             </ImageView>
 
             <EditText
-                android:id="@+id/NewsSearch"
+                android:id="@+id/MessagesSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/searchbox"
