@@ -1,16 +1,18 @@
 package com.project.comuni.Fragments;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.project.comuni.Activities.MainActivity;
-import com.project.comuni.Adapters.RecyclerAdapterMessages;
 import com.project.comuni.Adapters.RecyclerAdapterPlaces;
 import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Post;
@@ -25,56 +27,100 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class PlacesFragment extends Fragment {
 
+    //Variables Datos
     private ArrayList<Post> posts = new ArrayList<>();
-    private PostService postService = new PostService();
+    private ArrayList<Post> postsAMostrar = new ArrayList<>();
+    private ArrayList<Espacio> espacios = new ArrayList<>();
 
+    //Variables Filtrado
+    private String searchText;
     private Espacio espacioActual = new Espacio();
 
-    private EspacioService espacioService = new EspacioService();
-
+    // Layout
+    private EditText search;
     private Spinner spinner;
     private RecyclerView recyclerView;
     private Button newPlaceButton;
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-
-
-        View view = inflater.inflate(R.layout.fragment_places, container, false);
-
+    public void setLayout(View view){
+        search = view.findViewById(R.id.NewsSearch);
         recyclerView = view.findViewById(R.id.RVPlaces);
         spinner = view.findViewById(R.id.PlacesSpinner);
         newPlaceButton = view.findViewById(R.id.PlacesButton);
+    }
 
-        ArrayAdapter<Espacio> spinnerAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_item, espacioService.getEspacios());
+    private void getData(){
+        PostService postService = new PostService();
+        posts = postService.getPosts();
 
+        EspacioService espacioService = new EspacioService();
+        espacios =  espacioService.getEspacios();
+
+
+    }
+
+    private void setSearch(){
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                searchText = editable.toString();
+                filterData();
+            }
+        });
+    }
+
+    private void setSpinner(){
+        ArrayAdapter<Espacio> spinnerAdapter = new ArrayAdapter<>(
+                this.getContext(), android.R.layout.simple_spinner_item, espacios);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 espacioActual = (Espacio) adapterView.getSelectedItem();
-
-                posts = postService.filterByEspacioId(espacioActual.getId());
-
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                RecyclerAdapterPlaces adapter = new RecyclerAdapterPlaces(posts, getContext());
-                recyclerView.setAdapter(adapter);
+                filterData();
+                setRecycler();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
+    }
 
+    private void setRecycler(){
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        RecyclerAdapterPlaces adapter = new RecyclerAdapterPlaces(postsAMostrar, getContext());
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void filterData(){
+
+        //post.getTitulo() == searchText || post.getTexto() ==searchText)
+        //                 &
+
+        for (Post post: posts){
+            if ( (post.getEspacio().getId() == espacioActual.getId() )){
+                postsAMostrar.add(post);
+            }
+        }
+    }
+
+    private void setAddButton(){
         newPlaceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,13 +132,20 @@ public class PlacesFragment extends Fragment {
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
             }
         });
-
-        return view;
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_places, container, false);
 
-
-    public void getSelectedEspacio(View view){
-        Espacio espacio = (Espacio) spinner.getSelectedItem();
+        getData();
+        setLayout(view);
+        setSpinner();
+//        setSearch();
+        filterData();
+//        setRecycler();
+        setAddButton();
+        return view;
     }
 }

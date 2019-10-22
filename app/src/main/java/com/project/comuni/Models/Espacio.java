@@ -4,25 +4,25 @@ import java.io.Serializable;
 
 public class Espacio implements Serializable {
 
-    private int id = -1;
+    private String id = "-1";
     private String nombre = null;
     private String texto = null;
     private String creado = null;
 
     public Espacio() { }
 
-    public Espacio(int id, String nombre, String texto, String creado) {
+    public Espacio(String id, String nombre, String texto, String creado) {
         this.id = id;
         this.nombre = nombre;
         this.texto = texto;
         this.creado = creado;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

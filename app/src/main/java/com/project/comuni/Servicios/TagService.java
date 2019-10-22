@@ -21,35 +21,35 @@ public class TagService {
                 "#ffffff"));
         tags.add(new Tag(
                 2,
-                espacioService.filterEspacioById(1),
+                espacioService.filterEspacioById("1"),
                 "Ayuda",
                 "#63a9ea",
                 "#ffffff"));
         tags.add(new Tag(
                 3,
-                espacioService.filterEspacioById(1),
+                espacioService.filterEspacioById("1"),
                 "Reuniones",
                 "#c3ea6f",
                 "#111111"));
         tags.add(new Tag(
                 4,
-                espacioService.filterEspacioById(4),
+                espacioService.filterEspacioById("4"),
                 "N° Binarios",
                 "#8B4513",
                 "#ffffff"));
         tags.add(new Tag(
                 5,
-                espacioService.filterEspacioById(4),
+                espacioService.filterEspacioById("4"),
                 "Disco",
                 "#FBFB82",
                 "#111111"));
 
     }
 
-    public ArrayList<Tag> filterTagsByEspacioId(int id) {
+    public ArrayList<Tag> filterTagsByEspacioId(String id) {
         ArrayList<Tag> filterTags = new ArrayList<>();
         for (Tag tag : tags) {
-            if (tag.getEspacio().getId() == id || tag.getEspacio().getId() == -1) {
+            if (tag.getEspacio().getId() == id || tag.getEspacio().getId() == "-1") {
                 filterTags.add(tag);
             }
         }

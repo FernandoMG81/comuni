@@ -29,7 +29,7 @@ public class PostService {
         return postsFiltrados;
     }
 
-    public ArrayList<Post> filterByEspacioId (int id){
+    public ArrayList<Post> filterByEspacioId (String id){
         ArrayList<Post> postsFiltrados = new ArrayList<>();
         for (Post post:posts) {
             if(post.getEspacio().getId()==id){
@@ -43,7 +43,7 @@ public class PostService {
     //Posteos Matematica
     Post post = new Post(
             1,
-            espacioService.filterEspacioById(1),
+            espacioService.filterEspacioById("1"),
             usuarioService.getProfesor(),
             "Recuerden que el 20/09 tenemos parcial.",
             "No van a poder usar calculadora, deberán traer solo lápiz, goma y papel.",
@@ -54,7 +54,7 @@ public class PostService {
     posts.add(post);
      post = new Post(
             2,
-            espacioService.filterEspacioById(1),
+            espacioService.filterEspacioById("1"),
             usuarioService.getAlumno3(),
             "¿Alguien resolvió el ejercicio 2.A?","Me da raiz cuadrada de -2. Eso es imposible no? Creo que la raiz cuadrada de -2 es un imposible.",
             4,
@@ -64,7 +64,7 @@ public class PostService {
      posts.add(post);
         post = new Post(
                 3,
-                espacioService.filterEspacioById(1),
+                espacioService.filterEspacioById("1"),
                 usuarioService.getAlumno1(),
                 "Alguien quiere juntarse a estudiar?",
                 "Vengo flojo para el parcial y me gustaría estudiar con alguien, asi podemos avanzar más rápido!",
@@ -75,7 +75,7 @@ public class PostService {
 
     post = new Post(
             4,
-            espacioService.filterEspacioById(1),
+            espacioService.filterEspacioById("1"),
             usuarioService.getAlumno4(),
             "¿Se puede sumar dos matrices de distinto orden?",
             "Hice la suma, pero no se si esta bien. Me da que es de 4*4, y para lo que vimos en clase, creo que se me hizo muy grande.",
@@ -88,7 +88,7 @@ public class PostService {
     //Posteos Programación
     post = new Post(
             5,
-            espacioService.filterEspacioById(2),
+            espacioService.filterEspacioById("2"),
             usuarioService.getProfesor(),
             "Hoy no voy a poder asistir a clases.",
             "Les pido perdón por avisar a tan corto plazo, pero ocurrió un imprevisto.",
@@ -98,7 +98,7 @@ public class PostService {
     posts.add(post);
     post = new Post (
             6,
-            espacioService.filterEspacioById(2),
+            espacioService.filterEspacioById("2"),
             usuarioService.getAlumno1(),
             "Problemas con el fopen",
             "¿Qué parametros toma?",
@@ -108,7 +108,7 @@ public class PostService {
     posts.add(post);
     post = new Post (
             7,
-            espacioService.filterEspacioById(2),
+            espacioService.filterEspacioById("2"),
             usuarioService.getAlumno4(),
             "¿Cómo era el tema del encapsulamiento?",
             "No entiendo como accedo a un atributo private si, justamente, lo hace inaccesible...",
@@ -120,7 +120,7 @@ public class PostService {
     //Posteos Laboratorio
     post = new Post(
             8,
-            espacioService.filterEspacioById(3),
+            espacioService.filterEspacioById("3"),
             usuarioService.getAlumno1(),
             "Problemas instalando SQLServer.",
             "¿Alguno me podrá pasar un tutorial?",
@@ -132,7 +132,7 @@ public class PostService {
         //Posteos Sistema de...
         post = new Post(
                 9,
-                espacioService.filterEspacioById(4),
+                espacioService.filterEspacioById("4"),
                 usuarioService.getAlumno1(),
                 "Ayuda con numeros Binarios",
                 "La verdad me pierdo un poco con el tema. Cuando los numeros " +
@@ -144,7 +144,7 @@ public class PostService {
 
         post = new Post(
                 10,
-                espacioService.filterEspacioById(4),
+                espacioService.filterEspacioById("4"),
                 usuarioService.getAlumno2(),
                 "Alguien para juntarse el sábado a estudiar?",
                 "Los primeros temas me va re bien. Si saben de lectura de disco, eso es lo que mas me falta.",
@@ -155,7 +155,7 @@ public class PostService {
 
         post = new Post(
                 10,
-                espacioService.filterEspacioById(4),
+                espacioService.filterEspacioById("4"),
                 usuarioService.getAlumno4(),
                 "El sistema Aiken",
                 "Me re pertido con este tema, y por lo poco que entiendo, es algo bastante importante",
