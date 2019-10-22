@@ -29,6 +29,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import static com.project.comuni.Utils.Util.filtrarString;
+
 public class PlacesFragment extends Fragment {
 
     //Variables Datos
@@ -46,7 +48,7 @@ public class PlacesFragment extends Fragment {
     private RecyclerView recyclerView;
     private Button newPlaceButton;
 
-    public void setLayout(View view){
+    public void setLayoutReferences(View view){
         search = view.findViewById(R.id.NewsSearch);
         recyclerView = view.findViewById(R.id.RVPlaces);
         spinner = view.findViewById(R.id.PlacesSpinner);
@@ -84,7 +86,7 @@ public class PlacesFragment extends Fragment {
         });
     }
 
-    private void setSpinner(){
+    private void setSpinnerEspacios(){
         ArrayAdapter<Espacio> spinnerAdapter = new ArrayAdapter<>(
                 this.getContext(), android.R.layout.simple_spinner_item, espacios);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -114,12 +116,9 @@ public class PlacesFragment extends Fragment {
         postsAMostrar.clear();
         for (Post post: posts){
             if (post.getEspacio().getId() == espacioActual.getId()){
-                if (!searchText.isEmpty()){
-                    if (post.getTitulo().contains(searchText) || post.getTexto().contains(searchText)){
-                        postsAMostrar.add(post);
-                    }
-                }
-                else {
+                if (filtrarString(post.getTitulo(), searchText) ||
+                    filtrarString (post.getTexto(), searchText))
+                {
                     postsAMostrar.add(post);
                 }
             }
@@ -146,8 +145,8 @@ public class PlacesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_places, container, false);
 
         getData();
-        setLayout(view);
-        setSpinner();
+        setLayoutReferences(view);
+        setSpinnerEspacios();
         setSearch();
         setAddButton();
         return view;
