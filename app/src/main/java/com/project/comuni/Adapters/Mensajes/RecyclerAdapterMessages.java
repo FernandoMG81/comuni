@@ -1,6 +1,7 @@
 package com.project.comuni.Adapters.Mensajes;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +20,13 @@ import com.project.comuni.Fragments.Mensajes.InnerMessagesFragment;
 import com.project.comuni.Models.Mensaje;
 import com.project.comuni.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapterMessages.ViewHolder>  implements View.OnClickListener {
     private static final String TAG = "RecyclerAdapterMessages";
 
-    private View.OnClickListener listener;
+    private Mensaje mensaje;
     private ArrayList<Mensaje> mensajes;
     private Context context;
 
@@ -49,7 +51,10 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
             holder.Contacto.setText(mensajes.get(position).getEmisor().getNombre() + " " + mensajes.get(position).getEmisor().getApellido());
             holder.Mensaje.setText(mensajes.get(position).getTexto());
            holder.FotoUsuario.setBackgroundResource(mensajes.get(position).getEmisor().getFoto());
-
+            holder.RL.setOnClickListener((view)->{
+                mensaje = mensajes.get(position);
+                onClick(view);
+            });
     }
 
     @Override
@@ -61,6 +66,8 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
     public void onClick(View view) {
         AppCompatActivity activity = (MainActivity) view.getContext();
         Fragment myFragment = new InnerMessagesFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("mensaje",(Serializable) mensaje);
         activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
 
     }

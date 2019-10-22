@@ -9,6 +9,8 @@ public class Mensaje {
     private String texto;
     private String created;
 
+    public Mensaje() { }
+
     public Mensaje(String id, Usuario emisor, Usuario receptor, String texto, String created) {
         this.id = id;
         Emisor = emisor;

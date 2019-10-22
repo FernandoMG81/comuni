@@ -40,6 +40,7 @@ import com.project.comuni.Adapters.Mensajes.RAdapterMensajes;
 import com.project.comuni.Models.Firebase.MensajePersonal;
 import com.project.comuni.Models.Logica.LMensajePersonal;
 import com.project.comuni.Models.Logica.LUser;
+import com.project.comuni.Models.Mensaje;
 import com.project.comuni.Models.Noticia;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.Persistencia.MensajeriaDAO;
@@ -81,7 +82,9 @@ public class InnerMessagesFragment extends Fragment {
 
     private void getData(){
         Bundle bundle = getArguments();
-        contacto = (Usuario) bundle.getSerializable("contacto");
+        Mensaje mensaje = new Mensaje();
+        mensaje = (Mensaje) bundle.getSerializable("mensaje");
+        //contacto =
     }
 
     private void setLayoutReference(View view){
