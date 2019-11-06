@@ -10,6 +10,25 @@ public class Usuario {
     private int foto;
     private String creado = null;
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    private String email = null;
+    private String contrasena = null;
+
     public Usuario() {
     }
 

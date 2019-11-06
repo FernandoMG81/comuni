@@ -3,7 +3,7 @@
     package="com.project.comuni">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.INTERNET "/>
     <application
         android:name=".Activities.delayIntro"
         android:allowBackup="true"
