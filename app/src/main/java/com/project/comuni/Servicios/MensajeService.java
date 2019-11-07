@@ -1,121 +1,99 @@
 package com.project.comuni.Servicios;
 
+import android.view.View;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Mensaje;
 import com.project.comuni.Models.Usuario;
+import com.project.comuni.Utils.FireUrl;
 
 import java.util.ArrayList;
 
 public class MensajeService {
-    private UsuarioService usuarioService = new UsuarioService();
-    private ArrayList<Mensaje> mensajes = new ArrayList<>();
+    private Db db;
 
-    public MensajeService() {
-        fillData();
+    private FireUrl url = new FireUrl("Mensajes");
+    private String urlUsuarioEmisor = "";
+    private String urlUsuarioReceptor = "";
+
+
+    private Go<Mensaje> mensaje;
+
+    private void setUrlUsuarios(){
+        urlUsuarioEmisor = url.AddKey(url.getRootInUsuarios(mensaje.getObject().getEmisor()),
+                            url.AddKey(url.getRoot(),
+                             mensaje.getObject().getReceptor().getKey()));
+        urlUsuarioReceptor = url.AddKey(url.getRootInUsuarios(mensaje.getObject().getReceptor()),
+                url.AddKey(url.getRoot(),
+                        mensaje.getObject().getEmisor().getKey()));
     }
 
-    public ArrayList<Mensaje> getMensajes() {
-        return mensajes;
+    public MensajeService(View v){
+        db = new Db(v);
+        mensaje = new Go<>();
+
     }
 
-    public  ArrayList<Mensaje> filterMensajesPorNVueltas (int numero){
-        ArrayList<Mensaje> mensajesFiltrados = new ArrayList<>();
-        for (int vuelta = 0; vuelta<numero; vuelta++){
-         mensajesFiltrados.add(mensajes.get(vuelta));
-        }
-        return mensajesFiltrados;
-    }
-//    public ArrayList<Mensaje> filterUnMensajePorContacto (Usuario usuarioLogueado){
-//
-//        ArrayList<Mensaje> mensajesFiltrados = new ArrayList<>();
-//        Boolean Agregar;
-//
-//
-//        for (Mensaje mensaje:mensajes) {
-//            Agregar = false;
-//            if ( (mensaje.getEmisor().getId() == usuarioLogueado.getId()) || (mensaje.getReceptor().getId() == usuarioLogueado.getId()) ){
-//               if (mensajesFiltrados.size()== 0){ Agregar = true; }
-//
-//                for (Mensaje mensajeFiltrado:mensajesFiltrados) {
-//                    if (mensaje.getReceptor().getId() == usuarioLogueado.getId() & mensajeFiltrado.getReceptor().getId() == usuarioLogueado.getId()) {
-//                        if(mensaje.getEmisor().getId() == mensajeFiltrado.getEmisor().getId()) {
-//                            Agregar = true;
-//                        }
-//                    }
-//                    else if (mensaje.getEmisor().getId() == usuarioLogueado.getId() & mensajeFiltrado.getEmisor().getId() == usuarioLogueado.getId()) {
-//                        if(mensaje.getReceptor().getId() == mensajeFiltrado.getReceptor().getId()) {
-//                            Agregar = true;
-//                        }
-//                    }
-//                    else if (mensaje.getReceptor().getId() == usuarioLogueado.getId() & mensajeFiltrado.getEmisor().getId() == usuarioLogueado.getId()) {
-//                        if(mensaje.getEmisor().getId() == mensajeFiltrado.getReceptor().getId()) {
-//                            Agregar = true;
-//                        }
-//                    }
-//                    else if (mensaje.getEmisor().getId() == usuarioLogueado.getId() & mensajeFiltrado.getReceptor().getId() == usuarioLogueado.getId()) {
-//                        if(mensaje.getReceptor().getId() == mensajeFiltrado.getEmisor().getId()) {
-//                            Agregar = true;
-//                        }
-//                    }
-//
-//                }
-//                if (Agregar == true) {
-//                    mensajesFiltrados.add(mensaje);
-//                }
-//            }
-//        }
-//        return mensajesFiltrados;
-//    }
-
-    public ArrayList<Mensaje> filterByEmisorNombre(String Nombre,String Apellido){
-
-        ArrayList<Mensaje> mensajesFiltrados = new ArrayList<>();
-
-        for (Mensaje mensaje:mensajes) {
-            if (mensaje.getEmisor().getNombre() == Nombre & mensaje.getEmisor().getApellido() == Apellido){
-              mensajesFiltrados.add(mensaje);
-            }
-        }
-        return mensajesFiltrados;
+    public MensajeService(View v, Go<Mensaje> mensajex){
+        db = new Db(v);
+        mensaje = mensajex;
+        setUrlUsuarios();
     }
 
-    private ArrayList<Mensaje> fillData() {
-
-        mensajes.add(new Mensaje("1",
-                usuarioService.getProfesor(),
-                usuarioService.getAlumno4(),
-                "Recorda traer el justificativo mañana.",
-                "15/09;"
-        ));
-
-        mensajes.add(new Mensaje("2",
-                usuarioService.getAlumno5(),
-                usuarioService.getProfesor(),
-                "Che, de casualidad,tendrás los apuntes de progrmación al día?",
-                "10/09;"
-        ));
-
-        mensajes.add(new Mensaje("3",
-                usuarioService.getAlumno3(),
-                usuarioService.getProfesor(),
-                "Mañana sale juntarnos a estudiar? Me esta volviendo loco esto del switch.",
-                "15/09;"
-        ));
-
-        mensajes.add(new Mensaje("4",
-                usuarioService.getAlumno4(),
-                usuarioService.getProfesor(),
-                "Hiciste el TP 2? Necesito una mano si podés.",
-                "15/09;"
-        ));
-
-        mensajes.add(new Mensaje("5",
-                usuarioService.getAlumno1(),
-                usuarioService.getProfesor(),
-                "No encuentro mis apuntes...",
-                "10/09;"
-        ));
-
-    return mensajes;
+    public boolean create (){
+        Boolean x = db.create(mensaje,urlUsuarioEmisor);
+        if (x == true){x = db.create(mensaje,urlUsuarioReceptor); }
+        return x;
     }
 
+    public boolean update (){
+        Boolean x = db.update(mensaje,urlUsuarioEmisor);
+        if (x == true){x = db.update(mensaje,urlUsuarioReceptor); }
+            return x;
+    }
+
+    public boolean delete(){
+        Boolean x = db.delete(mensaje,urlUsuarioEmisor);
+            if (x == true){x = db.delete(mensaje,urlUsuarioReceptor); }
+                return x;
+    }
+
+    public Go<Mensaje> getObject(){
+        db.DbRef().child(urlUsuarioEmisor)
+                .orderByKey()
+                .equalTo(mensaje.getKey())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        mensaje.setKey(snapshot.getKey());
+                        mensaje.setObject(snapshot.getValue(mensaje.getObject().getClass()));
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        mensaje = null;
+                    }
+                });
+        return mensaje;
+    }
+
+    public Go<Mensaje> getAllFromXandY(Go<Usuario> X, Go<Usuario> Y){
+        db.DbRef().child(url.AddKey(url.getRootInUsuarios(X),
+                          url.AddKey(url.getRoot(),
+                            Y.getKey())))
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        mensaje.setKey(snapshot.getKey());
+                        mensaje.setObject(snapshot.getValue(mensaje.getObject().getClass()));
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        mensaje = null;
+                    }
+                });
+        return mensaje;
+    }
 }

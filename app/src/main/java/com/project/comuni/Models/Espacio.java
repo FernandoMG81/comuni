@@ -1,29 +1,31 @@
 package com.project.comuni.Models;
 
+import androidx.annotation.Nullable;
+
 import java.io.Serializable;
+import java.util.Dictionary;
+import java.util.Map;
 
 public class Espacio implements Serializable {
 
-    private String id = "-1";
-    private String nombre = null;
-    private String texto = null;
-    private String creado = null;
+    private String nombre;
+    private String descripcion;
+    private Map<String,Usuario> administradores;
+    private Map<String,Usuario> miembros;
+    private String espacioUrl;
+    private String creado;
+    private String deleted;
 
     public Espacio() { }
 
-    public Espacio(String id, String nombre, String texto, String creado) {
-        this.id = id;
+    public Espacio(String nombre, String descripcion, Map<String, Usuario> administradores, Map<String, Usuario> miembros, String espacioUrl, String creado, String deleted) {
         this.nombre = nombre;
-        this.texto = texto;
+        this.descripcion = descripcion;
+        this.administradores = administradores;
+        this.miembros = miembros;
+        this.espacioUrl = espacioUrl;
         this.creado = creado;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        this.deleted = deleted;
     }
 
     public String getNombre() {
@@ -34,12 +36,36 @@ public class Espacio implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getTexto() {
-        return texto;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setTexto(String texto) {
-        this.texto = texto;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Map<String, Usuario> getAdministradores() {
+        return administradores;
+    }
+
+    public void setAdministradores(Map<String, Usuario> administradores) {
+        this.administradores = administradores;
+    }
+
+    public Map<String, Usuario> getMiembros() {
+        return miembros;
+    }
+
+    public void setMiembros(Map<String, Usuario> miembros) {
+        this.miembros = miembros;
+    }
+
+    public String getEspacioUrl() {
+        return espacioUrl;
+    }
+
+    public void setEspacioUrl(String espacioUrl) {
+        this.espacioUrl = espacioUrl;
     }
 
     public String getCreado() {
@@ -48,6 +74,14 @@ public class Espacio implements Serializable {
 
     public void setCreado(String creado) {
         this.creado = creado;
+    }
+
+    public String getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(String deleted) {
+        this.deleted = deleted;
     }
 
     @Override

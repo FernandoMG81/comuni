@@ -1,15 +1,16 @@
 package com.project.comuni.Models;
 
+import com.project.comuni.Models.Firebase.Go;
+
 public class Comentario {
 
-    private String id;
-    private Post post;
-    private Usuario usuario;
+
+    private Go<Post> post;
+    private Go<Usuario> usuario;
     private String texto;
     private String created;
 
-    public Comentario(String id, Post post, Usuario usuario, String texto, String created) {
-        this.id = id;
+    public Comentario(Go<Post> post, Go<Usuario> usuario, String texto, String created) {
         this.post = post;
         this.usuario = usuario;
         this.texto = texto;
@@ -19,27 +20,20 @@ public class Comentario {
     public Comentario() {
     }
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Post getPost() {
+    public Go<Post> getPost() {
         return post;
     }
 
-    public void setPost(Post post) {
+    public void setPost(Go<Post> post) {
         this.post = post;
     }
 
-    public Usuario getUsuario() {
+    public Go<Usuario> getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(Go<Usuario> usuario) {
         this.usuario = usuario;
     }
 

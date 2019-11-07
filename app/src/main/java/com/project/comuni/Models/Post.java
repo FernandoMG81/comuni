@@ -1,5 +1,7 @@
 package com.project.comuni.Models;
 
+import com.project.comuni.Models.Firebase.Go;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -7,17 +9,16 @@ import java.util.ArrayList;
 
 public class Post implements Serializable {
 
-    private String id = "-1";
-    private Espacio espacio;
-    private Usuario usuario;
+    private Go<Espacio> espacio;
+    private Go<Usuario> usuario;
     private String titulo;
     private String texto;
     private int upvotes;
-    private Tag tag;
+    private Go<Tag> tag;
     private String creado = null;
 
-    public Post(String id, Espacio espacio, Usuario usuario, String titulo, String texto, int upvotes, Tag tag, String creado) {
-        this.id = id;
+    public Post(String id, Go<Espacio>  espacio, Go<Usuario> usuario, String titulo, String texto, int upvotes, Go<Tag> tag, String creado) {
+
         this.espacio = espacio;
         this.usuario = usuario;
         this.titulo = titulo;
@@ -29,27 +30,20 @@ public class Post implements Serializable {
 
     public Post() {    }
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Espacio getEspacio() {
+    public Go<Espacio>  getEspacio() {
         return espacio;
     }
 
-    public void setEspacio(Espacio espacio) {
+    public void setEspacio(Go<Espacio>  espacio) {
         this.espacio = espacio;
     }
 
-    public Usuario getUsuario() {
+    public Go<Usuario> getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(Go<Usuario> usuario) {
         this.usuario = usuario;
     }
 
@@ -77,11 +71,11 @@ public class Post implements Serializable {
         this.upvotes = upvotes;
     }
 
-    public Tag getTag() {
+    public Go<Tag> getTag() {
         return tag;
     }
 
-    public void setTags(Tag tag) {
+    public void setTags(Go<Tag> tag) {
         this.tag = tag;
     }
 

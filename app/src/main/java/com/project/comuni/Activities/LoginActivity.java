@@ -27,6 +27,7 @@ import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.Db;
+import com.project.comuni.Servicios.UsuarioService;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -55,11 +56,12 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Go<Usuario> usuario = new Go<Usuario>("-Lt1M1iOHuCfJswqutKp");
-                db = new Db(v);
-                usuario.setObject(db.getObj((Class<Usuario>) usuario.getObject().getClass(),usuario,"ehhhh").getObject());
+                UsuarioService uS;
+                Go<Usuario> usuario = new Go<Usuario>("-Lt1M1wogJN0LwZL3E9k");
+                uS = new UsuarioService(v,usuario);
+                usuario = uS.getObject();
 
-                Toast.makeText(LoginActivity.this,usuario.getObject().getNombre(), Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, usuario.getObject().getNombre(), Toast.LENGTH_SHORT).show();
                 String correo = editTextLogin.getText().toString();
                 if(isValidEmail(correo) && validarContraseña()){
                     String contraseña = editTextPassword.getText().toString();

@@ -1,45 +1,37 @@
 package com.project.comuni.Models;
 
 
+import com.project.comuni.Models.Firebase.Go;
+
 public class Mensaje {
 
-    private String id;
-    private Usuario Emisor;
-    private Usuario Receptor;
+    private Go<Usuario> Emisor;
+    private Go<Usuario> Receptor;
     private String texto;
     private String created;
 
     public Mensaje() { }
 
-    public Mensaje(String id, Usuario emisor, Usuario receptor, String texto, String created) {
-        this.id = id;
+    public Mensaje(Go<Usuario> emisor, Go<Usuario> receptor, String texto, String created) {
         Emisor = emisor;
         Receptor = receptor;
         this.texto = texto;
         this.created = created;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Usuario getEmisor() {
+    public Go<Usuario> getEmisor() {
         return Emisor;
     }
 
-    public void setEmisor(Usuario emisor) {
+    public void setEmisor(Go<Usuario> emisor) {
         Emisor = emisor;
     }
 
-    public Usuario getReceptor() {
+    public Go<Usuario> getReceptor() {
         return Receptor;
     }
 
-    public void setReceptor(Usuario receptor) {
+    public void setReceptor(Go<Usuario> receptor) {
         Receptor = receptor;
     }
 

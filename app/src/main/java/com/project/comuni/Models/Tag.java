@@ -1,15 +1,15 @@
 package com.project.comuni.Models;
 
+import com.project.comuni.Models.Firebase.Go;
+
 public class Tag {
 
-    private String id;
-    private Espacio espacio;
+    private Go<Espacio> espacio;
     private String text;
     private String backgroundColor;
     private String textColor;
 
-    public Tag(String id, Espacio espacio, String text, String backgroundColor, String textColor) {
-        this.id = id;
+    public Tag(Go<Espacio> espacio, String text, String backgroundColor, String textColor) {
         this.espacio = espacio;
         this.text = text;
         this.backgroundColor = backgroundColor;
@@ -19,19 +19,12 @@ public class Tag {
     public Tag() {
     }
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Espacio getEspacio() {
+    public Go<Espacio> getEspacio() {
         return espacio;
     }
 
-    public void setEspacio(Espacio espacio) {
+    public void setEspacio(Go<Espacio> espacio) {
         this.espacio = espacio;
     }
 

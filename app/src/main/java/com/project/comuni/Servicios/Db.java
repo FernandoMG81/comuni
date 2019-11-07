@@ -23,6 +23,9 @@ public class Db<Tobject> {
         DbRef = firebase.getReference();
     }
 
+    //Devuelve DbRef que es el punto de comienzo para hacer queries
+    public DatabaseReference DbRef (){return  DbRef;}
+
     //Busca una url dada y crea una key y su objeto
     public Boolean create(Go<Tobject> obj, String url){
         return DbRef.child(url)
@@ -47,25 +50,5 @@ public class Db<Tobject> {
                 .removeValue()
                 .isSuccessful();
     }
-
-    //Busca en una url y key dada un objeto
-    public Go<Tobject> getObj(Class<Tobject> type, Go<Tobject> obj, String url){
-        DbRef.child(url)
-                .child(obj.getKey())
-                .orderByKey()
-                .equalTo(obj.getKey())
-                .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                obj.setKey(snapshot.getKey());
-                obj.setObject((Tobject)snapshot.getValue(type));
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-        return  obj;
-    }
-
 
 }

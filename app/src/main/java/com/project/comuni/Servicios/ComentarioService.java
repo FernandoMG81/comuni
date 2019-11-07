@@ -1,55 +1,87 @@
 package com.project.comuni.Servicios;
 
+import android.view.View;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.project.comuni.Models.Comentario;
+import com.project.comuni.Models.Firebase.Go;
+import com.project.comuni.Utils.FireUrl;
 
 import java.util.ArrayList;
 
 public class ComentarioService {
-    private UsuarioService usuarioService = new UsuarioService();
-    private PostService postService = new PostService();
-    private ArrayList<Comentario> comentarios = new ArrayList<>();
+    private Db db;
 
-    public void fillData() {
-        comentarios.add(new Comentario(
-                "1",
-                postService.filterPostById("1"),
-                usuarioService.getAlumno1(),
-                "Matrices entra profe?",
-                "10/09/2019"
-        ));
+    private FireUrl url = new FireUrl("Comentarios");
+    private String urlEspacios = "";
 
-        comentarios.add(new Comentario(
-                "2",
-                postService.filterPostById("1"),
-                usuarioService.getAlumno3(),
-                "Yo entendi que matrices si lo toma.",
-                "10/09/2019"
-        ));
-        comentarios.add(new Comentario(
-                "3",
-                postService.filterPostById("1"),
-                usuarioService.getProfesor(),
-                "Si chicos, entra todo lo que vimos hasta la última clase.",
-                "10/09/2019"
-        ));
+    private Go<Comentario> comentario;
+
+    private void setUrlEspacios(){
+        urlEspacios = url.AddKey(url.getRootInEspacios(comentario.getObject().getPost().getObject().getEspacio()),
+                        url.AddKey("Posts",
+                          url.AddKey(comentario.getObject().getPost().getKey(),
+                            url.getRoot())));
     }
 
-    public ComentarioService() {
-        fillData();
+    public ComentarioService(View v){
+        db = new Db(v);
+        comentario = new Go<>();
+
     }
 
-    public ArrayList<Comentario> getComentarios() {
-        return comentarios;
+    public ComentarioService(View v, Go<Comentario> comentariox){
+        db = new Db(v);
+        comentario = comentariox;
+        setUrlEspacios();
     }
 
-    public ArrayList<Comentario> getComentariosByEspacioId(String id) {
-
-        ArrayList<Comentario> comentariosAux = new ArrayList<>();
-        for (Comentario comentario:this.getComentarios()) {
-            if (comentario.getPost().getId() == id){
-                comentariosAux.add(comentario);
-            }
-        }
-        return comentariosAux;
+    public boolean create (){
+        return db.create(comentario,urlEspacios);
     }
+
+    public boolean update (){
+        return db.update(comentario,urlEspacios);
+    }
+
+    public boolean delete (){
+        return db.delete(comentario,urlEspacios);
+    }
+
+    public Go<Comentario> getObject(){
+        db.DbRef().child(urlEspacios)
+                .orderByKey()
+                .equalTo(comentario.getKey())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        comentario.setKey(snapshot.getKey());
+                        comentario.setObject(snapshot.getValue(comentario.getObject().getClass()));
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        comentario = null;
+                    }
+                });
+        return comentario;
+    }
+
+    public Go<Comentario> getAll(){
+        db.DbRef().child(urlEspacios)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        comentario.setKey(snapshot.getKey());
+                        comentario.setObject(snapshot.getValue(comentario.getObject().getClass()));
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        comentario = null;
+                    }
+                });
+        return comentario;
+    }
+
 }
