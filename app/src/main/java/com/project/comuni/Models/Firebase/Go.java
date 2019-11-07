@@ -1,14 +1,19 @@
 package com.project.comuni.Models.Firebase;
+import java.lang.reflect.ParameterizedType;
 import java.util.Dictionary;
 // Clase generica que se genera para que los objetos tengan una clave asociada por fuera de ellos.
 //Go = Generic Object
-public class Go <TObject extends Object> {
+public class Go <TObject> {
 
-        private String Key;
-        private TObject Object;
+    private String Key;
+    public String getKey() { return Key; }
+    public void setKey(String key) { Key = key; }
 
-        public Go()
-        {
+    private TObject Object;
+    public TObject getObject() { return Object; }
+    public void setObject(TObject object) { Object = object; }
+
+        public Go(){
         }
         public Go(TObject Object)
         {
@@ -22,6 +27,7 @@ public class Go <TObject extends Object> {
         {
             this.Key = Key;
             this.Object = Object;
+
         }
         public Go(Go<TObject> GObject)
         {

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
@@ -16,10 +17,16 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.project.comuni.Models.Firebase.Go;
+import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
+import com.project.comuni.Servicios.Db;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -30,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private TextView btnRegistro;
     private FirebaseAuth mAuth;
+
+    private Db<Usuario> db;
 
 
     @Override
@@ -46,6 +55,11 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Go<Usuario> usuario = new Go<Usuario>("-Lt1M1iOHuCfJswqutKp");
+                db = new Db(v);
+                usuario.setObject(db.getObj((Class<Usuario>) usuario.getObject().getClass(),usuario,"ehhhh").getObject());
+
+                Toast.makeText(LoginActivity.this,usuario.getObject().getNombre(), Toast.LENGTH_LONG).show();
                 String correo = editTextLogin.getText().toString();
                 if(isValidEmail(correo) && validarContraseña()){
                     String contraseña = editTextPassword.getText().toString();
@@ -56,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
                                         Toast.makeText(LoginActivity.this,"Sesión iniciada correctamente", Toast.LENGTH_LONG).show();
+
                                         nextActivity();
                                     } else {
                                         // If sign in fails, display a message to the user.
