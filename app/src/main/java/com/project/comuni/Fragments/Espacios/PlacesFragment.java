@@ -153,10 +153,12 @@ public class PlacesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_places, container, false);
 
         getData(view);
-        setLayoutReferences(view);
-        setSpinnerEspacios();
-        setSearch();
-        setAddButton();
+        if (espacios.size()>0) {
+            setLayoutReferences(view);
+            setSpinnerEspacios();
+            setSearch();
+            setAddButton();
+        }
         return view;
     }
 }

@@ -1,13 +1,15 @@
 package com.project.comuni.Models;
 
 
+import android.text.TextUtils;
+import android.util.Patterns;
+
 import java.util.Dictionary;
 import java.util.Map;
 
 public class Usuario {
 
     private String email;
-    private String contrasena;
     private String nombre;
     private String apellido;
     private Map<String,Espacio> administradores;
@@ -26,20 +28,22 @@ public class Usuario {
         this.creado = creado;
     }
 
+    public Boolean validarRegistro(String contrasena1, String contrasena2){
+        if (nombre.isEmpty()){ return false; }
+        if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            return false;
+        }
+        if (!contrasena1.equals(contrasena2)){ return  false; }
+        if( contrasena1.length() < 6){ return false; }
+        return true;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
     }
 
     public String getNombre() {

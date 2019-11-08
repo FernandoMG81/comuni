@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -38,7 +39,16 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText editTextPassword;
     private Button btnLogin;
     private TextView btnRegistro;
-    private LoginService LService = new LoginService();
+
+
+    //Variables
+    private String email;
+    private String contrasena;
+
+    public void nextActivity(){
+        startActivity(new Intent(LoginActivity.this,MainActivity.class));
+        finish();
+    }
 
     private void setLayout (){
         editTextLogin = findViewById(R.id.editTextUsuario);
@@ -48,30 +58,26 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setBtnLoginClick(){
+        FirebaseApp.initializeApp(this);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String correo = editTextLogin.getText().toString();
-                if(isValidEmail(correo) && validarContraseña()){
-                    String contraseña = editTextPassword.getText().toString();
-                    LService.SignIn(correo,contraseña)
-                            .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
-                                        Toast.makeText(LoginActivity.this,"Sesión iniciada correctamente", Toast.LENGTH_LONG).show();
-                                        nextActivity();
-
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-                                        Toast.makeText(LoginActivity.this,"Error, credenciales incorrectas", Toast.LENGTH_LONG).show();
-                                    }
-
-                                }
-                            });
-                }else{
-                    Toast.makeText(LoginActivity.this,"Error en la contraseña ingresada",Toast.LENGTH_LONG).show();
+                email = editTextLogin.getText().toString();
+                contrasena = editTextPassword.getText().toString();
+                if (!(validarEmail(email) && validarContrasena(contrasena))) {
+                    Toast.makeText(LoginActivity.this, "Contraseña y/o email no válidos", Toast.LENGTH_LONG).show();
+                } else {
+                    new LoginService().SignIn(email, contrasena).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (!task.isSuccessful()) {
+                                Toast.makeText(LoginActivity.this, "Contraseña y/o email incorrectos", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Se logueo correctamente", Toast.LENGTH_LONG).show();
+                                nextActivity();
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -90,8 +96,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onResume() {
         FirebaseApp.initializeApp(this);
         super.onResume();
-        FirebaseUser currentUser = LService.getUser();
-        if(currentUser!=null){
+        FirebaseUser usuarioActual = new LoginService().getUser();
+        if(usuarioActual!=null){
             nextActivity();
         }
 
@@ -107,89 +113,14 @@ public class LoginActivity extends AppCompatActivity {
         setBtnRegistroClick();
     }
 
-    //VALIDACIONES
-
-    //Validacion de mail
-    private boolean isValidEmail (String email){
+    //Validaciones
+    private boolean validarEmail (String email){
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    //Validacion de password
-    private boolean isValidPassword (String password){
-        return password.length() > 5;
-    }
-
-    public boolean validarContraseña(){
-        String contraseña;
-        contraseña = editTextPassword.getText().toString();
-
-        if(contraseña.length()>=6 && contraseña.length()<=16){
+    public boolean validarContrasena(String contrasena){
+        if(contrasena.length()>=6 && contrasena.length()<=16){
                 return true;
             } else return false;
-
-    }
-
-    public void nextActivity(){
-        startActivity(new Intent(LoginActivity.this,MainActivity.class));
-        finish();
-    }
-
-    //  prefs = getSharedPreferences("PreferencesComuni", Context.MODE_PRIVATE);
-
-    // setCredentialIfExist();
-
-/*
-     btnLogin.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             String email= editTextLogin.getText().toString();
-             String password = editTextPassword.getText().toString();
-             if(login(email,password)){
-              goToMail();
-              saveOnPreferences(email,password);
-             }
-         }
-     });
-
-    private void saveOnPreferences(String email, String password){
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("email", email);
-        editor.putString("pass", password);
-        editor.apply();
-    }
-*/
-
-    //setea credenciales guardadas
-/*    private void setCredentialIfExist(){
-        String email = Util.getUserMailPrefs(prefs);
-        String pass = Util.getUserPassPrefs(prefs);
-        if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(pass)){
-            editTextLogin.setText(email);
-            editTextPassword.setText(pass);
-        }
-    }
-*/
-    //Validar login
-    private boolean login (String email, String password){
-        if(!isValidEmail(email)){
-            Toast.makeText(this,"El email no es válido",Toast.LENGTH_LONG).show();
-            return false;
-        } else if (!isValidPassword(password)){
-            Toast.makeText(this,"El password no es válido",Toast.LENGTH_LONG).show();
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    private boolean isValidEmail(CharSequence target){
-        return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches();
-    }
-
-    //Ir al MailActivity
-    private void goToMail(){
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
     }
 }
