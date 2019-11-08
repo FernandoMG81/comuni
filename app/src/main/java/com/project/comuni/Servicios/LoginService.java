@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Usuario;
+import com.project.comuni.Utils.Constantes;
 
 public class LoginService {
     private FirebaseAuth fireAuth;
@@ -38,15 +39,15 @@ public class LoginService {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
                             if (foto != null) {
                                 //String url = uploadFoto(foto);
                                 //usuario.getObject().setFoto(url);
                             }
                             else {
                                 String url = "";
-                                usuario.getObject().setFoto(url);
+                                usuario.getObject().setFoto(Constantes.URL_FOTO_POR_DEFECTO_USUARIOS);
                             }
+                            usuario.setKey(getUser().getUid());
                             new UsuarioService(usuario).update();
 
                         } else {

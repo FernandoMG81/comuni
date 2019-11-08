@@ -9,8 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,28 +16,22 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.kbeanie.multipicker.api.CacheLocation;
 import com.kbeanie.multipicker.api.CameraImagePicker;
 import com.kbeanie.multipicker.api.ImagePicker;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
-import com.project.comuni.Models.Espacio;
-import com.project.comuni.Models.Firebase.User;
-import com.project.comuni.Persistencia.UsuarioDAO;
+import com.project.comuni.Models.Firebase.Go;
+import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
+import com.project.comuni.Servicios.LoginService;
 import com.project.comuni.Utils.Constantes;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +40,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RegistroActivity extends AppCompatActivity {
 
-
+    //Proximamente en desuso
     private Spinner tipoSeleccionado;
+
+    //Variables
+    Go<Usuario> usuario = new Go<>(new Usuario());
 
     //Layout
     private CircleImageView fotoPerfil;
@@ -61,15 +56,13 @@ public class RegistroActivity extends AppCompatActivity {
     private Button btnRegistrar;
     private TextView btnIngresar;
 
-    private FirebaseAuth mAuth;
-    private FirebaseDatabase database;
-
+    //Imagenes
     private ImagePicker imagePicker;
     private CameraImagePicker cameraPicker;
     private Uri fotoPerfilUri;
     private String pickerPath;
 
-    private void setLayout(){
+    private void setLayout() {
         fotoPerfil = findViewById(R.id.idRegistroFotoPerfil);
         tipoSeleccionado = findViewById(R.id.idRegistroTipo);
         txtClaveProfesional = findViewById(R.id.idRegistroClaveProfesional);
@@ -81,7 +74,7 @@ public class RegistroActivity extends AppCompatActivity {
         btnIngresar = findViewById(R.id.buttonIrAIngreso);
     }
 
-    private void setBtnLoginClick(){
+    private void setBtnLoginClick() {
         btnIngresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,27 +83,12 @@ public class RegistroActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registro);
-        setLayout();
-        setBtnLoginClick();
-
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-
+    private void setImagePicker() {
         imagePicker = new ImagePicker(this);
-        cameraPicker = new CameraImagePicker(this);
-
-        cameraPicker.setCacheLocation(CacheLocation.EXTERNAL_STORAGE_APP_DIR);
-
-
-
         imagePicker.setImagePickerCallback(new ImagePickerCallback() {
             @Override
             public void onImagesChosen(List<ChosenImage> list) {
-                if(!list.isEmpty()){
+                if (!list.isEmpty()) {
                     String path = list.get(0).getOriginalPath();
                     fotoPerfilUri = Uri.parse(path);
                     fotoPerfil.setImageURI(fotoPerfilUri);
@@ -119,10 +97,14 @@ public class RegistroActivity extends AppCompatActivity {
 
             @Override
             public void onError(String s) {
-                Toast.makeText(RegistroActivity.this,"Error: "+s, Toast.LENGTH_LONG).show();
+                Toast.makeText(RegistroActivity.this, "Error: " + s, Toast.LENGTH_LONG).show();
             }
         });
+    }
 
+    private void setCamaraPicker() {
+        cameraPicker = new CameraImagePicker(this);
+        cameraPicker.setCacheLocation(CacheLocation.EXTERNAL_STORAGE_APP_DIR);
         cameraPicker.setImagePickerCallback(new ImagePickerCallback() {
             @Override
             public void onImagesChosen(List<ChosenImage> list) {
@@ -133,10 +115,13 @@ public class RegistroActivity extends AppCompatActivity {
 
             @Override
             public void onError(String s) {
-                Toast.makeText(RegistroActivity.this,"Error: "+s, Toast.LENGTH_LONG).show();
+                Toast.makeText(RegistroActivity.this, "Error: " + s, Toast.LENGTH_LONG).show();
             }
         });
 
+    }
+
+    private void setFotoPerfilClick() {
         fotoPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,14 +129,14 @@ public class RegistroActivity extends AppCompatActivity {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(RegistroActivity.this);
                 dialog.setTitle("Foto de Perfil");
 
-                String[] items = {"Galeria","Camara"};
+                String[] items = {"Galeria", "Camara"};
 
                 dialog.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        switch(which){
+                        switch (which) {
                             case 0:
-                                 imagePicker.pickImage();
+                                imagePicker.pickImage();
                                 break;
                             case 1:
                                 pickerPath = cameraPicker.pickImage();
@@ -164,102 +149,59 @@ public class RegistroActivity extends AppCompatActivity {
                 dialogConstruido.show();
             }
         });
+    }
 
-
-
+    private void setBtnRegistrarClick() {
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String correo = txtCorreo.getText().toString();
-                String nombre = txtNombre.getText().toString();
-                String tipo = tipoSeleccionado.toString();
-                if(isValidEmail(correo) && validarContraseña() && validaNombre(nombre)){
-                    String contraseña = txtContraseña.getText().toString();
-
-                    mAuth.createUserWithEmailAndPassword(correo, contraseña)
+                usuario.getObject().setEmail(txtCorreo.getText().toString());
+                usuario.getObject().setNombre(txtNombre.getText().toString());
+                String contrasena = txtContraseña.getText().toString();
+                if (usuario.getObject().validarRegistro(contrasena, txtContraseñaRepetida.getText().toString())) {
+                    new LoginService().createUser(usuario, contrasena, fotoPerfilUri)
                             .addOnCompleteListener(RegistroActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
-                                        if(fotoPerfilUri!=null){
-
-                                        UsuarioDAO.getInstance().subirFotoUri(fotoPerfilUri, new UsuarioDAO.IDevolverURLfoto() {
-                                            @Override
-                                            public void devolverUrlString(String url) {
-                                                Toast.makeText(RegistroActivity.this, "Se registro correctamente", Toast.LENGTH_LONG).show();
-                                                User usuario = new User();
-                                                usuario.setEmail(correo);
-                                                usuario.setNombre(nombre);
-                                                usuario.setTipoUsuario(tipo);
-                                                usuario.setFotoPerfilURL(url);
-                                                FirebaseUser currentUser = mAuth.getCurrentUser();
-                                                DatabaseReference reference = database.getReference("Usuarios/"+currentUser.getUid());
-                                                reference.setValue(usuario);
-                                                finish();
-                                            }
-                                        });
-
-
-                                        }else{
-                                            Toast.makeText(RegistroActivity.this, "Se registro correctamente", Toast.LENGTH_LONG).show();
-                                            User usuario = new User();
-                                            usuario.setEmail(correo);
-                                            usuario.setNombre(nombre);
-                                            usuario.setTipoUsuario(tipo);
-                                            usuario.setFotoPerfilURL(Constantes.URL_FOTO_POR_DEFECTO_USUARIOS);
-                                            FirebaseUser currentUser = mAuth.getCurrentUser();
-                                            DatabaseReference reference = database.getReference("Usuarios/"+currentUser.getUid());
-                                            reference.setValue(usuario);
-                                            finish();
-                                        }
-
-
+                                        Toast.makeText(RegistroActivity.this, "Se registro correctamente", Toast.LENGTH_LONG).show();
+                                        finish();
                                     } else {
-                                        // If sign in fails, display a message to the user.
-                                        Toast.makeText(RegistroActivity.this, "Error al registrarse", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(RegistroActivity.this, "Error al registrarse", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
 
-                } else Toast.makeText(RegistroActivity.this, "Validacion funcionando", Toast.LENGTH_LONG).show();
-
+                } else
+                    Toast.makeText(RegistroActivity.this, "Completo erroneamente algun dato", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_registro);
+        setLayout();
+        setBtnLoginClick();
+        setImagePicker();
+        setCamaraPicker();
+        setFotoPerfilClick();
+        setBtnRegistrarClick();
 
         Glide.with(this).load(Constantes.URL_FOTO_POR_DEFECTO_USUARIOS).into(fotoPerfil);
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == Picker.PICK_IMAGE_DEVICE && resultCode == RESULT_OK){
+        if (requestCode == Picker.PICK_IMAGE_DEVICE && resultCode == RESULT_OK) {
             imagePicker.submit(data);
-        }else if(requestCode == Picker.PICK_IMAGE_CAMERA && resultCode == RESULT_OK){
+        } else if (requestCode == Picker.PICK_IMAGE_CAMERA && resultCode == RESULT_OK) {
 
             cameraPicker.reinitialize(pickerPath);
             cameraPicker.submit(data);
         }
-    }
-
-    private boolean isValidEmail(CharSequence target){
-        return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches();
-    }
-
-    public boolean validarContraseña(){
-        String contraseña, contraseñaRepetida;
-        contraseña = txtContraseña.getText().toString();
-        contraseñaRepetida = txtContraseñaRepetida.getText().toString();
-        if(contraseña.equals(contraseñaRepetida)){
-            if(contraseña.length()>=6 && contraseña.length()<=16){
-                return true;
-            } else return false;
-        }else return false;
-    }
-
-    public boolean validaNombre(String nombre){
-        return !nombre.isEmpty();
     }
 
     @Override
@@ -309,3 +251,46 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
 }
+//Viejo
+
+  /*  // Sign in success, update UI with the signed-in user's information
+                                        if(fotoPerfilUri!=null){
+        UsuarioDAO.getInstance().subirFotoUri(fotoPerfilUri, new UsuarioDAO.IDevolverURLfoto() {
+            @Override
+            public void devolverUrlString(String url) {
+                Toast.makeText(RegistroActivity.this, "Se registro correctamente", Toast.LENGTH_LONG).show();
+
+                usuario.getObject().setFoto(url);
+
+                FirebaseUser currentUser = mAuth.getCurrentUser();
+                DatabaseReference reference = database.getReference("Usuarios/"+currentUser.getUid());
+                reference.setValue(usuario);
+
+                finish();
+            }
+        });
+
+
+    }else{
+        Toast.makeText(RegistroActivity.this, "Se registro correctamente", Toast.LENGTH_LONG).show();
+        usuario.getObject().setFoto(Constantes.URL_FOTO_POR_DEFECTO_USUARIOS);
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        DatabaseReference reference = database.getReference("Usuarios/"+currentUser.getUid());
+        reference.setValue(usuario);
+
+        finish();
+    }
+
+
+} else {
+        // If sign in fails, display a message to the user.
+        Toast.makeText(RegistroActivity.this, "Error al registrarse", Toast.LENGTH_LONG).show();
+        }
+        }
+        });
+
+        } else Toast.makeText(RegistroActivity.this, "Validacion funcionando", Toast.LENGTH_LONG).show();
+
+
+        }*/

@@ -1,6 +1,9 @@
 package com.project.comuni.Models;
 
 
+import android.text.TextUtils;
+import android.util.Patterns;
+
 import java.util.Dictionary;
 import java.util.Map;
 
@@ -23,6 +26,16 @@ public class Usuario {
         this.apellido = apellido;
         this.foto = foto;
         this.creado = creado;
+    }
+
+    public Boolean validarRegistro(String contrasena1, String contrasena2){
+        if (nombre.isEmpty()){ return false; }
+        if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            return false;
+        }
+        if (!contrasena1.equals(contrasena2)){ return  false; }
+        if( contrasena1.length() < 6){ return false; }
+        return true;
     }
 
     public String getEmail() {
