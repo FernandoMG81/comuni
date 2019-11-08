@@ -18,7 +18,7 @@ public class EspacioService {
     private Db db;
 
     private FireUrl url = new FireUrl("Espacios");
-    private ArrayList<String> urlUsuarios;
+    private ArrayList<String> urlUsuarios = new ArrayList<>();
     private ArrayList<String> urlUsuariosAdministradores;
     private ArrayList<String> urlUsuariosMiembros;
     private String urlEspacio = url.getRoot();
@@ -36,10 +36,15 @@ public class EspacioService {
     public EspacioService(){
         db = new Db();
         espacio = new Go<>();
-        urlUsuariosAdministradores = setUrlUsuarios(espacio.getObject().getAdministradores());
-        urlUsuariosMiembros = setUrlUsuarios(espacio.getObject().getMiembros());
-        urlUsuarios = urlUsuariosMiembros;
-        urlUsuarios.addAll(urlUsuariosAdministradores);
+        espacio.setObject(new Espacio());
+        if(espacio.getObject().getMiembros()!= null) {
+            urlUsuariosMiembros = setUrlUsuarios(espacio.getObject().getMiembros());
+            urlUsuarios.addAll(urlUsuariosMiembros);
+        }
+        if(espacio.getObject().getAdministradores()!= null) {
+            urlUsuariosAdministradores = setUrlUsuarios(espacio.getObject().getAdministradores());
+            urlUsuarios.addAll(urlUsuariosAdministradores);
+        }
     }
 
     public EspacioService(Go<Espacio> usuariox){

@@ -7,7 +7,6 @@ import java.util.Map;
 public class Usuario {
 
     private String email;
-    private String contrasena;
     private String nombre;
     private String apellido;
     private Map<String,Espacio> administradores;
@@ -32,14 +31,6 @@ public class Usuario {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
     }
 
     public String getNombre() {

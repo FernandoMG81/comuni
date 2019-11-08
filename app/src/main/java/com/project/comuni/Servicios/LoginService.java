@@ -4,23 +4,21 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.UploadTask;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Usuario;
-import com.project.comuni.Persistencia.UsuarioDAO;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 public class LoginService {
     private FirebaseAuth fireAuth;
     Db db = new Db();
+
+    public interface data{
+        static void url(String url){};
+    }
 
     public LoginService(){
         fireAuth = FirebaseAuth.getInstance();
@@ -34,30 +32,22 @@ public class LoginService {
         return  fireAuth.getCurrentUser();
     }
 
-    public void createUser(Go<Usuario> usuario, Uri foto) {
-        fireAuth.createUserWithEmailAndPassword(usuario.getObject().getEmail(), usuario.getObject().getContrasena())
+    public Task<AuthResult> createUser(Go<Usuario> usuario, String contrasena, Uri foto) {
+        return fireAuth.createUserWithEmailAndPassword(usuario.getObject().getEmail(), contrasena)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             if (foto != null) {
-
-                                UsuarioDAO.getInstance().subirFotoUri(foto, new UsuarioDAO.IDevolverURLfoto() {
-                                    @Override
-                                    public void devolverUrlString(String url) {
-                                        usuario.getObject().setFoto(url);
-                                        new UsuarioService(usuario).update();
-                                        //finish();
-                                    }
-                                });
-
-
-                            } else {
-                                new UsuarioService(usuario).update();
-                                //finish();
+                                //String url = uploadFoto(foto);
+                                //usuario.getObject().setFoto(url);
                             }
-
+                            else {
+                                String url = "";
+                                usuario.getObject().setFoto(url);
+                            }
+                            new UsuarioService(usuario).update();
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -66,12 +56,11 @@ public class LoginService {
                 });
     }
 
-  /*  public String subirFotoUri(Uri foto){
-        final String[] url = {""};
+/*   public String uploadFoto(Uri foto){
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("SSS.ss-mm-hh-dd-MM-yyyy", Locale.getDefault());
-        url[0] = simpleDateFormat.format(date);
-        db.Storage(url[0]).putFile(foto).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+        String fireUrl = "Fotos/FotosPerfil/" + simpleDateFormat.format(date);
+        db.Storage(fireUrl).putFile(foto).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                 if(!task.isSuccessful()){
@@ -88,7 +77,6 @@ public class LoginService {
                 }
             }
         });
-        return url;
+        return data.url();
     }*/
-
 }
