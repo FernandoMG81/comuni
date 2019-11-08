@@ -33,28 +33,22 @@ public class EspacioService {
         return Arrayx;
     }
 
-    private void setUrlUsuariosAmbos(){
-
-        urlUsuarios = urlUsuariosMiembros;
-        for (String x: urlUsuariosAdministradores){
-            urlUsuarios.add(x);
-        }
-    }
-
-    public EspacioService(View v){
-        db = new Db(v);
+    public EspacioService(){
+        db = new Db();
         espacio = new Go<>();
         urlUsuariosAdministradores = setUrlUsuarios(espacio.getObject().getAdministradores());
         urlUsuariosMiembros = setUrlUsuarios(espacio.getObject().getMiembros());
-        setUrlUsuariosAmbos();
+        urlUsuarios = urlUsuariosMiembros;
+        urlUsuarios.addAll(urlUsuariosAdministradores);
     }
 
-    public EspacioService(View v, Go<Espacio> usuariox){
-        db = new Db(v);
+    public EspacioService(Go<Espacio> usuariox){
+        db = new Db();
         espacio = usuariox;
         urlUsuariosAdministradores = setUrlUsuarios(espacio.getObject().getAdministradores());
         urlUsuariosMiembros = setUrlUsuarios(espacio.getObject().getMiembros());
-        setUrlUsuariosAmbos();
+        urlUsuarios = urlUsuariosMiembros;
+        urlUsuarios.addAll(urlUsuariosAdministradores);
         if(espacio.getObject().getEspacioUrl() != null & !espacio.getObject().getEspacioUrl().isEmpty()){
             urlEspacio = url.AddKey(url.getRoot(),url.FromUrlEspacios(espacio.getObject().getEspacioUrl()));
         }
@@ -110,19 +104,40 @@ public class EspacioService {
         return espacio;
     }
 
-    public Go<Espacio> getAll(){
-        db.DbRef().child(urlEspacio)
+    private ArrayList<Go<Espacio>> getAllFrom(String url) {
+        ArrayList<Go<Espacio>> espacios = new ArrayList<>();
+        db.DbRef().child(url)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
-                        espacio.setKey(snapshot.getKey());
-                        espacio.setObject(snapshot.getValue(espacio.getObject().getClass()));
+                        for (DataSnapshot x : snapshot.getChildren()) {
+                            espacio.setKey(snapshot.getKey());
+                            espacio.setObject(snapshot.getValue(espacio.getObject().getClass()));
+                            espacios.add(espacio);
+                        }
+
                     }
+
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         espacio = null;
                     }
                 });
-        return espacio;
+        return espacios;
+    }
+
+    public ArrayList<Go<Espacio>> getAll(){
+        return getAllFrom(urlEspacio);
+    }
+
+    public ArrayList<Go<Espacio>> getAllFromUsuario(Go<Usuario> usuario){
+        ArrayList<Go<Espacio>> espacios = new ArrayList<>();
+        espacios = getAllFrom(url.AddKey(url.getUsuarios(),
+                           url.AddKey(usuario.getKey(),
+                             url.getAdministradores())));
+        espacios.addAll(getAllFrom(url.AddKey(url.getUsuarios(),
+                url.AddKey(usuario.getKey(),
+                        url.getMiembros()))));
+        return espacios;
     }
 }

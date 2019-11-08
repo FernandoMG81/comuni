@@ -11,7 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.project.comuni.Activities.ListadoUsuariosActivity;
+import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Mensaje;
+import com.project.comuni.Models.Usuario;
 import com.project.comuni.Servicios.MensajeService;
 
 import com.project.comuni.R;
@@ -32,8 +34,8 @@ public class MessagesFragment extends Fragment {
     String searchText = "";
 
     //Variables Datos
-    private ArrayList<Mensaje> mensajes = new ArrayList<>();
-    private ArrayList<Mensaje> mensajesAMostrar = new ArrayList<>();
+    private ArrayList<Go<Mensaje>> mensajes = new ArrayList<>();
+    private ArrayList<Go<Mensaje>> mensajesAMostrar = new ArrayList<>();
 
     //Layout
     private Button botonNuevoMensaje;
@@ -42,7 +44,8 @@ public class MessagesFragment extends Fragment {
 
     private void getdata(){
         MensajeService mensajeService = new MensajeService();
-        mensajes = mensajeService.filterMensajesPorNVueltas(4);
+
+        mensajes = new MensajeService().getAllFromXandY(new Go<Usuario>(), new Go<Usuario>());
     }
 
     private void setLayoutReferences(View view){
@@ -74,10 +77,12 @@ public class MessagesFragment extends Fragment {
 
     private void filterData(){
         mensajesAMostrar.clear();
-        for (Mensaje mensaje : mensajes){
-            if (filtrarString(mensaje.getTexto(),searchText) ||
-                    filtrarString(mensaje.getEmisor().getNombre() + " " + mensaje.getEmisor().getApellido(), searchText) ||
-                    filtrarString(mensaje.getReceptor().getNombre() + " " + mensaje.getReceptor().getApellido(), searchText)
+        for (Go<Mensaje> mensaje : mensajes){
+            if (filtrarString(mensaje.getObject().getTexto(),searchText) ||
+                    filtrarString(mensaje.getObject().getEmisor().getObject().getNombre()
+                            + " " + mensaje.getObject().getEmisor().getObject().getApellido(), searchText) ||
+                    filtrarString(mensaje.getObject().getReceptor().getObject().getNombre()
+                            + " " + mensaje.getObject().getReceptor().getObject().getApellido(), searchText)
             ){
               mensajesAMostrar.add(mensaje);
             }

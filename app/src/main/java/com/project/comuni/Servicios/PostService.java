@@ -25,14 +25,14 @@ public class PostService {
                 url.getRoot());
     }
 
-    public PostService(View v){
-        db = new Db(v);
+    public PostService(){
+        db = new Db();
         post = new Go<>();
 
     }
 
-    public PostService(View v, Go<Post> postx){
-        db = new Db(v);
+    public PostService(Go<Post> postx){
+        db = new Db();
         post = postx;
         setUrlEspacios();
     }
@@ -67,20 +67,29 @@ public class PostService {
         return post;
     }
 
-    public Go<Post> getAll(){
-        db.DbRef().child(urlEspacios)
+    private ArrayList<Go<Post>> getAllFrom(String url){
+        ArrayList<Go<Post>> posts = new ArrayList<>();
+        db.DbRef().child(url)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
-                        post.setKey(snapshot.getKey());
-                        post.setObject(snapshot.getValue(post.getObject().getClass()));
+                        for (DataSnapshot x: snapshot.getChildren()) {
+                            post.setKey(snapshot.getKey());
+                            post.setObject(snapshot.getValue(post.getObject().getClass()));
+                            posts.add(post);
+                        }
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         post = null;
                     }
                 });
-        return post;
+        return posts;
     }
+
+    public ArrayList<Go<Post>> getAll(){
+        return getAllFrom(urlEspacios);
+    }
+
 
 }

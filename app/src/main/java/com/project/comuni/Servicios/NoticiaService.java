@@ -16,7 +16,9 @@ import com.project.comuni.Utils.FireUrl;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import androidx.constraintlayout.solver.widgets.Snapshot;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.SnapHelper;
 
 public class NoticiaService {
 
@@ -26,14 +28,14 @@ public class NoticiaService {
 
     private Go<Noticia> noticia;
 
-    public NoticiaService(View v){
-        db = new Db(v);
+    public NoticiaService(){
+        db = new Db();
         noticia = new Go<>();
 
     }
 
-    public NoticiaService(View v, Go<Noticia> noticiax){
-        db = new Db(v);
+    public NoticiaService(Go<Noticia> noticiax){
+        db = new Db();
         noticia = noticiax;
     }
 
@@ -67,20 +69,25 @@ public class NoticiaService {
         return noticia;
     }
 
-    public Go<Noticia> getAll(){
+    public ArrayList<Go<Noticia>> getAll(){
+        ArrayList<Go<Noticia>> noticias = new ArrayList<>();
         db.DbRef().child(url.AddKey(url.getEspacios(),url.getRoot()))
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
-                        noticia.setKey(snapshot.getKey());
-                        noticia.setObject(snapshot.getValue(noticia.getObject().getClass()));
+                        for (DataSnapshot x: snapshot.getChildren())
+                        {
+                            noticia.setKey(snapshot.getKey());
+                            noticia.setObject(snapshot.getValue(noticia.getObject().getClass()));
+                            noticias.add(noticia);
+                        }
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         noticia = null;
                     }
                 });
-        return noticia;
+        return noticias;
     }
 
 }

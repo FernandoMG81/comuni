@@ -16,7 +16,9 @@ import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Adapters.Espacios.RecyclerAdapterPlaces;
 import com.project.comuni.Fragments.Espacios.CreatePostFragment;
 import com.project.comuni.Models.Espacio;
+import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Post;
+import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.EspacioService;
 import com.project.comuni.Servicios.PostService;
@@ -35,13 +37,13 @@ import static com.project.comuni.Utils.Util.filtrarString;
 public class PlacesFragment extends Fragment {
 
     //Variables Datos
-    private ArrayList<Post> posts = new ArrayList<>();
-    private ArrayList<Post> postsAMostrar = new ArrayList<>();
-    private ArrayList<Espacio> espacios = new ArrayList<>();
+    private ArrayList<Go<Post>> posts = new ArrayList<>();
+    private ArrayList<Go<Post>> postsAMostrar = new ArrayList<>();
+    private ArrayList<Go<Espacio>> espacios = new ArrayList<>();
 
     //Variables Filtrado
     private String searchText = "";
-    private Espacio espacioActual = new Espacio();
+    private Go<Espacio> espacioActual = new Go<>();
 
     // Layout
     private EditText search;
@@ -49,19 +51,24 @@ public class PlacesFragment extends Fragment {
     private RecyclerView recyclerView;
     private Button newPlaceButton;
 
-    public void setLayoutReferences(View view){
-        search = view.findViewById(R.id.NewsSearch);
-        recyclerView = view.findViewById(R.id.RVPlaces);
-        spinner = view.findViewById(R.id.PlacesSpinner);
-        newPlaceButton = view.findViewById(R.id.PlacesButton);
+    public void setLayoutReferences(View v){
+        search = v.findViewById(R.id.NewsSearch);
+        recyclerView = v.findViewById(R.id.RVPlaces);
+        spinner = v.findViewById(R.id.PlacesSpinner);
+        newPlaceButton = v.findViewById(R.id.PlacesButton);
     }
 
-    private void getData(){
-        PostService postService = new PostService();
-        posts = postService.getPosts();
-
+    private void getData(View v){
+        Go<Usuario> usuario = new Go<>();
         EspacioService espacioService = new EspacioService();
-        espacios =  espacioService.getEspacios();
+        espacios =  espacioService.getAllFromUsuario(usuario);
+
+        if (espacioActual.getKey() != null){
+            Go<Post> post = new Go<>();
+            post.getObject().setEspacio(espacioActual);
+            PostService postService = new PostService();
+            posts = postService.getAll();
+        }
 
 
     }
@@ -88,14 +95,14 @@ public class PlacesFragment extends Fragment {
     }
 
     private void setSpinnerEspacios(){
-        ArrayAdapter<Espacio> spinnerAdapter = new ArrayAdapter<>(
+        ArrayAdapter<Go<Espacio>> spinnerAdapter = new ArrayAdapter<>(
                 this.getContext(), android.R.layout.simple_spinner_item, espacios);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                espacioActual = (Espacio) adapterView.getSelectedItem();
+                espacioActual = (Go<Espacio>) adapterView.getSelectedItem();
                 filterData();
                 setRecycler();
             }
@@ -115,10 +122,10 @@ public class PlacesFragment extends Fragment {
     private void filterData(){
 
         postsAMostrar.clear();
-        for (Post post: posts){
-            if (post.getEspacio().getId() == espacioActual.getId()){
-                if (filtrarString(post.getTitulo(), searchText) ||
-                    filtrarString (post.getTexto(), searchText))
+        for (Go<Post> post: posts){
+            if (post.getObject().getEspacio().getKey() == espacioActual.getKey()){
+                if (filtrarString(post.getObject().getTitulo(), searchText) ||
+                    filtrarString (post.getObject().getTexto(), searchText))
                 {
                     postsAMostrar.add(post);
                 }
@@ -145,7 +152,7 @@ public class PlacesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_places, container, false);
 
-        getData();
+        getData(view);
         setLayoutReferences(view);
         setSpinnerEspacios();
         setSearch();

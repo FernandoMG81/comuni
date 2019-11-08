@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Fragments.Espacios.InnerPlacesFragment;
+import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Post;
 import com.project.comuni.R;
 
@@ -29,12 +30,12 @@ import java.util.ArrayList;
 public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterPlaces.ViewHolder> implements View.OnClickListener {
     private static final String TAG = "RecyclerAdapterMessages";
 
-    private Post post = new Post();
+    private Go<Post> post = new Go<>();
     private View.OnClickListener listener;
-    private ArrayList<Post> posts;
+    private ArrayList<Go<Post>> posts;
     private Context context;
 
-    public RecyclerAdapterPlaces(ArrayList<Post> posts, Context context) {
+    public RecyclerAdapterPlaces(ArrayList<Go<Post>> posts, Context context) {
         this.posts = posts;
         this.context = context;
     }
@@ -52,19 +53,20 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: ");
 
-            holder.Titulo.setText(posts.get(position).getTitulo());
-            holder.Tag.setText(posts.get(position).getTag().getText());
-            holder.Tag.setBackgroundColor(Color.parseColor(posts.get(position).getTag().getBackgroundColor()));
-            holder.Tag.setTextColor(Color.parseColor(posts.get(position).getTag().getTextColor()));
-            holder.Fecha.setText(posts.get(position).getCreado());
-            String TextoTruncado = truncate(posts.get(position).getTexto(),50);
+            holder.Titulo.setText(posts.get(position).getObject().getTitulo());
+            holder.Tag.setText(posts.get(position).getObject().getTag().getObject().getText());
+            holder.Tag.setBackgroundColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().getBackgroundColor()));
+            holder.Tag.setTextColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().getTextColor()));
+            holder.Fecha.setText(posts.get(position).getObject().getCreado());
+            String TextoTruncado = truncate(posts.get(position).getObject().getTexto(),50);
             holder.Descripcion.setText(TextoTruncado);
-            holder.FotoUsuario.setBackgroundResource(posts.get(position).getUsuario().getFoto());
-            holder.NombreUsuario.setText(posts.get(position).getUsuario().getNombre() + " " + posts.get(position).getUsuario().getApellido());
+            //holder.FotoUsuario.setBackgroundResource(posts.get(position).getObject().getUsuario().getObject().getFoto());
+            holder.NombreUsuario.setText(posts.get(position).getObject().getUsuario().getObject().getNombre()
+                    + " " + posts.get(position).getObject().getUsuario().getObject().getApellido());
 
             holder.RL.setOnClickListener((view)-> {
             this.post = posts.get(position);
-            Toast.makeText(context, post.getTitulo(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, post.getObject().getTitulo(), Toast.LENGTH_SHORT).show();
             onClick(holder.RL);
         });
     }

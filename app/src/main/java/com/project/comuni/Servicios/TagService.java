@@ -26,14 +26,14 @@ public class TagService {
                 url.getRoot());
     }
 
-    public TagService(View v){
-        db = new Db(v);
+    public TagService(){
+        db = new Db();
         tag = new Go<>();
 
     }
 
-    public TagService(View v, Go<Tag> tagx){
-        db = new Db(v);
+    public TagService(Go<Tag> tagx){
+        db = new Db();
         tag = tagx;
         setUrlEspacios();
     }
@@ -68,20 +68,26 @@ public class TagService {
         return tag;
     }
 
-    public Go<Tag> getAll(){
+    public ArrayList<Go<Tag>> getAll(){
+        ArrayList<Go<Tag>> tags = new ArrayList<>();
         db.DbRef().child(urlEspacios)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
-                        tag.setKey(snapshot.getKey());
-                        tag.setObject(snapshot.getValue(tag.getObject().getClass()));
+                        for (DataSnapshot x: snapshot.getChildren())
+                        {
+                            tag.setKey(x.getKey());
+                            tag.setObject(x.getValue(tag.getObject().getClass()));
+                            tags.add(tag);
+                        }
+
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         tag = null;
                     }
                 });
-        return tag;
+        return tags;
     }
 
 }

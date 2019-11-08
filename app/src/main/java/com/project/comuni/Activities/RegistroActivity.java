@@ -48,8 +48,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RegistroActivity extends AppCompatActivity {
 
-    private CircleImageView fotoPerfil;
+
     private Spinner tipoSeleccionado;
+
+    //Layout
+    private CircleImageView fotoPerfil;
     private TextInputEditText txtClaveProfesional;
     private TextInputEditText txtNombre;
     private TextInputEditText txtCorreo;
@@ -57,20 +60,16 @@ public class RegistroActivity extends AppCompatActivity {
     private TextInputEditText txtContraseñaRepetida;
     private Button btnRegistrar;
     private TextView btnIngresar;
+
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
+
     private ImagePicker imagePicker;
     private CameraImagePicker cameraPicker;
     private Uri fotoPerfilUri;
     private String pickerPath;
 
-
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registro);
+    private void setLayout(){
         fotoPerfil = findViewById(R.id.idRegistroFotoPerfil);
         tipoSeleccionado = findViewById(R.id.idRegistroTipo);
         txtClaveProfesional = findViewById(R.id.idRegistroClaveProfesional);
@@ -80,46 +79,33 @@ public class RegistroActivity extends AppCompatActivity {
         txtContraseñaRepetida = findViewById(R.id.idRegistroRepiteContraseña);
         btnRegistrar = findViewById(R.id.idBotonRegistro);
         btnIngresar = findViewById(R.id.buttonIrAIngreso);
+    }
 
-        //Tipo de usuario
-        ArrayList<String> listaTipos = new ArrayList<>();
-        listaTipos.add(" ");
-        listaTipos.add("Profesional");
-        listaTipos.add("Estudiante");
-        ArrayAdapter<String> tipoAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,listaTipos);
-        tipoSeleccionado.setAdapter(tipoAdapter);
-        tipoSeleccionado.setSelection(0);
-
-        tipoSeleccionado.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(tipoSeleccionado.getSelectedItem().equals("Profesional")){
-                    txtClaveProfesional.setVisibility(View.VISIBLE);
-                }
-                if(tipoSeleccionado.getSelectedItem().equals("Estudiante")){
-                    txtClaveProfesional.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        imagePicker = new ImagePicker(this);
-        cameraPicker = new CameraImagePicker(this);
-
-        cameraPicker.setCacheLocation(CacheLocation.EXTERNAL_STORAGE_APP_DIR);
-
+    private void setBtnLoginClick(){
         btnIngresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(RegistroActivity.this, LoginActivity.class));
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_registro);
+        setLayout();
+        setBtnLoginClick();
+
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+
+        imagePicker = new ImagePicker(this);
+        cameraPicker = new CameraImagePicker(this);
+
+        cameraPicker.setCacheLocation(CacheLocation.EXTERNAL_STORAGE_APP_DIR);
+
+
 
         imagePicker.setImagePickerCallback(new ImagePickerCallback() {
             @Override
@@ -296,6 +282,30 @@ public class RegistroActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
     }
 
+    private void setSpinner() {
+        //Tipo de usuario
+        ArrayList<String> listaTipos = new ArrayList<>();
+        listaTipos.add(" ");
+        listaTipos.add("Profesional");
+        listaTipos.add("Estudiante");
+        ArrayAdapter<String> tipoAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, listaTipos);
+        tipoSeleccionado.setAdapter(tipoAdapter);
+        tipoSeleccionado.setSelection(0);
+        tipoSeleccionado.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (tipoSeleccionado.getSelectedItem().equals("Profesional")) {
+                    txtClaveProfesional.setVisibility(View.VISIBLE);
+                }
+                if (tipoSeleccionado.getSelectedItem().equals("Estudiante")) {
+                    txtClaveProfesional.setVisibility(View.GONE);
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
 
 }

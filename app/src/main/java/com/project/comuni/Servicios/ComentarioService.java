@@ -26,14 +26,14 @@ public class ComentarioService {
                             url.getRoot())));
     }
 
-    public ComentarioService(View v){
-        db = new Db(v);
+    public ComentarioService(){
+        db = new Db();
         comentario = new Go<>();
 
     }
 
-    public ComentarioService(View v, Go<Comentario> comentariox){
-        db = new Db(v);
+    public ComentarioService(Go<Comentario> comentariox){
+        db = new Db();
         comentario = comentariox;
         setUrlEspacios();
     }
@@ -68,20 +68,25 @@ public class ComentarioService {
         return comentario;
     }
 
-    public Go<Comentario> getAll(){
+    public ArrayList<Go<Comentario>> getAll(){
+        ArrayList<Go<Comentario>> comentarios = new ArrayList<>();
         db.DbRef().child(urlEspacios)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
-                        comentario.setKey(snapshot.getKey());
-                        comentario.setObject(snapshot.getValue(comentario.getObject().getClass()));
+                        for (DataSnapshot x:snapshot.getChildren()) {
+                            comentario.setKey(snapshot.getKey());
+                            comentario.setObject(snapshot.getValue(comentario.getObject().getClass()));
+                            comentarios.add(comentario);
+                        }
+
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         comentario = null;
                     }
                 });
-        return comentario;
+        return comentarios;
     }
 
 }

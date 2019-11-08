@@ -23,6 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.project.comuni.Adapters.Noticias.RecyclerAdapterNews;
+import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Noticia;
 import com.project.comuni.Persistencia.UsuarioDAO;
 import com.project.comuni.R;
@@ -40,12 +41,14 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItemListener {
 
-    private ArrayList<Noticia> noticias = new ArrayList<>();
+    private ArrayList<Go<Noticia>> noticias = new ArrayList<>();
+
     private FloatingActionButton addNewsButton;
     private RecyclerView recyclerNews;
     private Dialog popAddNews;
     private ImageView popupAddBtn;
     private TextView popupTitle, popupDescription;
+
     ProgressBar popupClickProgress;
     RecyclerView postRecyclerView ;
     RecyclerAdapterNews newsAdapter ;
@@ -63,12 +66,11 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
         addNewsButton = view.findViewById(R.id.newsButton);
 
         recyclerNews.setLayoutManager(new LinearLayoutManager(getContext()));
-        NoticiaService noticiaService= new NoticiaService();
 
         //Dialog nueva noticia
         iniPopup();
 
-        this.noticias = noticiaService.getNoticias();
+        this.noticias = new NoticiaService().getAll();
 
         RecyclerAdapterNews adapter = new RecyclerAdapterNews(this.noticias, this.getContext(),this);
 
@@ -157,9 +159,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
                     popupAddBtn.setVisibility(View.INVISIBLE);
                     popupClickProgress.setVisibility(View.VISIBLE);
 
-                    Noticia noticia = new Noticia(UsuarioDAO.getInstance().getKeyUsuario(),popupTitle.getText().toString(),popupDescription.getText().toString());
-
-                    addNews(noticia);
+                    //addNews(noticia);
                 }
 
             }
@@ -177,7 +177,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
         DatabaseReference reference = database.getReference("Noticias").push();
 
         String key = reference.getKey();
-        noticia.setNewsKey(key);
+       // noticia.setNewsKey(key);
 
         reference.setValue(noticia).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.comuni.Models.Comentario;
+import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.R;
 
 import java.util.ArrayList;
@@ -19,10 +20,10 @@ import java.util.ArrayList;
 public class RecyclerAdapterComentarios extends RecyclerView.Adapter<RecyclerAdapterComentarios.ViewHolder> {
     private static final String TAG = "RecyclerAdapterMessages";
 
-    private ArrayList<Comentario> comentarios;
+    private ArrayList<Go<Comentario>> comentarios;
     private Context context;
 
-    public RecyclerAdapterComentarios(ArrayList<Comentario> comentarios, Context context) {
+    public RecyclerAdapterComentarios(ArrayList<Go<Comentario>> comentarios, Context context) {
         this.comentarios = comentarios;
         this.context = context;
     }
@@ -39,9 +40,10 @@ public class RecyclerAdapterComentarios extends RecyclerView.Adapter<RecyclerAda
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: ");
 
-        holder.Fecha.setText((comentarios.get(position).getCreated()));
-        holder.Usuario.setText(comentarios.get(position).getUsuario().getNombre() + " " +comentarios.get(position).getUsuario().getApellido());
-        holder.Comentario.setText(comentarios.get(position).getTexto());
+        holder.Fecha.setText((comentarios.get(position).getObject().getCreated()));
+        holder.Usuario.setText(comentarios.get(position).getObject().getUsuario().getObject().getNombre()
+                + " " +comentarios.get(position).getObject().getUsuario().getObject().getApellido());
+        holder.Comentario.setText(comentarios.get(position).getObject().getTexto());
 
     }
 

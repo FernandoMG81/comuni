@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Fragments.Mensajes.InnerMessagesFragment;
+import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Mensaje;
 import com.project.comuni.R;
 
@@ -26,11 +27,11 @@ import java.util.ArrayList;
 public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapterMessages.ViewHolder>  implements View.OnClickListener {
     private static final String TAG = "RecyclerAdapterMessages";
 
-    private Mensaje mensaje;
-    private ArrayList<Mensaje> mensajes;
+    private Go<Mensaje> mensaje;
+    private ArrayList<Go<Mensaje>> mensajes;
     private Context context;
 
-    public RecyclerAdapterMessages(ArrayList<Mensaje> mensajesArray, Context context) {
+    public RecyclerAdapterMessages(ArrayList<Go<Mensaje>> mensajesArray, Context context) {
         this.mensajes = mensajesArray;
         this.context = context;
     }
@@ -48,9 +49,10 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: ");
 
-            holder.Contacto.setText(mensajes.get(position).getEmisor().getNombre() + " " + mensajes.get(position).getEmisor().getApellido());
-            holder.Mensaje.setText(mensajes.get(position).getTexto());
-           holder.FotoUsuario.setBackgroundResource(mensajes.get(position).getEmisor().getFoto());
+            holder.Contacto.setText(mensajes.get(position).getObject().getEmisor().getObject().getNombre()
+                    + " " + mensajes.get(position).getObject().getEmisor().getObject().getApellido());
+            holder.Mensaje.setText(mensajes.get(position).getObject().getTexto());
+           //holder.FotoUsuario.setBackgroundResource(mensajes.get(position).getObject().getEmisor().getObject().getFoto());
             holder.RL.setOnClickListener((view)->{
                 mensaje = mensajes.get(position);
                 onClick(view);

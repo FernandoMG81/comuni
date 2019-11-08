@@ -1,26 +1,28 @@
 package com.project.comuni.Servicios;
 
-import android.view.View;
-
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.project.comuni.Models.Firebase.Go;
-import com.project.comuni.Models.Usuario;
 
 public class Db<Tobject> {
 
-    private FirebaseDatabase firebase;
+    private FirebaseDatabase fDatabase;
     private DatabaseReference DbRef;
 
-    public Db(View v){
-        FirebaseApp.initializeApp(v.getContext());
-        firebase = FirebaseDatabase.getInstance();
-        DbRef = firebase.getReference();
+    private FirebaseStorage fStorage;
+    private StorageReference StRef;
+
+    public Db(){
+        fDatabase = FirebaseDatabase.getInstance();
+        DbRef = fDatabase.getReference();
+    }
+
+    public StorageReference Storage(String url){
+        fStorage = FirebaseStorage.getInstance();
+        StRef = fStorage.getReference(url);
+        return StRef;
     }
 
     //Devuelve DbRef que es el punto de comienzo para hacer queries

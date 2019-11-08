@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Tag;
 import com.project.comuni.R;
 
@@ -20,10 +21,10 @@ import java.util.ArrayList;
 public class RecyclerAdapterTags extends RecyclerView.Adapter<RecyclerAdapterTags.ViewHolder> {
     private static final String TAG = "RecyclerAdapterMessages";
 
-    private ArrayList<Tag> tags;
+    private ArrayList<Go<Tag>> tags;
     private Context context;
 
-    public RecyclerAdapterTags(ArrayList<Tag> tags, Context context) {
+    public RecyclerAdapterTags(ArrayList<Go<Tag>> tags, Context context) {
         this.tags = tags;
         this.context = context;
     }
@@ -40,9 +41,9 @@ public class RecyclerAdapterTags extends RecyclerView.Adapter<RecyclerAdapterTag
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: ");
 
-        holder.Tag.setText(tags.get(position).getText());
-        holder.Tag.setBackgroundColor(Color.parseColor(tags.get(position).getBackgroundColor()));
-        holder.Tag.setTextColor(Color.parseColor(tags.get(position).getTextColor()));
+        holder.Tag.setText(tags.get(position).getObject().getText());
+        holder.Tag.setBackgroundColor(Color.parseColor(tags.get(position).getObject().getBackgroundColor()));
+        holder.Tag.setTextColor(Color.parseColor(tags.get(position).getObject().getTextColor()));
 
     }
 

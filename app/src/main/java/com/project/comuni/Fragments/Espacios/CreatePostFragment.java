@@ -18,7 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.storage.FirebaseStorage;
 import com.project.comuni.Adapters.Espacios.RecyclerAdapterTags;
 import com.project.comuni.Models.Espacio;
+import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Post;
+import com.project.comuni.Models.Tag;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.TagService;
 
@@ -29,7 +31,7 @@ public class CreatePostFragment extends Fragment {
 
     //Variables
     private  TagService tagService = new TagService();
-    private Espacio espacio;
+    private Go<Espacio> espacio;
 
     //Layout
     private TextView titulo;
@@ -39,7 +41,7 @@ public class CreatePostFragment extends Fragment {
 
     private void getData() {
         Bundle bundle = getArguments();
-        this.espacio = (Espacio) bundle.getSerializable("espacioActual");
+        this.espacio = (Go<Espacio>) bundle.getSerializable("espacioActual");
     }
 
     private void setLayoutReference(View view){
@@ -65,8 +67,10 @@ public class CreatePostFragment extends Fragment {
     }
 
     private void setRecyclerTags(){
+        Go<Tag> tag = new Go<>();
+        tag.getObject().setEspacio(espacio);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        RecyclerAdapterTags adapter = new RecyclerAdapterTags(this.tagService.filterTagsByEspacioId(espacio.getId()), this.getContext());
+        RecyclerAdapterTags adapter = new RecyclerAdapterTags(new TagService(tag).getAll(), this.getContext());
         recyclerView.setAdapter(adapter);
     }
 

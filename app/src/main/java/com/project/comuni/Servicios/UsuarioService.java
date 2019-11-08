@@ -36,24 +36,17 @@ public class UsuarioService {
         return Arrayx;
     }
 
-    private void setUrlEspaciosAmbos(){
-
-        urlEspacios = urlEspaciosMiembros;
-        for (String x: urlEspaciosAdministradores){
-            urlEspacios.add(x);
-        }
-    }
-
-    public UsuarioService(View v){
-        db = new Db(v);
+    public UsuarioService(){
+        db = new Db();
         usuario = new Go<>();
         urlEspaciosAdministradores = setUrlEspacios(usuario.getObject().getAdministradores());
         urlEspaciosMiembros = setUrlEspacios(usuario.getObject().getMiembros());
-        setUrlEspaciosAmbos();
+        urlEspacios = urlEspaciosMiembros;
+        urlEspacios.addAll(urlEspaciosAdministradores);
     }
 
-    public UsuarioService(View v, Go<Usuario> usuariox){
-        db = new Db(v);
+    public UsuarioService(Go<Usuario> usuariox){
+        db = new Db();
         usuario = usuariox;
     }
 

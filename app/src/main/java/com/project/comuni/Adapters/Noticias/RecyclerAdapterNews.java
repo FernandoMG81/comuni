@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Fragments.Noticias.InnerNoticiasFragment;
+import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Noticia;
 import com.project.comuni.R;
 
@@ -29,13 +30,13 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
     private static final String TAG = "RecyclerAdapterNews";
     private View.OnClickListener listener;
 
-    private ArrayList<Noticia> noticias;
-    private Noticia noticia;
+    private ArrayList<Go<Noticia>> noticias;
+    private Go<Noticia> noticia;
 
     private OnItemListener mOnItemListener;
     private Context context;
 
-    public RecyclerAdapterNews(ArrayList<Noticia> noticias, Context context, OnItemListener onItemListener) {
+    public RecyclerAdapterNews(ArrayList<Go<Noticia>> noticias, Context context, OnItemListener onItemListener) {
         this.noticias = noticias;
         this.context = context;
         this.mOnItemListener = onItemListener;
@@ -54,16 +55,16 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String TextoTruncado = truncate(noticias.get(position).getTexto(),120);
-        holder.Titulo.setText(noticias.get(position).getTitulo());
+        String TextoTruncado = truncate(noticias.get(position).getObject().getTexto(),120);
+        holder.Titulo.setText(noticias.get(position).getObject().getTitulo());
         holder.Texto.setText(TextoTruncado);
-        holder.Fecha.setText(noticias.get(position).getCreated());
+        holder.Fecha.setText(noticias.get(position).getObject().getCreated());
         //Glide.with(context).load(noticias.get(position).).into(holder.imgPostProfile);
         //holder.imagenUsuario.setImageResource(noticias.get(position).getImagen()); // TODO Traer imagen del creador
 
         holder.RL.setOnClickListener((view)-> {
             this.noticia = noticias.get(position);
-            Toast.makeText(context, noticia.getTitulo(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, noticia.getObject().getTitulo(), Toast.LENGTH_SHORT).show();
             onClick(holder.RL);
         });
     }

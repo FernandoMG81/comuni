@@ -31,14 +31,14 @@ public class MensajeService {
                         mensaje.getObject().getEmisor().getKey()));
     }
 
-    public MensajeService(View v){
-        db = new Db(v);
+    public MensajeService(){
+        db = new Db();
         mensaje = new Go<>();
 
     }
 
-    public MensajeService(View v, Go<Mensaje> mensajex){
-        db = new Db(v);
+    public MensajeService( Go<Mensaje> mensajex){
+        db = new Db();
         mensaje = mensajex;
         setUrlUsuarios();
     }
@@ -79,21 +79,25 @@ public class MensajeService {
         return mensaje;
     }
 
-    public Go<Mensaje> getAllFromXandY(Go<Usuario> X, Go<Usuario> Y){
+    public ArrayList<Go<Mensaje>> getAllFromXandY(Go<Usuario> X, Go<Usuario> Y){
+        ArrayList<Go<Mensaje>> mensajes = new ArrayList<>();
         db.DbRef().child(url.AddKey(url.getRootInUsuarios(X),
                           url.AddKey(url.getRoot(),
                             Y.getKey())))
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
-                        mensaje.setKey(snapshot.getKey());
-                        mensaje.setObject(snapshot.getValue(mensaje.getObject().getClass()));
+                        for (DataSnapshot x:snapshot.getChildren()) {
+                            mensaje.setKey(snapshot.getKey());
+                            mensaje.setObject(snapshot.getValue(mensaje.getObject().getClass()));
+                            mensajes.add(mensaje);
+                        }
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         mensaje = null;
                     }
                 });
-        return mensaje;
+        return mensajes;
     }
 }

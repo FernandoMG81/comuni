@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.comuni.Adapters.Espacios.RecyclerAdapterComentarios;
 import com.project.comuni.Models.Comentario;
+import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Post;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.ComentarioService;
@@ -30,30 +31,34 @@ public class InnerPlacesFragment extends Fragment {
     private TextView NombreUsuario;
     private TextView Fecha;
 
-    private Post post = new Post();
+    private Go<Post> post = new Go<>();
 
-    private ArrayList<Comentario> comentarios = new ArrayList<>();
-    private ComentarioService comentarioService= new ComentarioService();
+    private ArrayList<Go<Comentario>> comentarios = new ArrayList<>();
+    private ComentarioService comentarioService = new ComentarioService();
 
     public void setPost() {
         Bundle bundle = getArguments();
-        this.post = (Post) bundle.getSerializable("post");
+        this.post = (Go<Post>) bundle.getSerializable("post");
+        Go<Comentario> comentario = new Go<>();
+        comentario.getObject().setPost(post);
+        comentarios = new ComentarioService(comentario).getAll();
     }
 
-    public void cargarPagina(View view){
+    public void setLayout(View view){
         Titulo = view.findViewById(R.id.InnerPlacesTitulo);
         Descripcion = view.findViewById(R.id.InnerPlacesDescripcion);
         Tag = view.findViewById(R.id.InnerPlacesTag);
         NombreUsuario = view.findViewById(R.id.InnerPlacesUsuario);
         Fecha = view.findViewById(R.id.InnerPlacesFecha);
 
-        Titulo.setText(post.getTitulo());
-        Descripcion.setText(post.getTexto());
-        Tag.setText(post.getTag().getText());
-        Tag.setTextColor(Color.parseColor(post.getTag().getTextColor()));
-        Tag.setBackgroundColor(Color.parseColor(post.getTag().getBackgroundColor()));
-        NombreUsuario.setText(post.getUsuario().getNombre() + " " + post.getUsuario().getApellido());
-        Fecha.setText(post.getCreado());
+        Titulo.setText(post.getObject().getTitulo());
+        Descripcion.setText(post.getObject().getTexto());
+        Tag.setText(post.getObject().getTag().getObject().getText());
+        Tag.setTextColor(Color.parseColor(post.getObject().getTag().getObject().getTextColor()));
+        Tag.setBackgroundColor(Color.parseColor(post.getObject().getTag().getObject().getBackgroundColor()));
+        NombreUsuario.setText(post.getObject().getUsuario().getObject().getNombre()
+                + " " + post.getObject().getUsuario().getObject().getApellido());
+        Fecha.setText(post.getObject().getCreado());
     }
 
     @Nullable
@@ -61,11 +66,10 @@ public class InnerPlacesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setPost();
         View view = inflater.inflate(R.layout.fragment_inner_posts, container, false);
-        cargarPagina(view);
+        setLayout(view);
 
         RecyclerView recyclerView = view.findViewById(R.id.RVInnerPosts);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        comentarios = comentarioService.getComentariosByEspacioId(post.getId());
         RecyclerAdapterComentarios adapter = new RecyclerAdapterComentarios(comentarios,this.getContext());
         recyclerView.setAdapter(adapter);
 
