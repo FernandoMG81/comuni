@@ -3,8 +3,13 @@ package com.project.comuni.Servicios;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
@@ -50,36 +55,36 @@ public class UsuarioService {
         usuario = usuariox;
     }
 
-    public boolean create (){
+    public Task create (){
         return db.create(usuario,url.getRoot());
     }
 
-    public boolean update () {
-        boolean TodoOk, b = true;
-        TodoOk = db.update(usuario, url.getRoot());
-        if (TodoOk == true) {
-            for (String x : urlEspacios) {
-                b = db.update(usuario, x);
-                if (b == false) {
-                    TodoOk = false;
-                }
-            }
-        }
-        return TodoOk;
+    public Task update () {
+        return db.update(usuario, url.getRoot())
+                .addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Transaction.Result> task) {
+                        if (task.isSuccessful()) {
+                            for (String x : urlEspacios) {
+                                db.update(usuario, x);
+                            }
+                        }
+                    }
+                });
     }
 
-    public boolean delete (){
-        boolean TodoOk, b = true;
-        TodoOk = db.delete(usuario, url.getRoot());
-        if (TodoOk == true) {
-            for (String x : urlEspacios) {
-                b = db.delete(usuario, x);
-                if (b == false) {
-                    TodoOk = false;
-                }
-            }
-        }
-        return TodoOk;
+    public Task delete (){
+         return db.delete(usuario, url.getRoot())
+                .addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Transaction.Result> task) {
+                        if (task.isSuccessful()) {
+                            for (String x : urlEspacios) {
+                                db.delete(usuario, x);
+                            }
+                        }
+                    }
+                });
     }
 
     public Go<Usuario> getObject(){

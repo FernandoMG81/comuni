@@ -44,7 +44,7 @@ public class RegistroActivity extends AppCompatActivity {
     private Spinner tipoSeleccionado;
 
     //Variables
-    Go<Usuario> usuario = new Go<>(new Usuario());
+    private Go<Usuario> usuario = new Go<>(new Usuario());
 
     //Layout
     private CircleImageView fotoPerfil;
@@ -167,7 +167,7 @@ public class RegistroActivity extends AppCompatActivity {
                                         Toast.makeText(RegistroActivity.this, "Se registro correctamente", Toast.LENGTH_LONG).show();
                                         finish();
                                     } else {
-                                            Toast.makeText(RegistroActivity.this, "Error al registrarse", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(RegistroActivity.this, "Error al registrarse", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });

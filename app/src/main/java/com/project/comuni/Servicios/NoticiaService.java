@@ -4,6 +4,7 @@ import android.media.Image;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -39,15 +40,15 @@ public class NoticiaService {
         noticia = noticiax;
     }
 
-    public boolean create (){
+    public Task create (){
         return db.create(noticia,url.AddKey(url.getEspacios(),url.getRoot()));
     }
 
-    public boolean update (){
+    public Task update (){
         return db.update(noticia,url.AddKey(url.getEspacios(),url.getRoot()));
     }
 
-    public boolean delete (){
+    public Task delete (){
         return db.delete(noticia,url.AddKey(url.getEspacios(),url.getRoot()));
     }
 

@@ -2,8 +2,13 @@ package com.project.comuni.Servicios;
 
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Mensaje;
@@ -43,22 +48,41 @@ public class MensajeService {
         setUrlUsuarios();
     }
 
-    public boolean create (){
-        Boolean x = db.create(mensaje,urlUsuarioEmisor);
-        if (x == true){x = db.create(mensaje,urlUsuarioReceptor); }
-        return x;
+    public Task create (){
+        return db.create(mensaje,urlUsuarioEmisor)
+                .addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
+            @Override
+            public void onComplete(@NonNull Task<Transaction.Result> task) {
+                if (task.isSuccessful()) {
+                    db.create(mensaje,urlUsuarioReceptor);
+                }
+            }
+        });
     }
 
-    public boolean update (){
-        Boolean x = db.update(mensaje,urlUsuarioEmisor);
-        if (x == true){x = db.update(mensaje,urlUsuarioReceptor); }
-            return x;
+    public Task update (){
+        return db.update(mensaje,urlUsuarioEmisor)
+                .addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
+            @Override
+            public void onComplete(@NonNull Task<Transaction.Result> task) {
+                if (task.isSuccessful()) {
+                    db.update(mensaje,urlUsuarioReceptor);
+                }
+            }
+        });
+
     }
 
-    public boolean delete(){
-        Boolean x = db.delete(mensaje,urlUsuarioEmisor);
-            if (x == true){x = db.delete(mensaje,urlUsuarioReceptor); }
-                return x;
+    public Task delete(){
+        return db.delete(mensaje,urlUsuarioEmisor)
+                .addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
+            @Override
+            public void onComplete(@NonNull Task<Transaction.Result> task) {
+                if (task.isSuccessful()) {
+                    db.delete(mensaje,urlUsuarioReceptor);
+                }
+            }
+        });
     }
 
     public Go<Mensaje> getObject(){
