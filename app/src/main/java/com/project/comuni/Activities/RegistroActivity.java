@@ -45,7 +45,7 @@ public class RegistroActivity extends AppCompatActivity {
     private Spinner tipoSeleccionado;
 
     //Variables
-    Go<Usuario> usuario = new Go<>(new Usuario());
+    private Go<Usuario> usuario = new Go<>(new Usuario());
 
     //Layout
     private CircleImageView fotoPerfil;

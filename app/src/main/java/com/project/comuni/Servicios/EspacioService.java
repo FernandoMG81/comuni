@@ -1,9 +1,12 @@
 package com.project.comuni.Servicios;
 
-import android.view.View;
+import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
@@ -59,36 +62,35 @@ public class EspacioService {
         }
     }
 
-    public boolean create (){
+    public Task create (){
         return db.create(espacio,urlEspacio);
     }
 
-    public boolean update () {
-        boolean TodoOk, b = true;
-        TodoOk = db.update(espacio, urlEspacio);
-        if (TodoOk == true) {
-            for (String x : urlUsuarios) {
-                b = db.update(espacio, x);
-                if (b == false) {
-                    TodoOk = false;
+    public Task update () {
+        return db.update(espacio, urlEspacio).addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
+            @Override
+            public void onComplete(@NonNull Task<Transaction.Result> task) {
+                if (task.isSuccessful()) {
+                    for (String x : urlUsuarios) {
+                        db.update(espacio, x);
+                    }
                 }
             }
-        }
-        return TodoOk;
+        });
     }
 
-    public boolean delete (){
-        boolean TodoOk, b = true;
-        TodoOk = db.delete(espacio, urlEspacio);
-        if (TodoOk == true) {
-            for (String x : urlUsuarios) {
-                b = db.delete(espacio, x);
-                if (b == false) {
-                    TodoOk = false;
+    public Task delete (){
+
+        return db.delete(espacio, urlEspacio).addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
+            @Override
+            public void onComplete(@NonNull Task<Transaction.Result> task) {
+                if (task.isSuccessful()) {
+                    for (String x : urlUsuarios) {
+                        db.delete(espacio, x);
+                    }
                 }
             }
-        }
-        return TodoOk;
+        });
     }
 
     public Go<Espacio> getObject(){

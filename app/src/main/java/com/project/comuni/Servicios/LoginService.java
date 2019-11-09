@@ -50,7 +50,6 @@ public class LoginService {
                                 //usuario.getObject().setFoto(url);
                             }
                             else {
-                                String url = "";
                                 usuario.getObject().setFoto(Constantes.URL_FOTO_POR_DEFECTO_USUARIOS);
                             }
                             usuario.setKey(getUser().getUid());

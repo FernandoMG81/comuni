@@ -2,6 +2,7 @@ package com.project.comuni.Servicios;
 
 import android.view.View;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -37,15 +38,15 @@ public class PostService {
         setUrlEspacios();
     }
 
-    public boolean create (){
+    public Task create (){
         return db.create(post,urlEspacios);
     }
 
-    public boolean update (){
+    public Task update (){
         return db.update(post,urlEspacios);
     }
 
-    public boolean delete (){
+    public Task delete (){
         return db.delete(post,urlEspacios);
     }
 

@@ -1,5 +1,6 @@
 package com.project.comuni.Servicios;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -29,28 +30,25 @@ public class Db<Tobject> {
     public DatabaseReference DbRef (){return  DbRef;}
 
     //Busca una url dada y crea una key y su objeto
-    public Boolean create(Go<Tobject> obj, String url){
+    public Task<Void> create(Go<Tobject> obj, String url){
         return DbRef.child(url)
                 .push()
-                .setValue(obj.getObject())
-                .isSuccessful();
+                .setValue(obj.getObject());
     }
 
     //Busca en una url y key dada y sobreescribe el objeto
-    public Boolean update(Go<Tobject> obj, String url){
+    public Task<Void> update(Go<Tobject> obj, String url){
         return DbRef
                 .child(url)
                 .child(obj.getKey())
-                .setValue(obj.getObject())
-                .isSuccessful();
+                .setValue(obj.getObject());
     }
 
     //Busca en una url y key dada y borra el objeto
-    public Boolean delete(Go<Tobject> obj, String url){
+    public Task<Void> delete(Go<Tobject> obj, String url){
         return DbRef.child(url)
                 .child(obj.getKey())
-                .removeValue()
-                .isSuccessful();
+                .removeValue();
     }
 
 }

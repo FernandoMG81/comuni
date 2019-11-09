@@ -49,6 +49,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItemListener {
 
+
     private ArrayList<Go<Noticia>> noticias = new ArrayList<>();
 
     private FloatingActionButton addNewsButton;
