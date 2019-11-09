@@ -41,19 +41,19 @@ public class NoticiaService {
     }
 
     public Task create (){
-        return db.create(noticia,url.AddKey(url.getEspacios(),url.getRoot()));
+        return db.create(noticia,url.getRoot());
     }
 
     public Task update (){
-        return db.update(noticia,url.AddKey(url.getEspacios(),url.getRoot()));
+        return db.update(noticia,url.getRoot());
     }
 
     public Task delete (){
-        return db.delete(noticia,url.AddKey(url.getEspacios(),url.getRoot()));
+        return db.delete(noticia,url.getRoot());
     }
 
     public Go<Noticia> getObject(){
-        db.DbRef().child(url.AddKey(url.getEspacios(),url.getRoot()))
+        db.DbRef().child(url.getRoot())
                 .orderByKey()
                 .equalTo(noticia.getKey())
                 .addValueEventListener(new ValueEventListener() {
@@ -72,14 +72,14 @@ public class NoticiaService {
 
     public ArrayList<Go<Noticia>> getAll(){
         ArrayList<Go<Noticia>> noticias = new ArrayList<>();
-        db.DbRef().child(url.AddKey(url.getEspacios(),url.getRoot()))
+        db.DbRef().child(url.getRoot())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         for (DataSnapshot x: snapshot.getChildren())
                         {
-                            noticia.setKey(snapshot.getKey());
-                            noticia.setObject(snapshot.getValue(noticia.getObject().getClass()));
+                            noticia.setKey(x.getKey());
+                            noticia.setObject(x.getValue(noticia.getObject().getClass()));
                             noticias.add(noticia);
                         }
                     }
