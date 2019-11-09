@@ -20,14 +20,22 @@ import android.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.project.comuni.Adapters.Noticias.RecyclerAdapterNews;
 import com.project.comuni.Models.Firebase.Go;
+import com.project.comuni.Models.Firebase.User;
+import com.project.comuni.Models.Logica.LUser;
 import com.project.comuni.Models.Noticia;
 import com.project.comuni.Persistencia.UsuarioDAO;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.NoticiaService;
+import com.project.comuni.Servicios.UsuarioService;
 
 import java.util.ArrayList;
 
@@ -54,7 +62,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
     RecyclerAdapterNews newsAdapter ;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference ;
-    ArrayList<Noticia> newsList;
+    //ArrayList<Go<Noticia>> newsList;
 
 
     @Nullable
@@ -72,7 +80,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
 
         this.noticias = new NoticiaService().getAll();
 
-        RecyclerAdapterNews adapter = new RecyclerAdapterNews(this.noticias, this.getContext(),this);
+        RecyclerAdapterNews adapter = new RecyclerAdapterNews(this.noticias, this.getContext());
 
         recyclerNews.setAdapter(adapter);
 
@@ -86,36 +94,38 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
         return view;
     }
 
-/* //TODO RESOLVER EL LISTADO
-    @Override
+ //TODO RESOLVER EL LISTADO
+/*    @Override
     public void onStart() {
         super.onStart();
 
-        // Get List Posts from the database
+        // Obtener el listado de noticias de la base de datos
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                newsList = new ArrayList<>();
+                //newsList = new ArrayList<>();
+
+
+
                 for (DataSnapshot postsnap: dataSnapshot.getChildren()) {
 
-                    Noticia noticia = postsnap.getValue(Noticia.class);
-                    newsList.add(noticia);
+                    Go<Noticia> noticia = new Go<>(postsnap.getKey(),postsnap.getValue(Noticia.class));
+                    noticias.add(noticia);
                 }
 
-                newsAdapter = new RecyclerAdapterNews(newsList,this.getContext(),this);
+                newsAdapter = new RecyclerAdapterNews(noticias,getContext());
                 postRecyclerView.setAdapter(newsAdapter);
 
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-
-
 
     }
 
@@ -159,7 +169,13 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
                     popupAddBtn.setVisibility(View.INVISIBLE);
                     popupClickProgress.setVisibility(View.VISIBLE);
 
-                    //addNews(noticia);
+                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                    FirebaseUser currentUser = mAuth.getCurrentUser();
+
+
+                   Noticia noticia = new Noticia(currentUser.getDisplayName(),"dsdsdsdsdsds"
+                           ,popupTitle.getText().toString(),popupDescription.getText().toString());
+                   addNews(noticia);
                 }
 
             }
@@ -177,7 +193,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
         DatabaseReference reference = database.getReference("Noticias").push();
 
         String key = reference.getKey();
-       // noticia.setNewsKey(key);
+        noticia.setNewsKey(key);
 
         reference.setValue(noticia).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

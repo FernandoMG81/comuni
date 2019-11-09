@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +56,7 @@ public class RegistroActivity extends AppCompatActivity {
     private TextInputEditText txtContraseñaRepetida;
     private Button btnRegistrar;
     private TextView btnIngresar;
+    private ProgressBar regProgreso;
 
     //Imagenes
     private ImagePicker imagePicker;
@@ -72,6 +74,8 @@ public class RegistroActivity extends AppCompatActivity {
         txtContraseñaRepetida = findViewById(R.id.idRegistroRepiteContraseña);
         btnRegistrar = findViewById(R.id.idBotonRegistro);
         btnIngresar = findViewById(R.id.buttonIrAIngreso);
+        regProgreso = findViewById(R.id.idRegistroProgressBar);
+        regProgreso.setVisibility(View.INVISIBLE);
     }
 
     private void setBtnLoginClick() {
@@ -165,9 +169,11 @@ public class RegistroActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(RegistroActivity.this, "Se registro correctamente", Toast.LENGTH_LONG).show();
+
+
                                         finish();
                                     } else {
-                                            Toast.makeText(RegistroActivity.this, "Error al registrarse", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(RegistroActivity.this, "Error al registrarse", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });

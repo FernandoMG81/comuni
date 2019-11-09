@@ -5,11 +5,17 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.project.comuni.Models.Firebase.Go;
+import com.project.comuni.Models.Firebase.User;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.Utils.Constantes;
 
@@ -50,11 +56,49 @@ public class LoginService {
                             usuario.setKey(getUser().getUid());
                             new UsuarioService(usuario).update();
 
+                            //Asocia los datos del usuario a firebase, nombre y fotoUrl
+                            actualizarDatosUsuario(usuario.getObject().getNombre()+" "+usuario.getObject().getApellido(),foto,getUser());
+
                         } else {
                             // If sign in fails, display a message to the user.
                         }
                     }
                 });
+    }
+
+    private void actualizarDatosUsuario(String nombre, Uri foto, FirebaseUser usuario) {
+
+        StorageReference mStorage = FirebaseStorage.getInstance().getReference().child(Constantes.NODO_FOTOS_PERFIL+getUser().getUid());
+        StorageReference imagenFilePath = mStorage.child(foto.getLastPathSegment());
+        imagenFilePath.putFile(foto).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                //Imagen subida correctamente
+
+                imagenFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+
+                        UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(nombre)
+                                .setPhotoUri(foto)
+                                .build();
+
+                        usuario.updateProfile(profileUpdate)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                         if(task.isSuccessful()){
+                                             //actualizar los datos del usuario
+
+                                         }
+                                    }
+                                });
+
+                    }
+                });
+            }
+        });
     }
 
 /*   public String uploadFoto(Uri foto){

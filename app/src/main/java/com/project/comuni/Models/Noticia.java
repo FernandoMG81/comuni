@@ -1,10 +1,14 @@
 package com.project.comuni.Models;
 
 
+import android.net.Uri;
+
 import com.google.firebase.database.ServerValue;
 import com.project.comuni.Models.Firebase.Go;
+import com.project.comuni.Persistencia.UsuarioDAO;
 
 import java.io.Serializable;
+
 
 public class Noticia implements Serializable {
 
@@ -12,16 +16,18 @@ public class Noticia implements Serializable {
     private Go<Usuario> usuario;
     private String titulo;
     private String texto;
-    private String created;
     private Object timeStamp;
+    private String created;
+    private String newsKey;
+    private String nombre;
+    private String fotoUrl;
 
     public Noticia() { }
 
-    public Noticia(Go<Usuario> usuario, String titulo, String texto, String created ){
+    public Noticia(Go<Usuario> usuario, String titulo, String texto){
         this.usuario = usuario;
         this.titulo = titulo;
         this.texto = texto;
-        this.created = created;
         this.timeStamp = ServerValue.TIMESTAMP;
     }
 
@@ -30,6 +36,15 @@ public class Noticia implements Serializable {
         this.texto = texto;
         //this.created = created;
         //this.imagen = imagen;
+        this.timeStamp = ServerValue.TIMESTAMP;
+    }
+
+    //Constructor provisorio
+    public Noticia(String nombre, String fotoUrl, String titulo, String texto){
+        this.nombre = nombre;
+        this.fotoUrl = fotoUrl;
+        this.titulo = titulo;
+        this.texto = texto;
         this.timeStamp = ServerValue.TIMESTAMP;
     }
 
@@ -43,6 +58,30 @@ public class Noticia implements Serializable {
 
     public Go<Usuario> getUserId() {
         return usuario;
+    }
+
+    public String getNewsKey() {
+        return newsKey;
+    }
+
+    public void setNewsKey(String newsKey) {
+        this.newsKey = newsKey;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getFotoUrl() {
+        return fotoUrl;
+    }
+
+    public void setFotoUrl(String fotoUrl) {
+        this.fotoUrl = fotoUrl;
     }
 
     public void setUserId(Go<Usuario> usuario) {

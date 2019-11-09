@@ -36,10 +36,10 @@ public class RecyclerAdapterNews extends RecyclerView.Adapter<RecyclerAdapterNew
     private OnItemListener mOnItemListener;
     private Context context;
 
-    public RecyclerAdapterNews(ArrayList<Go<Noticia>> noticias, Context context, OnItemListener onItemListener) {
+    public RecyclerAdapterNews(ArrayList<Go<Noticia>> noticias, Context context) {
         this.noticias = noticias;
         this.context = context;
-        this.mOnItemListener = onItemListener;
+        //this.mOnItemListener = onItemListener;
     }
 
     @NonNull

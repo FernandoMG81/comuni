@@ -245,7 +245,7 @@ public class InnerMessagesFragment extends Fragment {
                     }
                 });
 
-        verifyStoragePermissions((Activity) getActivity());
+        verifyStoragePermissions(getActivity());
 
         return view;
     }

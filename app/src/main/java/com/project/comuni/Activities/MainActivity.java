@@ -117,14 +117,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-   /* public void replaceFragmentWithAnimation(Fragment fragment, String tag){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left);
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(tag);
-        transaction.commit();
-    }
-*/
 
     @Override
     protected void onResume() {

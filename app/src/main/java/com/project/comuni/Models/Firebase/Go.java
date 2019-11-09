@@ -5,7 +5,7 @@ import java.util.Dictionary;
 import java.util.Map;
 
 // Clase generica que se genera para que los objetos tengan una clave asociada por fuera de ellos.
-//Go = Generic Object
+// Go = Generic Object
 public class Go <TObject> implements Serializable {
 
     private String Key;
