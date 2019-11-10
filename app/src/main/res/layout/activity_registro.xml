@@ -70,20 +70,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Seleccione su tipo de usuario" />
-
-                            <androidx.appcompat.widget.AppCompatSpinner
-                                android:id="@+id/idRegistroTipo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:hint="Tipo de usuario" />
-                        </LinearLayout>
+                            android:orientation="horizontal"/>
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/idRegistroClaveProfesional"
@@ -144,6 +131,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
+                <ProgressBar
+                        android:id="@+id/idRegistroProgressBar"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+
                 <Button
                     android:id="@+id/idBotonRegistro"
                     style="@style/Widget.AppCompat.Button.Colored"
@@ -151,12 +145,7 @@
                     android:layout_height="wrap_content"
                     android:text="Registrarse" />
 
-                    <ProgressBar
-                        android:id="@+id/idRegistroProgressBar"
-                        style="?android:attr/progressBarStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        />
+
                 </RelativeLayout>
 
             </LinearLayout>

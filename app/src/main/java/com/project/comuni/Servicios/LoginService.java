@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -22,6 +23,7 @@ import com.project.comuni.Utils.Constantes;
 public class LoginService {
     private FirebaseAuth fireAuth;
     Db db = new Db();
+    String fotoUrl ="";
 
     public interface data{
         static void url(String url){};
@@ -46,8 +48,8 @@ public class LoginService {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             if (foto != null) {
-                                //String url = uploadFoto(foto);
-                                //usuario.getObject().setFoto(url);
+                                String url = uploadFoto(foto);
+                                usuario.getObject().setFoto(url);
                             }
                             else {
                                 usuario.getObject().setFoto(Constantes.URL_FOTO_POR_DEFECTO_USUARIOS);
@@ -100,10 +102,11 @@ public class LoginService {
         });
     }
 
-/*   public String uploadFoto(Uri foto){
-        Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("SSS.ss-mm-hh-dd-MM-yyyy", Locale.getDefault());
-        String fireUrl = "Fotos/FotosPerfil/" + simpleDateFormat.format(date);
+   public String uploadFoto(Uri foto){
+        //Date date = new Date();
+        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("SSS.ss-mm-hh-dd-MM-yyyy", Locale.getDefault());
+
+       String fireUrl = "Fotos/FotoPerfil/"+getUser().getUid();
         db.Storage(fireUrl).putFile(foto).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
@@ -118,9 +121,10 @@ public class LoginService {
                 if(task.isSuccessful()){
                     Uri uri = task.getResult();
                     data.url(uri.toString());
+                    fotoUrl = uri.toString();
                 }
             }
         });
-        return data.url();
-    }*/
+        return fotoUrl;
+    }
 }

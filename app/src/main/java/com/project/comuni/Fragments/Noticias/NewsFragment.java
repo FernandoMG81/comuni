@@ -18,6 +18,7 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,8 +56,10 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
     private FloatingActionButton addNewsButton;
     private RecyclerView recyclerNews;
     private Dialog popAddNews;
-    private ImageView popupAddBtn;
+    private ImageView popupAddBtn,imagenCreador;
     private TextView popupTitle, popupDescription;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
 
     ProgressBar popupClickProgress;
     RecyclerView postRecyclerView ;
@@ -74,12 +77,16 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
         recyclerNews = view.findViewById(R.id.RVNews);
         addNewsButton = view.findViewById(R.id.newsButton);
 
+        //TODO: CAMBIAR
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
         recyclerNews.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //Dialog nueva noticia
         iniPopup();
 
-        this.noticias = new NoticiaService().getAll();
+        //this.noticias = new NoticiaService().getAll();
 
         RecyclerAdapterNews adapter = new RecyclerAdapterNews(this.noticias, this.getContext());
 
@@ -88,6 +95,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
         addNewsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Glide.with(getContext()).load(currentUser.getPhotoUrl()).into(imagenCreador);
                 popAddNews.show();
             }
         });
@@ -145,6 +153,9 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
         popupDescription = popAddNews.findViewById(R.id.createNewsDescripción);
         popupClickProgress = popAddNews.findViewById(R.id.createProgressBarNews);
         popupAddBtn = popAddNews.findViewById(R.id.createPostNews);
+        imagenCreador = popAddNews.findViewById(R.id.createImagenCreador);
+
+
 
 
         //Agregar Noticia Listener
@@ -170,12 +181,12 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
                     popupAddBtn.setVisibility(View.INVISIBLE);
                     popupClickProgress.setVisibility(View.VISIBLE);
 
-                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                    FirebaseUser currentUser = mAuth.getCurrentUser();
 
-
-                   Noticia noticia = new Noticia(currentUser.getDisplayName(),"dsdsdsdsdsds"
-                           ,popupTitle.getText().toString(),popupDescription.getText().toString());
+                   Noticia noticia = new Noticia(currentUser.getDisplayName()
+                                                 ,currentUser.getPhotoUrl().toString()
+                                                 ,popupTitle.getText().toString()
+                                                 ,popupDescription.getText().toString()
+                                                 ,currentUser.getUid());
                    addNews(noticia);
                 }
 

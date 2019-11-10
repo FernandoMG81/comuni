@@ -21,6 +21,7 @@ public class Noticia implements Serializable {
     private String newsKey;
     private String nombre;
     private String fotoUrl;
+    private String userKey;
 
     public Noticia() { }
 
@@ -40,12 +41,21 @@ public class Noticia implements Serializable {
     }
 
     //Constructor provisorio
-    public Noticia(String nombre, String fotoUrl, String titulo, String texto){
+    public Noticia(String nombre, String fotoUrl, String titulo, String texto, String userKey){
         this.nombre = nombre;
         this.fotoUrl = fotoUrl;
         this.titulo = titulo;
         this.texto = texto;
+        this.userKey = userKey;
         this.timeStamp = ServerValue.TIMESTAMP;
+    }
+
+    public String getUserKey() {
+        return userKey;
+    }
+
+    public void setUserKey(String userKey) {
+        this.userKey = userKey;
     }
 
     public Object getTimeStamp() {

@@ -66,7 +66,6 @@ public class RegistroActivity extends AppCompatActivity {
 
     private void setLayout() {
         fotoPerfil = findViewById(R.id.idRegistroFotoPerfil);
-        tipoSeleccionado = findViewById(R.id.idRegistroTipo);
         txtClaveProfesional = findViewById(R.id.idRegistroClaveProfesional);
         txtNombre = findViewById(R.id.idRegistroNombre);
         txtCorreo = findViewById(R.id.idRegistroCorreo);
