@@ -1,4 +1,6 @@
 package com.project.comuni.Models.Firebase;
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.Dictionary;
@@ -59,5 +61,11 @@ public class Go <TObject> implements Serializable {
     public Dictionary<String, TObject> ToDictionary(Dictionary<String, TObject> Diction) {
         Diction.put(Key, Object);
         return Diction;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return Object.toString();
     }
 }

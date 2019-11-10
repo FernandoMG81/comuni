@@ -97,8 +97,32 @@ public class PlacesFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 espacioActual = (Go<Espacio>) adapterView.getSelectedItem();
-                filterData();
+                if (espacioActual.getKey() != null) {
+
+                    new PostService().getAllFromEspacios(espacioActual)
+                            .addValueEventListener(new ValueEventListener() {
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+
+                                @Override
+                                public void onDataChange(DataSnapshot snapshot) {
+                                    for (DataSnapshot x : snapshot.getChildren()) {
+                                        Go<Post> postx = new Go<>(new Post());
+                                        postx.setKey(x.getKey());
+                                        postx.setObject(x.getValue(postx.getObject().getClass()));
+                                        posts.add(postx);
+                                    }
+
+                                }
+
+                            });
+                }
+                //filterData();
                 setRecycler();
+                setAddButton();
             }
 
             @Override
@@ -128,11 +152,17 @@ public class PlacesFragment extends Fragment {
     }
 
     public void crear() {
-        new EspacioService(espacioActual).create();
-        x.put(usuario.getKey(), usuario.getObject());
+        Go<Post> postx = new Go<>(new Post());
+        postx.getObject().setEspacio(espacioActual);
+        postx.getObject().setTitulo("Amigoooo");
+        postx.getObject().setTexto("Como va?");
+        new PostService(postx).create();
+
+        /*x.put(usuario.getKey(), usuario.getObject());
         espacioActual.setObject(new Espacio());
         espacioActual.getObject().setNombre("asd");
         espacioActual.getObject().setAdministradores(x);
+        new EspacioService(espacioActual).create();*/
     }
 
     private void setAddButton(){
@@ -156,20 +186,31 @@ public class PlacesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_places, container, false);
 
+        setLayoutReferences(view);
         usuario.setKey("11OgjOiKgFV9dHWoLLh07PK7lyw2");
 
         new UsuarioService(usuario).getObject()
                 .addValueEventListener(new ValueEventListener() {
 
                     @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+
+                    @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         usuario.setObject(snapshot.getValue(usuario.getObject().getClass()));
                         Toast.makeText(view.getContext(), usuario.getObject().getNombre(), Toast.LENGTH_SHORT).show();
 
-
                         new EspacioService().getAllFromUsuario(usuario)
                                 .addValueEventListener(
                                         new ValueEventListener() {
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+
                                             @Override
                                             public void onDataChange(DataSnapshot snapshot) {
                                                 for (DataSnapshot x : snapshot.getChildren()) {
@@ -179,42 +220,16 @@ public class PlacesFragment extends Fragment {
                                                     espacios.add(aux);
                                                 }
 
-                                                if (espacioActual.getKey() != null){
-                                                    Go<Post> post = new Go<>();
-                                                    post.getObject().setEspacio(espacioActual);
-                                                    PostService postService = new PostService();
-                                                    posts = postService.getAll();
-                                                }
 
-
-                                                setLayoutReferences(view);
-                                                if (espacios.size()>0) {
+                                                setSearch();
+                                                if (espacios.size() > 0) {
                                                     setSpinnerEspacios();
-                                                    setSearch();
-                                                    setAddButton();
                                                 }
-                                                setAddButton();
 
                                             }
-
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
-
-                                            }
-                                        });;
-
-
-
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        usuario = null;
+                                        });
                     }
                 });
-
-
-
-
         return view;
     }
 }

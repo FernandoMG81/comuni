@@ -5,7 +5,9 @@ import android.view.View;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Post;
 import com.project.comuni.Utils.FireUrl;
@@ -50,47 +52,14 @@ public class PostService {
         return db.delete(post,urlEspacios);
     }
 
-    public Go<Post> getObject(){
-        db.DbRef().child(urlEspacios)
+    public Query getObject(){
+      return db.DbRef().child(urlEspacios)
                 .orderByKey()
-                .equalTo(post.getKey())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        post.setKey(snapshot.getKey());
-                        post.setObject(snapshot.getValue(post.getObject().getClass()));
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        post = null;
-                    }
-                });
-        return post;
+                .equalTo(post.getKey());
     }
 
-    private ArrayList<Go<Post>> getAllFrom(String url){
-        ArrayList<Go<Post>> posts = new ArrayList<>();
-        db.DbRef().child(url)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        for (DataSnapshot x: snapshot.getChildren()) {
-                            post.setKey(snapshot.getKey());
-                            post.setObject(snapshot.getValue(post.getObject().getClass()));
-                            posts.add(post);
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        post = null;
-                    }
-                });
-        return posts;
+    public Query getAllFromEspacios(Go<Espacio> espacio) {
+        return db.getAll(urlEspacios);
     }
-
-    public ArrayList<Go<Post>> getAll(){
-        return getAllFrom(urlEspacios);
-    }
-
 
 }
