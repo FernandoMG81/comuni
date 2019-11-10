@@ -28,6 +28,19 @@ public class Espacio implements Serializable {
         this.deleted = deleted;
     }
 
+    public String validar(){
+        if (nombre.isEmpty()){
+            return "Un espacio debe tener nombre.";
+        }
+        if (descripcion.isEmpty()){
+            return "Un espacio debe tener descripción.";
+        }
+        if (administradores.isEmpty()){
+            return "Un debe tener al menos 1 administrador.";
+        }
+        return "Ok";
+    }
+
     public String getNombre() {
         return nombre;
     }

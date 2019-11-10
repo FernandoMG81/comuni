@@ -5,6 +5,7 @@ import android.view.View;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
@@ -89,6 +90,10 @@ public class TagService {
                     }
                 });
         return tags;
+    }
+
+    public Query getAllFromEspacios(Go<Espacio> espacio) {
+        return db.getAll(url.AddKey(url.getRootInEspacios(espacio),url.getRoot()));
     }
 
 }

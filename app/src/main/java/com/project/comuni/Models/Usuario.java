@@ -4,6 +4,8 @@ package com.project.comuni.Models;
 import android.text.TextUtils;
 import android.util.Patterns;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.Dictionary;
 import java.util.Map;
 
@@ -20,6 +22,11 @@ public class Usuario {
     private String deleted;
 
     public Usuario() { }
+
+    public Usuario(FirebaseUser usuariox) {
+        email = usuariox.getEmail();
+        nombre = usuariox.getDisplayName();
+    }
 
     public Usuario(String nombre, String apellido, String foto, String creado) {
         this.nombre = nombre;

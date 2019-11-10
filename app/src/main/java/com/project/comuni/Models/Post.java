@@ -30,6 +30,24 @@ public class Post implements Serializable {
 
     public Post() {    }
 
+    public String validar(){
+        if (titulo.isEmpty()){
+            return "El post debe tener título.";
+        }
+        if (texto.isEmpty()){
+            return "El post debe tener un cuerpo.";
+        }
+        if (tag == null){
+            return "Ok";
+        }
+        if (espacio == null){
+            return "Ocurrió un error.";
+        }
+        if (usuario == null){
+            return "Ocurrió un error.";
+        }
+        return "Ok";
+    }
 
     public Go<Espacio>  getEspacio() {
         return espacio;

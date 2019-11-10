@@ -1,6 +1,9 @@
 package com.project.comuni.Models.Firebase;
 import androidx.annotation.NonNull;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.project.comuni.Models.Usuario;
+
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.Dictionary;

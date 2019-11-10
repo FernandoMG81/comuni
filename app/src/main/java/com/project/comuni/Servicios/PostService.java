@@ -59,7 +59,7 @@ public class PostService {
     }
 
     public Query getAllFromEspacios(Go<Espacio> espacio) {
-        return db.getAll(urlEspacios);
+        return db.getAll(url.AddKey(url.getRootInEspacios(espacio),url.getRoot()));
     }
 
 }

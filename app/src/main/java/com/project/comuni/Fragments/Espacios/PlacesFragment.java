@@ -25,6 +25,7 @@ import com.project.comuni.Models.Post;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.EspacioService;
+import com.project.comuni.Servicios.LoginService;
 import com.project.comuni.Servicios.PostService;
 import com.project.comuni.Servicios.UsuarioService;
 
@@ -51,8 +52,8 @@ public class PlacesFragment extends Fragment {
     //Variables Filtrado
     private String searchText = "";
     private Go<Espacio> espacioActual = new Go<>();
-    Go<Usuario> usuario = new Go<>(new Usuario());
-    Map<String, Usuario> x = new HashMap<>();
+    private Go<Usuario> usuario = new Go<>(new Usuario());
+    private Map<String, Usuario> x = new HashMap<>();
     // Layout
     private EditText search;
     private Spinner spinner;
@@ -65,7 +66,6 @@ public class PlacesFragment extends Fragment {
         spinner = v.findViewById(R.id.PlacesSpinner);
         newPlaceButton = v.findViewById(R.id.PlacesButton);
     }
-
 
     private void setSearch(){
         search.addTextChangedListener(new TextWatcher() {
@@ -86,6 +86,19 @@ public class PlacesFragment extends Fragment {
                 setRecycler();
             }
         });
+    }
+
+    private void filterData(){
+
+        postsAMostrar.clear();
+        for (Go<Post> post: posts){
+            if (filtrarString(post.getObject().getTitulo(), searchText) ||
+                    filtrarString (post.getObject().getTexto(), searchText))
+            {
+                postsAMostrar.add(post);
+
+            }
+        }
     }
 
     private void setSpinnerEspacios(){
@@ -115,18 +128,20 @@ public class PlacesFragment extends Fragment {
                                         postx.setObject(x.getValue(postx.getObject().getClass()));
                                         posts.add(postx);
                                     }
+                                    filterData();
+                                    setRecycler();
 
                                 }
 
                             });
                 }
-                //filterData();
-                setRecycler();
-                setAddButton();
+
+                //setAddButton();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
     }
@@ -137,18 +152,59 @@ public class PlacesFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    private void filterData(){
-
-        postsAMostrar.clear();
-        for (Go<Post> post: posts){
-            if (post.getObject().getEspacio().getKey() == espacioActual.getKey()){
-                if (filtrarString(post.getObject().getTitulo(), searchText) ||
-                    filtrarString (post.getObject().getTexto(), searchText))
-                {
-                    postsAMostrar.add(post);
-                }
+    private void setAddButton(){
+        newPlaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //AppCompatActivity activity = (MainActivity) view.getContext();
+                //Fragment myFragment = new CreatePostFragment();
+                AppCompatActivity activity = (MainActivity) view.getContext();
+                Fragment myFragment = new CreateEspacioFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("espacioActual", espacioActual);
+                args.putSerializable("usuario",usuario);
+                myFragment.setArguments(args);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
             }
-        }
+        });
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_places, container, false);
+
+        setLayoutReferences(view);
+        usuario = new LoginService().getGoUser();
+        setAddButton();
+            new EspacioService().getAllFromUsuario(usuario)
+                    .addValueEventListener(
+                            new ValueEventListener() {
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+
+                                @Override
+                                public void onDataChange(DataSnapshot snapshot) {
+                                    for (DataSnapshot x : snapshot.getChildren()) {
+                                        Go<Espacio> aux = new Go<>(new Espacio());
+                                        aux.setKey(x.getKey());
+                                        aux.setObject(x.getValue(aux.getObject().getClass()));
+                                        espacios.add(aux);
+                                    }
+
+
+                                    setSearch();
+                                    if (espacios.size() > 0) {
+                                        setSpinnerEspacios();
+                                    }
+
+                                }
+                            });
+
+        return view;
     }
 
     public void crear() {
@@ -163,73 +219,5 @@ public class PlacesFragment extends Fragment {
         espacioActual.getObject().setNombre("asd");
         espacioActual.getObject().setAdministradores(x);
         new EspacioService(espacioActual).create();*/
-    }
-
-    private void setAddButton(){
-        newPlaceButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                crear();
-              /*  AppCompatActivity activity = (MainActivity) view.getContext();
-                Fragment myFragment = new CreatePostFragment();
-                Bundle args = new Bundle();
-                args.putSerializable("espacioActual", espacioActual);
-                myFragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
-*/
-            }
-        });
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_places, container, false);
-
-        setLayoutReferences(view);
-        usuario.setKey("11OgjOiKgFV9dHWoLLh07PK7lyw2");
-
-        new UsuarioService(usuario).getObject()
-                .addValueEventListener(new ValueEventListener() {
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        usuario.setObject(snapshot.getValue(usuario.getObject().getClass()));
-                        Toast.makeText(view.getContext(), usuario.getObject().getNombre(), Toast.LENGTH_SHORT).show();
-
-                        new EspacioService().getAllFromUsuario(usuario)
-                                .addValueEventListener(
-                                        new ValueEventListener() {
-
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
-
-                                            }
-
-                                            @Override
-                                            public void onDataChange(DataSnapshot snapshot) {
-                                                for (DataSnapshot x : snapshot.getChildren()) {
-                                                    Go<Espacio> aux = new Go<>(new Espacio());
-                                                    aux.setKey(x.getKey());
-                                                    aux.setObject(x.getValue(aux.getObject().getClass()));
-                                                    espacios.add(aux);
-                                                }
-
-
-                                                setSearch();
-                                                if (espacios.size() > 0) {
-                                                    setSpinnerEspacios();
-                                                }
-
-                                            }
-                                        });
-                    }
-                });
-        return view;
     }
 }
