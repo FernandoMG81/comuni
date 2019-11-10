@@ -7,6 +7,7 @@ import android.util.Patterns;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Usuario {
@@ -14,8 +15,8 @@ public class Usuario {
     private String email;
     private String nombre;
     private String apellido;
-    private Map<String,Espacio> administradores;
-    private Map<String,Espacio>  miembros;
+    private Map<String,Espacio> administradores = new HashMap<>();
+    private Map<String,Espacio>  miembros = new HashMap<>();
     private String foto;
     private String creado;
 
@@ -44,6 +45,17 @@ public class Usuario {
         if( contrasena1.length() < 6){ return false; }
         return true;
     }
+
+    public Boolean administrador(String key){
+        for (Map.Entry<String, Espacio> espacio: administradores.entrySet())
+        {
+            if (espacio.getKey().equals(key)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public String getEmail() {
         return email;

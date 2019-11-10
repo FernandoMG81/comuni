@@ -58,13 +58,20 @@ public class PlacesFragment extends Fragment {
     private EditText search;
     private Spinner spinner;
     private RecyclerView recyclerView;
-    private Button newPlaceButton;
+    private Button newEspacioButton;
+    private Button newPostButton;
+    private Button newTagButton;
 
     public void setLayoutReferences(View v){
         search = v.findViewById(R.id.NewsSearch);
         recyclerView = v.findViewById(R.id.RVPlaces);
         spinner = v.findViewById(R.id.PlacesSpinner);
-        newPlaceButton = v.findViewById(R.id.PlacesButton);
+        newEspacioButton = v.findViewById(R.id.PlacesButtonEspacio);
+        newEspacioButton.setVisibility(View.GONE);
+        newPostButton = v.findViewById(R.id.PlacesButtonPost);
+        newPostButton.setVisibility(View.GONE);
+        newTagButton = v.findViewById(R.id.PlacesButtonTag);
+        newTagButton.setVisibility(View.GONE);
     }
 
     private void setSearch(){
@@ -112,6 +119,11 @@ public class PlacesFragment extends Fragment {
                 espacioActual = (Go<Espacio>) adapterView.getSelectedItem();
                 if (espacioActual.getKey() != null) {
 
+                    setAddPostButton();
+                    if(usuario.getObject().administrador(espacioActual.getKey())){
+                        setAddTagButton();
+                    }
+
                     new PostService().getAllFromEspacios(espacioActual)
                             .addValueEventListener(new ValueEventListener() {
 
@@ -152,14 +164,45 @@ public class PlacesFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    private void setAddButton(){
-        newPlaceButton.setOnClickListener(new View.OnClickListener() {
+    private void setAddTagButton(){
+        newTagButton.setVisibility(View.VISIBLE);
+        newTagButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //AppCompatActivity activity = (MainActivity) view.getContext();
-                //Fragment myFragment = new CreatePostFragment();
                 AppCompatActivity activity = (MainActivity) view.getContext();
                 Fragment myFragment = new CreateEspacioFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("espacioActual", espacioActual);
+                args.putSerializable("usuario",usuario);
+                myFragment.setArguments(args);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
+            }
+        });
+    }
+
+    private void setAddEspacioButton(){
+        newEspacioButton.setVisibility(View.VISIBLE);
+        newEspacioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (MainActivity) view.getContext();
+                Fragment myFragment = new CreateEspacioFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("espacioActual", espacioActual);
+                args.putSerializable("usuario",usuario);
+                myFragment.setArguments(args);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
+            }
+        });
+    }
+
+    private void setAddPostButton(){
+        newPostButton.setVisibility(View.VISIBLE);
+        newPostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (MainActivity) view.getContext();
+                Fragment myFragment = new CreatePostFragment();
                 Bundle args = new Bundle();
                 args.putSerializable("espacioActual", espacioActual);
                 args.putSerializable("usuario",usuario);
@@ -176,7 +219,7 @@ public class PlacesFragment extends Fragment {
 
         setLayoutReferences(view);
         usuario = new LoginService().getGoUser();
-        setAddButton();
+        setAddEspacioButton();
             new EspacioService().getAllFromUsuario(usuario)
                     .addValueEventListener(
                             new ValueEventListener() {
