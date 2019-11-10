@@ -1,6 +1,7 @@
 package com.project.comuni.Servicios;
 
 import android.graphics.drawable.Drawable;
+import android.renderscript.Sampler;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.project.comuni.Models.Espacio;
@@ -87,22 +89,8 @@ public class UsuarioService {
                 });
     }
 
-    public Go<Usuario> getObject(){
-        db.DbRef().child(url.getRoot())
-                .orderByKey()
-                .equalTo(usuario.getKey())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        usuario.setKey(snapshot.getKey());
-                        usuario.setObject(snapshot.getValue(usuario.getObject().getClass()));
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        usuario = null;
-                    }
-                });
-        return usuario;
+    public Query getObject(){
+       return db.DbRef().child(url.getRoot()).child(usuario.getKey());
     }
 
     public Go<Usuario> getAll(){

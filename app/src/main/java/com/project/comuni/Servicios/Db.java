@@ -29,6 +29,13 @@ public class Db<Tobject> {
     //Devuelve DbRef que es el punto de comienzo para hacer queries
     public DatabaseReference DbRef (){return  DbRef;}
 
+    //Busca una url dada y crea una key
+    public String createKey(String url){
+        return DbRef.child(url)
+                .push().getKey();
+    }
+
+
     //Busca una url dada y crea una key y su objeto
     public Task<Void> create(Go<Tobject> obj, String url){
         return DbRef.child(url)
