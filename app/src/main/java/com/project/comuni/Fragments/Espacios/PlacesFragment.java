@@ -25,6 +25,7 @@ import com.project.comuni.Models.Post;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.EspacioService;
+import com.project.comuni.Servicios.LoginService;
 import com.project.comuni.Servicios.PostService;
 import com.project.comuni.Servicios.UsuarioService;
 
@@ -51,8 +52,8 @@ public class PlacesFragment extends Fragment {
     //Variables Filtrado
     private String searchText = "";
     private Go<Espacio> espacioActual = new Go<>();
-    Go<Usuario> usuario = new Go<>(new Usuario());
-    Map<String, Usuario> x = new HashMap<>();
+    private Go<Usuario> usuario = new Go<>(new Usuario());
+    private Map<String, Usuario> x = new HashMap<>();
     // Layout
     private EditText search;
     private Spinner spinner;
@@ -65,7 +66,6 @@ public class PlacesFragment extends Fragment {
         spinner = v.findViewById(R.id.PlacesSpinner);
         newPlaceButton = v.findViewById(R.id.PlacesButton);
     }
-
 
     private void setSearch(){
         search.addTextChangedListener(new TextWatcher() {
@@ -88,6 +88,19 @@ public class PlacesFragment extends Fragment {
         });
     }
 
+    private void filterData(){
+
+        postsAMostrar.clear();
+        for (Go<Post> post: posts){
+            if (filtrarString(post.getObject().getTitulo(), searchText) ||
+                    filtrarString (post.getObject().getTexto(), searchText))
+            {
+                postsAMostrar.add(post);
+
+            }
+        }
+    }
+
     private void setSpinnerEspacios(){
         ArrayAdapter<Go<Espacio>> spinnerAdapter = new ArrayAdapter<>(
                 this.getContext(), android.R.layout.simple_spinner_item, espacios);
@@ -97,12 +110,38 @@ public class PlacesFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 espacioActual = (Go<Espacio>) adapterView.getSelectedItem();
-                filterData();
-                setRecycler();
+                if (espacioActual.getKey() != null) {
+
+                    new PostService().getAllFromEspacios(espacioActual)
+                            .addValueEventListener(new ValueEventListener() {
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+
+                                @Override
+                                public void onDataChange(DataSnapshot snapshot) {
+                                    for (DataSnapshot x : snapshot.getChildren()) {
+                                        Go<Post> postx = new Go<>(new Post());
+                                        postx.setKey(x.getKey());
+                                        postx.setObject(x.getValue(postx.getObject().getClass()));
+                                        posts.add(postx);
+                                    }
+                                    filterData();
+                                    setRecycler();
+
+                                }
+
+                            });
+                }
+
+                //setAddButton();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
     }
@@ -113,40 +152,19 @@ public class PlacesFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    private void filterData(){
-
-        postsAMostrar.clear();
-        for (Go<Post> post: posts){
-            if (post.getObject().getEspacio().getKey() == espacioActual.getKey()){
-                if (filtrarString(post.getObject().getTitulo(), searchText) ||
-                    filtrarString (post.getObject().getTexto(), searchText))
-                {
-                    postsAMostrar.add(post);
-                }
-            }
-        }
-    }
-
-    public void crear() {
-        new EspacioService(espacioActual).create();
-        x.put(usuario.getKey(), usuario.getObject());
-        espacioActual.setObject(new Espacio());
-        espacioActual.getObject().setNombre("asd");
-        espacioActual.getObject().setAdministradores(x);
-    }
-
     private void setAddButton(){
         newPlaceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                crear();
-              /*  AppCompatActivity activity = (MainActivity) view.getContext();
-                Fragment myFragment = new CreatePostFragment();
+                //AppCompatActivity activity = (MainActivity) view.getContext();
+                //Fragment myFragment = new CreatePostFragment();
+                AppCompatActivity activity = (MainActivity) view.getContext();
+                Fragment myFragment = new CreateEspacioFragment();
                 Bundle args = new Bundle();
                 args.putSerializable("espacioActual", espacioActual);
+                args.putSerializable("usuario",usuario);
                 myFragment.setArguments(args);
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
-*/
             }
         });
     }
@@ -156,65 +174,50 @@ public class PlacesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_places, container, false);
 
-        usuario.setKey("11OgjOiKgFV9dHWoLLh07PK7lyw2");
+        setLayoutReferences(view);
+        usuario = new LoginService().getGoUser();
+        setAddButton();
+            new EspacioService().getAllFromUsuario(usuario)
+                    .addValueEventListener(
+                            new ValueEventListener() {
 
-        new UsuarioService(usuario).getObject()
-                .addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
 
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        usuario.setObject(snapshot.getValue(usuario.getObject().getClass()));
-                        Toast.makeText(view.getContext(), usuario.getObject().getNombre(), Toast.LENGTH_SHORT).show();
+                                }
 
-
-                        new EspacioService().getAllFromUsuario(usuario)
-                                .addValueEventListener(
-                                        new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(DataSnapshot snapshot) {
-                                                for (DataSnapshot x : snapshot.getChildren()) {
-                                                    Go<Espacio> aux = new Go<>(new Espacio());
-                                                    aux.setKey(x.getKey());
-                                                    aux.setObject(x.getValue(aux.getObject().getClass()));
-                                                    espacios.add(aux);
-                                                }
-
-                                                if (espacioActual.getKey() != null){
-                                                    Go<Post> post = new Go<>();
-                                                    post.getObject().setEspacio(espacioActual);
-                                                    PostService postService = new PostService();
-                                                    posts = postService.getAll();
-                                                }
+                                @Override
+                                public void onDataChange(DataSnapshot snapshot) {
+                                    for (DataSnapshot x : snapshot.getChildren()) {
+                                        Go<Espacio> aux = new Go<>(new Espacio());
+                                        aux.setKey(x.getKey());
+                                        aux.setObject(x.getValue(aux.getObject().getClass()));
+                                        espacios.add(aux);
+                                    }
 
 
-                                                setLayoutReferences(view);
-                                                if (espacios.size()>0) {
-                                                    setSpinnerEspacios();
-                                                    setSearch();
-                                                    setAddButton();
-                                                }
-                                                setAddButton();
+                                    setSearch();
+                                    if (espacios.size() > 0) {
+                                        setSpinnerEspacios();
+                                    }
 
-                                            }
-
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
-
-                                            }
-                                        });;
-
-
-
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        usuario = null;
-                    }
-                });
-
-
-
+                                }
+                            });
 
         return view;
+    }
+
+    public void crear() {
+        Go<Post> postx = new Go<>(new Post());
+        postx.getObject().setEspacio(espacioActual);
+        postx.getObject().setTitulo("Amigoooo");
+        postx.getObject().setTexto("Como va?");
+        new PostService(postx).create();
+
+        /*x.put(usuario.getKey(), usuario.getObject());
+        espacioActual.setObject(new Espacio());
+        espacioActual.getObject().setNombre("asd");
+        espacioActual.getObject().setAdministradores(x);
+        new EspacioService(espacioActual).create();*/
     }
 }

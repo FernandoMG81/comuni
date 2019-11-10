@@ -67,7 +67,7 @@ public class EspacioService {
 
     public Task create (){
         espacio.setKey(db.createKey(urlEspacio));
-       return db.update(espacio,urlEspacio).addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
+       return db.update(espacio,url.getRootInEspacios(espacio)).addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
             @Override
             public void onComplete(@NonNull Task<Transaction.Result> task) {
                 if (task.isSuccessful()) {

@@ -54,9 +54,14 @@ public class FireUrl {
     }
 
     public String getRootInEspacios(Go<Espacio> espacio){
-        return (AddKey(getEspacios(),
-                AddKey(espacio.getObject().getEspacioUrl(),
-                        espacio.getKey())));
+        if(espacio.getObject().getEspacioUrl() == null){
+            return (AddKey(getEspacios(),espacio.getKey()));
+        }
+        else {
+            return (AddKey(getEspacios(),
+                    AddKey(espacio.getObject().getEspacioUrl(),
+                            espacio.getKey())));
+        }
     }
 
     public String getRootInUsuarios(Go<Usuario> usuario){

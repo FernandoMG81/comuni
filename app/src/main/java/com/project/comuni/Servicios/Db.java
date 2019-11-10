@@ -3,6 +3,7 @@ package com.project.comuni.Servicios;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.comuni.Models.Firebase.Go;
@@ -56,6 +57,16 @@ public class Db<Tobject> {
         return DbRef.child(url)
                 .child(obj.getKey())
                 .removeValue();
+    }
+
+    public Query getObject(String key, String url){
+        return DbRef.child(url)
+                .orderByKey()
+                .equalTo(key);
+    }
+
+    public Query getAll(String url){
+        return DbRef.child(url);
     }
 
 }

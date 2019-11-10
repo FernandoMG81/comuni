@@ -22,22 +22,22 @@ public class Util {
         return value;
     }
 
-    public static Boolean filtrarString (String TextoAFiltrar, String TextoCompacion){
+    public static Boolean filtrarString (String TextoAFiltrar, String TextoComparacion){
         //Caracteres Especiales
-        TextoCompacion = Normalizer.normalize(TextoCompacion, Normalizer.Form.NFD);
-        TextoCompacion = TextoCompacion.replaceAll("[^\\x00-\\x7F]", "");
-        TextoCompacion = TextoCompacion.toLowerCase();
+        TextoComparacion = Normalizer.normalize(TextoComparacion, Normalizer.Form.NFD);
+        TextoComparacion = TextoComparacion.replaceAll("[^\\x00-\\x7F]", "");
+        TextoComparacion = TextoComparacion.toLowerCase();
 
         TextoAFiltrar = Normalizer.normalize(TextoAFiltrar, Normalizer.Form.NFD);
         TextoAFiltrar = TextoAFiltrar.replaceAll("[^\\x00-\\x7F]", "");
         TextoAFiltrar = TextoAFiltrar.toLowerCase();
 
         //Funcion en si
-        if (TextoCompacion == null){
+        if (TextoComparacion == null){
             return true;
         }
-        if (!TextoCompacion.isEmpty()) {
-            if (TextoAFiltrar.contains(TextoCompacion)) {
+        if (!TextoComparacion.isEmpty()) {
+            if (TextoAFiltrar.contains(TextoComparacion)) {
                 return true;
             }
         } else {

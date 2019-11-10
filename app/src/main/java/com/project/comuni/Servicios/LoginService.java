@@ -1,5 +1,6 @@
 package com.project.comuni.Servicios;
 
+import android.app.DownloadManager;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project.comuni.Models.Firebase.Go;
-import com.project.comuni.Models.Firebase.User;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.Utils.Constantes;
 
@@ -39,6 +39,12 @@ public class LoginService {
 
     public FirebaseUser getUser(){
         return  fireAuth.getCurrentUser();
+    }
+
+    public Go<Usuario> getGoUser(){
+        FirebaseUser usuariox = fireAuth.getCurrentUser();
+        Go<Usuario> usuario = new Go<>(usuariox.getUid(), new Usuario(usuariox));
+        return usuario;
     }
 
     public Task<AuthResult> createUser(Go<Usuario> usuario, String contrasena, Uri foto) {
