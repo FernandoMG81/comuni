@@ -40,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private TextView btnRegistro;
 
-
     //Variables
     private String email;
     private String contrasena;

@@ -11,7 +11,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Adapters.Espacios.RecyclerAdapterPlaces;
 import com.project.comuni.Fragments.Espacios.CreatePostFragment;
@@ -22,6 +26,7 @@ import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.EspacioService;
 import com.project.comuni.Servicios.PostService;
+import com.project.comuni.Servicios.UsuarioService;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +36,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.project.comuni.Utils.Util.filtrarString;
 
@@ -44,7 +51,8 @@ public class PlacesFragment extends Fragment {
     //Variables Filtrado
     private String searchText = "";
     private Go<Espacio> espacioActual = new Go<>();
-
+    Go<Usuario> usuario = new Go<>(new Usuario());
+    Map<String, Usuario> x = new HashMap<>();
     // Layout
     private EditText search;
     private Spinner spinner;
@@ -58,20 +66,6 @@ public class PlacesFragment extends Fragment {
         newPlaceButton = v.findViewById(R.id.PlacesButton);
     }
 
-    private void getData(View v){
-        Go<Usuario> usuario = new Go<>();
-        EspacioService espacioService = new EspacioService();
-        espacios =  espacioService.getAllFromUsuario(usuario);
-
-        if (espacioActual.getKey() != null){
-            Go<Post> post = new Go<>();
-            post.getObject().setEspacio(espacioActual);
-            PostService postService = new PostService();
-            posts = postService.getAll();
-        }
-
-
-    }
 
     private void setSearch(){
         search.addTextChangedListener(new TextWatcher() {
@@ -133,16 +127,26 @@ public class PlacesFragment extends Fragment {
         }
     }
 
+    public void crear() {
+        new EspacioService(espacioActual).create();
+        x.put(usuario.getKey(), usuario.getObject());
+        espacioActual.setObject(new Espacio());
+        espacioActual.getObject().setNombre("asd");
+        espacioActual.getObject().setAdministradores(x);
+    }
+
     private void setAddButton(){
         newPlaceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppCompatActivity activity = (MainActivity) view.getContext();
+                crear();
+              /*  AppCompatActivity activity = (MainActivity) view.getContext();
                 Fragment myFragment = new CreatePostFragment();
                 Bundle args = new Bundle();
                 args.putSerializable("espacioActual", espacioActual);
                 myFragment.setArguments(args);
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
+*/
             }
         });
     }
@@ -152,13 +156,65 @@ public class PlacesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_places, container, false);
 
-        getData(view);
-        if (espacios.size()>0) {
-            setLayoutReferences(view);
-            setSpinnerEspacios();
-            setSearch();
-            setAddButton();
-        }
+        usuario.setKey("11OgjOiKgFV9dHWoLLh07PK7lyw2");
+
+        new UsuarioService(usuario).getObject()
+                .addValueEventListener(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        usuario.setObject(snapshot.getValue(usuario.getObject().getClass()));
+                        Toast.makeText(view.getContext(), usuario.getObject().getNombre(), Toast.LENGTH_SHORT).show();
+
+
+                        new EspacioService().getAllFromUsuario(usuario)
+                                .addValueEventListener(
+                                        new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot snapshot) {
+                                                for (DataSnapshot x : snapshot.getChildren()) {
+                                                    Go<Espacio> aux = new Go<>(new Espacio());
+                                                    aux.setKey(x.getKey());
+                                                    aux.setObject(x.getValue(aux.getObject().getClass()));
+                                                    espacios.add(aux);
+                                                }
+
+                                                if (espacioActual.getKey() != null){
+                                                    Go<Post> post = new Go<>();
+                                                    post.getObject().setEspacio(espacioActual);
+                                                    PostService postService = new PostService();
+                                                    posts = postService.getAll();
+                                                }
+
+
+                                                setLayoutReferences(view);
+                                                if (espacios.size()>0) {
+                                                    setSpinnerEspacios();
+                                                    setSearch();
+                                                    setAddButton();
+                                                }
+                                                setAddButton();
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });;
+
+
+
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        usuario = null;
+                    }
+                });
+
+
+
+
         return view;
     }
 }

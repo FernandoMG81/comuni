@@ -10,8 +10,8 @@ public class FireUrl {
 
     private String root = "";
     private String usuarios = "Usuarios";
-    private String administradores = "Administradores";
-    private String miembros = "Miembros";
+    private String administradores = "administradores";
+    private String miembros = "miembros";
     private String espacios = "Espacios";
 
     public FireUrl(String root){this.root = root;}

@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.project.comuni.Models.Espacio;
@@ -30,8 +31,10 @@ public class EspacioService {
 
     private ArrayList<String> setUrlUsuarios(Map<String,Usuario> usuarios){
         ArrayList<String> Arrayx = new ArrayList<>();
-        for (Map.Entry<String,Usuario> x:usuarios.entrySet()) {
-            url.getRootInUsuarios(new Go<Usuario>(x));
+        if (usuarios != null) {
+            for (Map.Entry<String, Usuario> x : usuarios.entrySet()) {
+                url.getRootInUsuarios(new Go<Usuario>(x));
+            }
         }
         return Arrayx;
     }
@@ -50,20 +53,39 @@ public class EspacioService {
         }
     }
 
-    public EspacioService(Go<Espacio> usuariox){
+    public EspacioService(Go<Espacio> espaciox){
         db = new Db();
-        espacio = usuariox;
+        espacio = espaciox;
         urlUsuariosAdministradores = setUrlUsuarios(espacio.getObject().getAdministradores());
         urlUsuariosMiembros = setUrlUsuarios(espacio.getObject().getMiembros());
         urlUsuarios = urlUsuariosMiembros;
         urlUsuarios.addAll(urlUsuariosAdministradores);
-        if(espacio.getObject().getEspacioUrl() != null & !espacio.getObject().getEspacioUrl().isEmpty()){
+        if(espacio.getObject().getEspacioUrl() != null){
             urlEspacio = url.AddKey(url.getRoot(),url.FromUrlEspacios(espacio.getObject().getEspacioUrl()));
         }
     }
 
     public Task create (){
-        return db.create(espacio,urlEspacio);
+        espacio.setKey(db.createKey(urlEspacio));
+       return db.update(espacio,urlEspacio).addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
+            @Override
+            public void onComplete(@NonNull Task<Transaction.Result> task) {
+                if (task.isSuccessful()) {
+                    if (espacio.getObject().getAdministradores()!= null) {
+                        for (Map.Entry<String, Usuario> x : espacio.getObject().getAdministradores().entrySet()) {
+                            Go<Usuario> aux = new Go<>(x.getKey(), x.getValue());
+                            db.update(espacio, url.AddKey(url.getUsuarios(), url.AddKey(aux.getKey(),url.getAdministradores())));
+                        }
+                    }
+                    if (espacio.getObject().getMiembros()!= null) {
+                        for (Map.Entry<String, Usuario> x : espacio.getObject().getMiembros().entrySet()) {
+                            Go<Usuario> aux = new Go<>(x.getKey(), x.getValue());
+                            db.update(espacio, url.AddKey(url.getUsuarios(), url.AddKey(aux.getKey(),url.getMiembros())));
+                        }
+                    }
+                }
+            }
+        });
     }
 
     public Task update () {
@@ -111,33 +133,15 @@ public class EspacioService {
         return espacio;
     }
 
-    private ArrayList<Go<Espacio>> getAllFrom(String url) {
-        ArrayList<Go<Espacio>> espacios = new ArrayList<>();
-        db.DbRef().child(url)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        for (DataSnapshot x : snapshot.getChildren()) {
-                            espacio.setKey(snapshot.getKey());
-                            espacio.setObject(snapshot.getValue(espacio.getObject().getClass()));
-                            espacios.add(espacio);
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        espacio = null;
-                    }
-                });
-        return espacios;
+    private Query getAllFrom(String url) {
+        return db.DbRef().child(url);
     }
-
-    public ArrayList<Go<Espacio>> getAll(){
+    public Query getAllFromUsuario(Go<Usuario> usuario){return getAllFrom(url.AddKey(url.getUsuarios(),url.AddKey(usuario.getKey(),url.getAdministradores())));}
+    public Query getAll(){
         return getAllFrom(urlEspacio);
     }
 
-    public ArrayList<Go<Espacio>> getAllFromUsuario(Go<Usuario> usuario){
+/*    public ArrayList<Go<Espacio>> getAllFromUsuario(Go<Usuario> usuario){
         ArrayList<Go<Espacio>> espacios = new ArrayList<>();
         espacios = getAllFrom(url.AddKey(url.getUsuarios(),
                            url.AddKey(usuario.getKey(),
@@ -146,5 +150,5 @@ public class EspacioService {
                 url.AddKey(usuario.getKey(),
                         url.getMiembros()))));
         return espacios;
-    }
+    }*/
 }
