@@ -2,6 +2,8 @@ package com.project.comuni.Fragments.Noticias;
 
 
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +14,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Noticia;
 import com.project.comuni.R;
 
 public class InnerNoticiasFragment extends Fragment {
 
-    private Noticia noticia = new Noticia();
+    private Go<Noticia> noticia = new Go<>();
 
     private TextView titulo;
     private TextView texto;
     private TextView usuario;
     private ImageView imagenUsuario;
+    private TextView fecha;
 
     public void setNoticia() {
         Bundle bundle = getArguments();
-        this.noticia = (Noticia) bundle.getSerializable("noticia");
+        this.noticia = (Go<Noticia>) bundle.getSerializable("noticia");
     }
 
     public void cargarPagina (@NonNull View itemView){
@@ -35,10 +40,11 @@ public class InnerNoticiasFragment extends Fragment {
         usuario = itemView.findViewById(R.id.InnerNewsUsuario);
         imagenUsuario = itemView.findViewById(R.id.InnerNewsFotoUsuario);
 
-        titulo.setText(this.noticia.getTitulo());
-        texto.setText(this.noticia.getTexto());
-        //usuario.setText(this.noticia.getUsuario().getNombre() +" " + this.noticia.getUsuario().getApellido());
-        //imagenUsuario.setImageResource(this.noticia.getImagen()); // TODO Traer imagen del creador
+        titulo.setText(this.noticia.getObject().getTitulo());
+        texto.setText(this.noticia.getObject().getTexto());
+        Linkify.addLinks(texto, Linkify.WEB_URLS);
+        usuario.setText(this.noticia.getObject().getNombre());
+        Glide.with(getContext()).load(this.noticia.getObject().getFotoUrl()).into(imagenUsuario);
     }
 
     @Nullable

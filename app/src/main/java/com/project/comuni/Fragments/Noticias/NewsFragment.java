@@ -30,15 +30,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.comuni.Adapters.Noticias.RecyclerAdapterNews;
 import com.project.comuni.Models.Firebase.Go;
-import com.project.comuni.Models.Firebase.User;
-import com.project.comuni.Models.Logica.LUser;
 import com.project.comuni.Models.Noticia;
-import com.project.comuni.Persistencia.UsuarioDAO;
 import com.project.comuni.R;
-import com.project.comuni.Servicios.NoticiaService;
-import com.project.comuni.Servicios.UsuarioService;
+import com.project.comuni.Utils.Constantes;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,22 +48,20 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItemListener {
 
 
-    private ArrayList<Go<Noticia>> noticias = new ArrayList<>();
-
+    private RecyclerView postRecyclerView ;
     private FloatingActionButton addNewsButton;
-    private RecyclerView recyclerNews;
     private Dialog popAddNews;
     private ImageView popupAddBtn,imagenCreador;
     private TextView popupTitle, popupDescription;
+    private ProgressBar popupClickProgress;
+    private RecyclerAdapterNews newsAdapter ;
+    private ArrayList<Go<Noticia>> newsList;
+
+    //Variables Firebase
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference ;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-
-    ProgressBar popupClickProgress;
-    RecyclerView postRecyclerView ;
-    RecyclerAdapterNews newsAdapter ;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference ;
-    //ArrayList<Go<Noticia>> newsList;
 
 
     @Nullable
@@ -74,23 +69,18 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
-        recyclerNews = view.findViewById(R.id.RVNews);
+        postRecyclerView = view.findViewById(R.id.RVNews);
+        postRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         addNewsButton = view.findViewById(R.id.newsButton);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference(Constantes.NODO_NOTICIAS);
 
         //TODO: CAMBIAR
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        recyclerNews.setLayoutManager(new LinearLayoutManager(getContext()));
-
         //Dialog nueva noticia
         iniPopup();
-
-        //this.noticias = new NoticiaService().getAll();
-
-        RecyclerAdapterNews adapter = new RecyclerAdapterNews(this.noticias, this.getContext());
-
-        recyclerNews.setAdapter(adapter);
 
         addNewsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +94,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
     }
 
  //TODO RESOLVER EL LISTADO
-/*    @Override
+    @Override
     public void onStart() {
         super.onStart();
 
@@ -114,21 +104,22 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                //newsList = new ArrayList<>();
-
-
+                newsList = new ArrayList<>();
 
                 for (DataSnapshot postsnap: dataSnapshot.getChildren()) {
 
                     Go<Noticia> noticia = new Go<>(postsnap.getKey(),postsnap.getValue(Noticia.class));
-                    noticias.add(noticia);
+                    newsList.add(noticia);
                 }
 
-                newsAdapter = new RecyclerAdapterNews(noticias,getContext());
-                postRecyclerView.setAdapter(newsAdapter);
+
+                Collections.reverse(newsList);
+                newsAdapter = new RecyclerAdapterNews(newsList,getContext());
+                if(newsAdapter.getItemCount()!=0){
+                    postRecyclerView.setAdapter(newsAdapter);
+                }
 
             }
-
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -138,7 +129,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
 
     }
 
-*/
+
 
     private void iniPopup() {
         popAddNews = new Dialog(getContext());
@@ -154,9 +145,6 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
         popupClickProgress = popAddNews.findViewById(R.id.createProgressBarNews);
         popupAddBtn = popAddNews.findViewById(R.id.createPostNews);
         imagenCreador = popAddNews.findViewById(R.id.createImagenCreador);
-
-
-
 
         //Agregar Noticia Listener
 
@@ -202,7 +190,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
     private void addNews (Noticia noticia){
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("Noticias").push();
+        DatabaseReference reference = database.getReference(Constantes.NODO_NOTICIAS).push();
 
         String key = reference.getKey();
         noticia.setNewsKey(key);
@@ -213,6 +201,8 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
                 Toast.makeText(getContext(),"Noticia creada exitosamente",Toast.LENGTH_LONG).show();
                 popupAddBtn.setVisibility(View.VISIBLE);
                 popupClickProgress.setVisibility(View.INVISIBLE);
+                popupTitle.setText("");
+                popupDescription.setText("");
                 popAddNews.dismiss();
             }
         });

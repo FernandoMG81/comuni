@@ -6,4 +6,5 @@ public class Constantes {
     public static final String NODO_USUARIOS = "Usuarios";
     public static final String NODO_MENSAJES = "Mensajes";
     public static final String NODO_FOTOS_PERFIL = "Fotos/FotoPerfil/";
+    public static final String NODO_NOTICIAS = "Noticias";
 }

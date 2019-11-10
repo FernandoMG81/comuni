@@ -5,9 +5,11 @@ import android.net.Uri;
 
 import com.google.firebase.database.ServerValue;
 import com.project.comuni.Models.Firebase.Go;
-import com.project.comuni.Persistencia.UsuarioDAO;
+
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class Noticia implements Serializable {
