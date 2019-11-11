@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 
 import com.project.comuni.Models.Firebase.Go;
 
+import java.util.Map;
+
 public class Tag {
 
     private Go<Espacio> espacio;
@@ -25,6 +27,13 @@ public class Tag {
     }
 
     public Tag() {
+    }
+
+    public Tag(Map.Entry<String,Tag> tag) {
+        this.espacio = tag.getValue().getEspacio();
+        this.text = tag.getValue().getText();
+        this.textColor = tag.getValue().getTextColor();
+        this.backgroundColor = tag.getValue().getBackgroundColor();
     }
 
     public Tag returnSmall(){
@@ -68,9 +77,11 @@ public class Tag {
         }
         return  "Ok";
     }
+
     public String getColorT() {
         return "#" + textColor;
     }
+
     public String getColorB() {
         return "#" + backgroundColor;
     }

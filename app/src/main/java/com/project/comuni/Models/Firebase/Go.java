@@ -39,7 +39,6 @@ public class Go <TObject> implements Serializable {
     {
         this.Key = Key;
         this.Object = Object;
-
     }
 
     public Go(Go<TObject> GObject)

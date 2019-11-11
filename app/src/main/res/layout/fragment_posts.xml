@@ -21,29 +21,16 @@
         app:layout_constraintEnd_toEndOf="@+id/linearLayout" />
 
     <Button
-        android:id="@+id/PlacesButtonEspacio"
+        android:id="@+id/PlacesButtonConfig"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/add_button"
-        android:text="E"
+        android:text="C"
         android:textAlignment="center"
         android:textColor="#fff"
         android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/PlacesButtonPost"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout" />
-
-    <Button
-        android:id="@+id/PlacesButtonTag"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/add_button"
-        android:text="t"
-        android:textAlignment="center"
-        android:textColor="#fff"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@+id/PlacesButtonEspacio"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout" />
 
     <LinearLayout

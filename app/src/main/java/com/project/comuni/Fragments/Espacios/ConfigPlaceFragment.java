@@ -8,20 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-import com.project.comuni.Activities.MainActivity;
-import com.project.comuni.Adapters.Espacios.RecyclerAdapterPosts;
-import com.project.comuni.Models.Espacio;
-import com.project.comuni.Models.Firebase.Go;
-import com.project.comuni.Models.Post;
-import com.project.comuni.Models.Usuario;
-import com.project.comuni.R;
-import com.project.comuni.Servicios.LoginService;
-import com.project.comuni.Servicios.PostService;
-import com.project.comuni.Servicios.UsuarioService;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,27 +17,54 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import com.project.comuni.Activities.MainActivity;
+import com.project.comuni.Adapters.Espacios.RecyclerAdapterPlaces;
+import com.project.comuni.Adapters.Espacios.RecyclerAdapterPosts;
+import com.project.comuni.Adapters.Espacios.RecyclerAdapterTags;
+import com.project.comuni.Adapters.Espacios.RecyclerAdapterUsuarios;
+import com.project.comuni.Models.Espacio;
+import com.project.comuni.Models.Firebase.Go;
+import com.project.comuni.Models.Post;
+import com.project.comuni.Models.Tag;
+import com.project.comuni.Models.Usuario;
+import com.project.comuni.R;
+import com.project.comuni.Servicios.LoginService;
+import com.project.comuni.Servicios.PostService;
+import com.project.comuni.Servicios.TagService;
+import com.project.comuni.Servicios.UsuarioService;
+
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.Map;
 
 import static com.project.comuni.Utils.Util.filtrarString;
 
-public class PostsFragment extends Fragment {
+public class ConfigPlaceFragment extends Fragment {
 
     //Variables Datos
+    private Boolean administrador;
     private Go<Espacio> espacio = new Go<>();
     private Go<Usuario> usuario = new Go<>(new Usuario());
-    private ArrayList<Go<Post>> posts = new ArrayList<>();
+    private ArrayList<Go<Tag>> tags = new ArrayList<>();
 
-
-    //Variables Filtrado
-    private String searchText = "";
-    private ArrayList<Go<Post>> postsAMostrar = new ArrayList<>();
 
     // Layout
-    private EditText search;
-    private RecyclerView recyclerView;
-    private Button ConfigPlacesButton;
-    private Button newPostButton;
+    //Espacio
+    TextView Nombre;
+    TextView Descripcion;
+    //Recyclers
+    private RecyclerView recyclerViewAdmins;
+    private RecyclerView recyclerViewMiembros;
+    private RecyclerView recyclerViewTags;
+    //Buttons
+    private Button EditarEspacioButton;
+    private Button AgregarAdminButton;
+    private Button AgregarMiembroButton;
+    private Button AgregarTagButton;
 
     private void getData() {
         Bundle bundle = getArguments();
@@ -59,71 +73,53 @@ public class PostsFragment extends Fragment {
     }
 
     public void setLayoutReferences(View v){
-        search = v.findViewById(R.id.NewsSearch);
-        recyclerView = v.findViewById(R.id.RVPosts);
-        ConfigPlacesButton = v.findViewById(R.id.PlacesButtonConfig);
-        newPostButton = v.findViewById(R.id.PlacesButtonPost);
+        Nombre = v.findViewById(R.id.ConfigPlaceNombre);
+        Descripcion = v.findViewById(R.id.ConfigPlaceDescripcion);
+
+        recyclerViewAdmins = v.findViewById(R.id.RVAdministradores);
+        recyclerViewMiembros = v.findViewById(R.id.RVMiembros);
+        recyclerViewTags = v.findViewById(R.id.RVTags);
+
+        EditarEspacioButton = v.findViewById(R.id.EditarEspacio);
+        EditarEspacioButton.setVisibility(View.GONE);
+        AgregarAdminButton = v.findViewById(R.id.AgregarAdministrador);
+        AgregarAdminButton.setVisibility(View.GONE);
+        AgregarMiembroButton = v.findViewById(R.id.AgregarMiembro);
+        AgregarMiembroButton.setVisibility(View.GONE);
+        AgregarTagButton = v.findViewById(R.id.AgregarTag);
+        AgregarTagButton.setVisibility(View.GONE);
+
     }
 
-    private void setSearch(){
-        search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                searchText = editable.toString();
-                filterData();
-                setRecycler();
-            }
-        });
-    }
-
-    private void filterData(){
-
-        postsAMostrar.clear();
-        for (Go<Post> post: posts){
-            if (filtrarString(post.getObject().getTitulo(), searchText) ||
-                    filtrarString (post.getObject().getTexto(), searchText))
-            {
-                postsAMostrar.add(post);
-
-            }
+    private void setRecyclerAdmin(){
+        ArrayList<Go<Usuario>> usuarios = new ArrayList<>();
+        for (Map.Entry<String,Usuario> x:espacio.getObject().getAdministradores().entrySet()) {
+            usuarios.add(new Go<>(x));
         }
+        recyclerViewAdmins.setLayoutManager(new LinearLayoutManager(getContext()));
+        RecyclerAdapterUsuarios adapter = new RecyclerAdapterUsuarios(getContext(),espacio, usuarios, administrador);
+        recyclerViewAdmins.setAdapter(adapter);
     }
 
-    private void setRecycler(){
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        RecyclerAdapterPosts adapter = new RecyclerAdapterPosts(postsAMostrar, getContext());
-        recyclerView.setAdapter(adapter);
+    private void setRecyclerMiembros(){
+        ArrayList<Go<Usuario>> usuarios = new ArrayList<>();
+        for (Map.Entry<String,Usuario> x:espacio.getObject().getMiembros().entrySet()) {
+            usuarios.add(new Go<>(x));
+        }
+        recyclerViewMiembros.setLayoutManager(new LinearLayoutManager(getContext()));
+        RecyclerAdapterUsuarios adapter = new RecyclerAdapterUsuarios(getContext(),espacio, usuarios, administrador);
+        recyclerViewMiembros.setAdapter(adapter);
     }
 
-   /* private void setAddTagButton(){
-        newTagButton.setVisibility(View.VISIBLE);
-        newTagButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AppCompatActivity activity = (MainActivity) view.getContext();
-                Fragment myFragment = new CreateTagFragment();
-                Bundle args = new Bundle();
-                args.putSerializable("espacioActual", espacio);
-                args.putSerializable("usuario",usuario);
-                myFragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
-            }
-        });
-    }*/
+    private void setRecyclerTags(){
+        recyclerViewTags.setLayoutManager(new LinearLayoutManager(getContext()));
+        RecyclerAdapterTags adapter = new RecyclerAdapterTags(getContext(),espacio,tags,administrador);
+        recyclerViewTags.setAdapter(adapter);
+    }
 
-   /* private void setAddEspacioButton(){
-        newEspacioButton.setVisibility(View.VISIBLE);
-        newEspacioButton.setOnClickListener(new View.OnClickListener() {
+    private void setEditEspacioButton(){
+        EditarEspacioButton.setVisibility(View.VISIBLE);
+        EditarEspacioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity = (MainActivity) view.getContext();
@@ -135,10 +131,11 @@ public class PostsFragment extends Fragment {
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
             }
         });
-    }*/
+    }
 
-    private void setAddPostButton(){
-        newPostButton.setOnClickListener(new View.OnClickListener() {
+    private void setAddAdminButton(){
+        AgregarAdminButton.setVisibility(View.VISIBLE);
+        AgregarAdminButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity = (MainActivity) view.getContext();
@@ -152,12 +149,29 @@ public class PostsFragment extends Fragment {
         });
     }
 
-    private void setAddConfigButton(){
-        ConfigPlacesButton.setOnClickListener(new View.OnClickListener() {
+    private void setAddMiembroButton(){
+        AgregarMiembroButton.setVisibility(View.VISIBLE);
+        AgregarMiembroButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity = (MainActivity) view.getContext();
-                Fragment myFragment = new ConfigPlaceFragment();
+                Fragment myFragment = new CreatePostFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("espacioActual", espacio);
+                args.putSerializable("usuario",usuario);
+                myFragment.setArguments(args);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
+            }
+        });
+    }
+
+    private void setAddTagButton(){
+        AgregarTagButton.setVisibility(View.VISIBLE);
+        AgregarTagButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (MainActivity) view.getContext();
+                Fragment myFragment = new CreateTagFragment();
                 Bundle args = new Bundle();
                 args.putSerializable("espacioActual", espacio);
                 args.putSerializable("usuario",usuario);
@@ -170,12 +184,22 @@ public class PostsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_posts, container, false);
+        View view = inflater.inflate(R.layout.fragment_config_espacio, container, false);
 
         getData();
         setLayoutReferences(view);
-        setAddPostButton();
-        setAddConfigButton();
+
+        for (Map.Entry<String,Espacio> x :usuario.getObject().getAdministradores().entrySet())
+        {
+            if(x.getKey()==espacio.getKey()){
+                administrador = true;
+                setEditEspacioButton();
+                setAddAdminButton();
+                setAddMiembroButton();
+                setAddTagButton();
+                break;
+            }
+        }
 
         usuario = new LoginService().getGoUser();
         new UsuarioService(usuario).getObject()
@@ -192,7 +216,7 @@ public class PostsFragment extends Fragment {
                             usuario.setObject((x.getValue(usuario.getObject().getClass())));
                         }
 
-                        new PostService().getAllFromEspacios(espacio)
+                        new TagService().getAllFromEspacios(espacio)
                                 .addValueEventListener(new ValueEventListener() {
 
                                     @Override
@@ -203,15 +227,10 @@ public class PostsFragment extends Fragment {
                                     @Override
                                     public void onDataChange(DataSnapshot snapshot) {
                                         for (DataSnapshot x : snapshot.getChildren()) {
-                                            Go<Post> postx = new Go<>(new Post());
-                                            postx.setKey(x.getKey());
-                                            postx.setObject(x.getValue(postx.getObject().getClass()));
-                                            posts.add(postx);
-                                        }
-                                        setSearch();
-                                        if (posts.size() > 0) {
-                                            filterData();
-                                            setRecycler();
+                                            Go<Tag> tagx = new Go<>(new Tag());
+                                            tagx.setKey(x.getKey());
+                                            tagx.setObject(x.getValue(tagx.getObject().getClass()));
+                                            tags.add(tagx);
                                         }
 
                                     }

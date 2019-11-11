@@ -142,7 +142,7 @@
                 android:id="@+id/configPlaceTags"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Miembros"
+                android:text="Tags"
                 android:textSize="18sp" />
 
             <TextView

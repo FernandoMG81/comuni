@@ -14,7 +14,7 @@ public class Usuario {
 
     private String email;
     private String nombre;
-    private String apellido;
+    private String apellido = "";
     private Map<String,Espacio> administradores = new HashMap<>();
     private Map<String,Espacio>  miembros = new HashMap<>();
     private String foto;
@@ -27,6 +27,16 @@ public class Usuario {
     public Usuario(FirebaseUser usuariox) {
         email = usuariox.getEmail();
         nombre = usuariox.getDisplayName();
+    }
+
+    public Usuario(Map.Entry<String,Usuario> usuario) {
+        this.nombre = usuario.getValue().getNombre();
+        this.apellido = usuario.getValue().getApellido();
+        this.administradores = usuario.getValue().getAdministradores();
+        this.miembros = usuario.getValue().getMiembros();
+        this.foto = usuario.getValue().getFoto();
+        this.creado = usuario.getValue().getCreado();
+        this.deleted = usuario.getValue().getDeleted();
     }
 
     public Usuario(String nombre, String apellido, String foto, String creado) {

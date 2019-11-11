@@ -26,28 +26,28 @@ import com.project.comuni.R;
 
 import java.util.ArrayList;
 
-public class RecyclerAdapterTags extends RecyclerView.Adapter<RecyclerAdapterTags.ViewHolder> {
+public class RecyclerAdapterUsuarios extends RecyclerView.Adapter<RecyclerAdapterUsuarios.ViewHolder> {
     private static final String TAG = "RecyclerAdapterMessages";
 
     private Go<Espacio> espacio;
-    private Go<Usuario> usuario;
-    private Boolean administrador;
-    private Go<Tag> tag = new Go<>();
-    private ArrayList<Go<Tag>> tags;
+    private Go<Usuario> usuarioActual;
+    private ArrayList<Go<Usuario>> usuarios = new ArrayList<>();
+    private Go<Usuario> usuariox;
     private Context context;
+    private Boolean administrador;
 
 
-    public RecyclerAdapterTags(Context context, Go<Espacio> espacio, ArrayList<Go<Tag>> tags, Boolean administrador) {
+    public RecyclerAdapterUsuarios(Context context, Go<Espacio> espacio, ArrayList<Go<Usuario>> usuarios, Boolean administrador) {
         this.context = context;
         this.espacio = espacio;
-        this.tags = tags;
+        this.usuarios = usuarios;
         this.administrador = administrador;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_tags,null,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_usuarios,null,false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
@@ -56,14 +56,17 @@ public class RecyclerAdapterTags extends RecyclerView.Adapter<RecyclerAdapterTag
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: ");
 
-        holder.Tag.setText(tags.get(position).getObject().getText());
-        holder.Tag.setBackgroundColor(Color.parseColor(tags.get(position).getObject().getBackgroundColor()));
-        holder.Tag.setTextColor(Color.parseColor(tags.get(position).getObject().getTextColor()));
+        holder.Nombre.setText(usuarios.get(position).getObject().getNombre()
+                + " " + usuarios.get(position).getObject().getApellido());
+       //Foto
         if(administrador) {
             holder.LL.setOnClickListener((view) -> {
-                        tag = tags.get(position);
-                        Toast.makeText(context, "Editar " + tag.getObject().getText(), Toast.LENGTH_SHORT).show();
-                        onClick(holder.LL);
+                        usuariox = usuarios.get(position);
+                        Toast.makeText(context, usuariox.getObject().getNombre() + " " +
+                                usuariox.getObject().getNombre()
+                                + "fue eliminado del espacio.", Toast.LENGTH_SHORT).show();
+                        usuarios.remove(usuariox);
+                        //eliminar de base de datos
                     }
             );
         }
@@ -71,31 +74,20 @@ public class RecyclerAdapterTags extends RecyclerView.Adapter<RecyclerAdapterTag
 
     @Override
     public int getItemCount() {
-        return tags.size();
-    }
-
-
-    public void onClick(View view) {
-        AppCompatActivity activity = (MainActivity) view.getContext();
-        Fragment myFragment = new CreateTagFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("espacioActual",espacio);
-        args.putSerializable("tag",tag);
-        args.putSerializable("usuario",usuario);
-        myFragment.setArguments(args);
-        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
+        return usuarios.size();
     }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView Tag;
+        TextView Nombre;
+        //Foto
         LinearLayout LL;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            Tag = itemView.findViewById(R.id.RecyclerTagsTag);
-            LL = itemView.findViewById(R.id.RVTags);
+            Nombre = itemView.findViewById(R.id.civNombre);
+            LL = itemView.findViewById(R.id.cardview_layout_usuario);
         }
     }
 }
