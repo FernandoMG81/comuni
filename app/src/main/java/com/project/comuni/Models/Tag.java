@@ -1,5 +1,7 @@
 package com.project.comuni.Models;
 
+import androidx.annotation.NonNull;
+
 import com.project.comuni.Models.Firebase.Go;
 
 public class Tag {
@@ -73,6 +75,17 @@ public class Tag {
         return "#" + backgroundColor;
     }
 
+    public boolean validarTagVacio(){
+        if (text.isEmpty() || backgroundColor.isEmpty() || textColor.isEmpty()){
+            return true;
+        }
+        return false;
+    }
+
+    public Tag vaciarTag() {
+       return new Tag(espacio, "", "FFFFFF", "FFFFFF");
+    }
+
     public Go<Espacio> getEspacio() {
         return espacio;
     }
@@ -103,5 +116,11 @@ public class Tag {
 
     public void setTextColor(String textColor) {
         this.textColor = textColor;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return text;
     }
 }

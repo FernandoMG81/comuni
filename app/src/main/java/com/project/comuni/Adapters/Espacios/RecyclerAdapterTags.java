@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.comuni.Models.Firebase.Go;
@@ -21,8 +22,17 @@ import java.util.ArrayList;
 public class RecyclerAdapterTags extends RecyclerView.Adapter<RecyclerAdapterTags.ViewHolder> {
     private static final String TAG = "RecyclerAdapterMessages";
 
+    private OnItemClickListener onItemClickListener;
+    private Go<Tag> tag;
     private ArrayList<Go<Tag>> tags;
     private Context context;
+    private Fragment fragment;
+
+
+
+    public interface OnItemClickListener {
+        void onItemClicked(Object object);
+    }
 
     public RecyclerAdapterTags(ArrayList<Go<Tag>> tags, Context context) {
         this.tags = tags;
@@ -44,13 +54,19 @@ public class RecyclerAdapterTags extends RecyclerView.Adapter<RecyclerAdapterTag
         holder.Tag.setText(tags.get(position).getObject().getText());
         holder.Tag.setBackgroundColor(Color.parseColor(tags.get(position).getObject().getBackgroundColor()));
         holder.Tag.setTextColor(Color.parseColor(tags.get(position).getObject().getTextColor()));
-
+        holder.LL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onItemClicked(tags.get(position));
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return tags.size();
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 

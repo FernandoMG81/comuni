@@ -1,13 +1,11 @@
 package com.project.comuni.Adapters.Espacios;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,26 +16,28 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.comuni.Activities.MainActivity;
-import com.project.comuni.Fragments.Espacios.InnerPlacesFragment;
+import com.project.comuni.Fragments.Espacios.InnerPostsFragment;
+import com.project.comuni.Fragments.Espacios.PostsFragment;
+import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
-import com.project.comuni.Models.Post;
+import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
-
-import static com.project.comuni.Utils.Util.truncate;
 
 import java.util.ArrayList;
 
 public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterPlaces.ViewHolder> implements View.OnClickListener {
-    private static final String TAG = "RecyclerAdapterMessages";
 
-    private Go<Post> post = new Go<>();
+    private ArrayList<Go<Espacio>> espacios;
+    private Go<Espacio> espacio = new Go<>();
+    private Go<Usuario> usuario;
+
     private View.OnClickListener listener;
-    private ArrayList<Go<Post>> posts;
     private Context context;
 
-    public RecyclerAdapterPlaces(ArrayList<Go<Post>> posts, Context context) {
-        this.posts = posts;
+    public RecyclerAdapterPlaces(Context context, ArrayList<Go<Espacio>> espacios, Go<Usuario> usuario ) {
+        this.espacios = espacios;
         this.context = context;
+        this.usuario = usuario;
     }
 
     @NonNull
@@ -51,62 +51,44 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: ");
-            holder.Titulo.setText(posts.get(position).getObject().getTitulo());
-            if(posts.get(position).getObject().getTag() != null) {
-                holder.Tag.setText(posts.get(position).getObject().getTag().getObject().getText());
-                holder.Tag.setBackgroundColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().getBackgroundColor()));
-                holder.Tag.setTextColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().getTextColor()));
-            }
-            /*holder.Fecha.setText(posts.get(position).getObject().getCreado());
-            String TextoTruncado = truncate(posts.get(position).getObject().getTexto(), 50);
-            holder.Descripcion.setText(TextoTruncado);
-            //holder.FotoUsuario.setBackgroundResource(posts.get(position).getObject().getUsuario().getObject().getFoto());
-            holder.NombreUsuario.setText(posts.get(position).getObject().getUsuario().getObject().getNombre()
-                    + " " + posts.get(position).getObject().getUsuario().getObject().getApellido());
-*/
+        if (espacios.size() > 0) {
+            holder.Nombre.setText(espacios.get(position).getObject().getNombre());
+            holder.Descripcion.setText(espacios.get(position).getObject().getDescripcion());
             holder.RL.setOnClickListener((view) -> {
-                this.post = posts.get(position);
-                Toast.makeText(context, post.getObject().getTitulo(), Toast.LENGTH_SHORT).show();
+                this.espacio = espacios.get(position);
+                Toast.makeText(context, espacio.getObject().getNombre(), Toast.LENGTH_SHORT).show();
                 onClick(holder.RL);
             });
+        }
     }
 
     @Override
     public int getItemCount() {
-        return posts.size();
+        return espacios.size();
     }
 
     @Override
     public void onClick(View view) {
         AppCompatActivity activity = (MainActivity) view.getContext();
-        Fragment myFragment = new InnerPlacesFragment();
+        Fragment myFragment = new PostsFragment();
         Bundle args = new Bundle();
-        args.putSerializable("post",post);
+        args.putSerializable("usuario",usuario);
+        args.putSerializable("espacioActual",espacio);
         myFragment.setArguments(args);
         activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
-
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView Titulo;
-        TextView Tag;
-        TextView Fecha;
+        TextView Nombre;
         TextView Descripcion;
-        ImageView FotoUsuario;
-        TextView NombreUsuario;
         RelativeLayout RL;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            Fecha = itemView.findViewById(R.id.PlacesFecha);
-            Tag = itemView.findViewById(R.id.Tag);
-            Titulo = itemView.findViewById(R.id.PlacesTituloPosteo);
-            Descripcion = itemView.findViewById(R.id.PlacesDescripcionPosteo);
+            Nombre = itemView.findViewById(R.id.RVPlacesNombre);
+            Descripcion = itemView.findViewById(R.id.RVPlacesDescripcion);
             RL = itemView.findViewById(R.id.RVPlaces);
-            FotoUsuario = itemView.findViewById(R.id.PlacesFotoUsuario);
-            NombreUsuario = itemView.findViewById(R.id.PlacesUsuario);
         }
     }
 }

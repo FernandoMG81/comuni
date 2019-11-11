@@ -6,6 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".Activities.MainActivity">
 
+    <Button
+        android:id="@+id/PlacesButtonPost"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/add_button"
+        android:text="+"
+        android:textAlignment="center"
+        android:textColor="#fff"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout" />
+
+    <Button
+        android:id="@+id/PlacesButtonEspacio"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/add_button"
+        android:text="E"
+        android:textAlignment="center"
+        android:textColor="#fff"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/PlacesButtonPost"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout" />
+
+    <Button
+        android:id="@+id/PlacesButtonTag"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/add_button"
+        android:text="t"
+        android:textAlignment="center"
+        android:textColor="#fff"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/PlacesButtonEspacio"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -49,7 +89,7 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RVPlaces"
+            android:id="@+id/RVPosts"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@mipmap/fondo_vacio_cromatico"

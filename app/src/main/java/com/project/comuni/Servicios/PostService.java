@@ -41,8 +41,12 @@ public class PostService {
     }
 
     public Task create (){
+        if (!(post.getObject().getTag().getKey() != null)) {
+        post.getObject().getTag().setObject(null);
+        }
         return db.create(post,urlEspacios);
     }
+
 
     public Task update (){
         return db.update(post,urlEspacios);

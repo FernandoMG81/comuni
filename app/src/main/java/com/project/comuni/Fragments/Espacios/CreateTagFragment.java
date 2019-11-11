@@ -26,11 +26,7 @@ import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Tag;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
-import com.project.comuni.Servicios.EspacioService;
 import com.project.comuni.Servicios.TagService;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class CreateTagFragment extends Fragment {
 
@@ -171,7 +167,7 @@ public class CreateTagFragment extends Fragment {
 
     private void goToEspacios(){
         AppCompatActivity activity = (MainActivity) this.getContext();
-        Fragment myFragment = new PlacesFragment();
+        Fragment myFragment = new PostsFragment();
         Bundle args = new Bundle();
         args.putSerializable("usuario",usuario);
         myFragment.setArguments(args);

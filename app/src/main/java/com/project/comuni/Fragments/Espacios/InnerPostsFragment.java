@@ -23,7 +23,7 @@ import com.project.comuni.Servicios.ComentarioService;
 
 import java.util.ArrayList;
 
-public class InnerPlacesFragment extends Fragment {
+public class InnerPostsFragment extends Fragment {
 
     private TextView Titulo;
     private TextView Descripcion;

@@ -13,34 +13,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainer;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.project.comuni.Activities.MainActivity;
-import com.project.comuni.Adapters.Espacios.RecyclerAdapterTags;
 import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
-import com.project.comuni.Models.Post;
-import com.project.comuni.Models.Tag;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.EspacioService;
-import com.project.comuni.Servicios.PostService;
-import com.project.comuni.Servicios.TagService;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.transform.Result;
 
 public class CreateEspacioFragment extends Fragment {
 
@@ -108,7 +93,7 @@ public class CreateEspacioFragment extends Fragment {
 
     private void goToEspacios(){
         AppCompatActivity activity = (MainActivity) this.getContext();
-        Fragment myFragment = new PlacesFragment();
+        Fragment myFragment = new PostsFragment();
         Bundle args = new Bundle();
         args.putSerializable("usuario",usuario);
         myFragment.setArguments(args);

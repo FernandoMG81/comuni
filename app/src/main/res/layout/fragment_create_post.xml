@@ -56,11 +56,15 @@
             android:layout_height="wrap_content"
             android:text="Elija una de las siguientes etiquetas:" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RVTags"
+        <Spinner
+            android:id="@+id/tagSpinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
 
         <Button
             android:id="@+id/CreatePostSubmit"
