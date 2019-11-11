@@ -48,7 +48,7 @@
             <EditText
                 android:id="@+id/NewsSearch"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="27dp"
                 android:background="@drawable/searchbox"
                 android:hint="Buscar"
                 android:paddingStart="15dp"

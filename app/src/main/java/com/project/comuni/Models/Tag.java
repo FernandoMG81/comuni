@@ -16,9 +16,62 @@ public class Tag {
         this.textColor = textColor;
     }
 
+    public Tag(String text, String backgroundColor, String textColor) {
+        this.text = text;
+        this.backgroundColor = backgroundColor;
+        this.textColor = textColor;
+    }
+
     public Tag() {
     }
 
+    public Tag returnSmall(){
+        return new Tag(
+            this.text,
+            this.backgroundColor,
+            this.textColor
+        );
+    }
+
+    public String validar (){
+        if(text.isEmpty()){
+            return "El tag debe tener nombre.";
+        }
+        return validarAmbosHex();
+    }
+
+    public String validarAmbosHex(){
+        if(!validarHex(textColor).equals("Ok")) {
+            return validarHex(textColor);
+        }
+        return validarHex(backgroundColor);
+    }
+
+    public String validarHex(String texto){
+        String textoError = "";
+        texto = texto.toUpperCase();
+        String charsAdecuados = "0123456789ABCDEF";
+        if (texto.length() != 6){
+            return "El codigo hexagesimal no tiene 6 letras";
+        }
+        for (char c:texto.toCharArray()){
+            String x = "";
+            x += c;
+            if (!charsAdecuados.contains(x)){
+                textoError = textoError + x;
+            }
+        }
+        if(!textoError.isEmpty()){
+            return "Los caracteres" + textoError + "no son Hexagesimales.";
+        }
+        return  "Ok";
+    }
+    public String getColorT() {
+        return "#" + textColor;
+    }
+    public String getColorB() {
+        return "#" + backgroundColor;
+    }
 
     public Go<Espacio> getEspacio() {
         return espacio;

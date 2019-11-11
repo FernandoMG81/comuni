@@ -90,7 +90,7 @@ public class UsuarioService {
     }
 
     public Query getObject(){
-       return db.DbRef().child(url.getRoot()).child(usuario.getKey());
+       return db.getObject(usuario.getKey(),url.getRoot());
     }
 
     public Go<Usuario> getAll(){

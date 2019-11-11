@@ -64,6 +64,7 @@ public class CreateEspacioFragment extends Fragment {
     }
 
     private void cuestionarioAObjeto(){
+        espacio = new Go<>(new Espacio());
         espacio.getObject().setNombre(titulo.getText().toString());
         espacio.getObject().setDescripcion(descripcion.getText().toString());
         //post.getObject().setTags(new Go<>(tag));

@@ -170,7 +170,7 @@ public class PlacesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity = (MainActivity) view.getContext();
-                Fragment myFragment = new CreateEspacioFragment();
+                Fragment myFragment = new CreateTagFragment();
                 Bundle args = new Bundle();
                 args.putSerializable("espacioActual", espacioActual);
                 args.putSerializable("usuario",usuario);
@@ -219,48 +219,50 @@ public class PlacesFragment extends Fragment {
 
         setLayoutReferences(view);
         usuario = new LoginService().getGoUser();
-        setAddEspacioButton();
-            new EspacioService().getAllFromUsuario(usuario)
-                    .addValueEventListener(
-                            new ValueEventListener() {
+        new UsuarioService(usuario).getObject()
+                .addValueEventListener(new ValueEventListener() {
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                }
+                    }
 
-                                @Override
-                                public void onDataChange(DataSnapshot snapshot) {
-                                    for (DataSnapshot x : snapshot.getChildren()) {
-                                        Go<Espacio> aux = new Go<>(new Espacio());
-                                        aux.setKey(x.getKey());
-                                        aux.setObject(x.getValue(aux.getObject().getClass()));
-                                        espacios.add(aux);
-                                    }
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot x: dataSnapshot.getChildren()) {
+                            usuario.setObject((x.getValue(usuario.getObject().getClass())));
+                        }
+
+                        setAddEspacioButton();
+                        new EspacioService().getAllFromUsuario(usuario)
+                                .addValueEventListener(
+                                        new ValueEventListener() {
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+
+                                            @Override
+                                            public void onDataChange(DataSnapshot snapshot) {
+                                                for (DataSnapshot x : snapshot.getChildren()) {
+                                                    Go<Espacio> aux = new Go<>(new Espacio());
+                                                    aux.setKey(x.getKey());
+                                                    aux.setObject(x.getValue(aux.getObject().getClass()));
+                                                    espacios.add(aux);
+                                                }
 
 
-                                    setSearch();
-                                    if (espacios.size() > 0) {
-                                        setSpinnerEspacios();
-                                    }
+                                                setSearch();
+                                                if (espacios.size() > 0) {
+                                                    setSpinnerEspacios();
+                                                }
 
-                                }
-                            });
-
+                                            }
+                                        });
+                    }
+                });
         return view;
     }
 
-    public void crear() {
-        Go<Post> postx = new Go<>(new Post());
-        postx.getObject().setEspacio(espacioActual);
-        postx.getObject().setTitulo("Amigoooo");
-        postx.getObject().setTexto("Como va?");
-        new PostService(postx).create();
-
-        /*x.put(usuario.getKey(), usuario.getObject());
-        espacioActual.setObject(new Espacio());
-        espacioActual.getObject().setNombre("asd");
-        espacioActual.getObject().setAdministradores(x);
-        new EspacioService(espacioActual).create();*/
-    }
 }

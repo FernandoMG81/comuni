@@ -41,7 +41,7 @@ public class TagService {
     }
 
     public Task create (){
-        return db.create(tag,urlEspacios);
+        return db.create(new Go<>(tag.getObject().returnSmall()),urlEspacios);
     }
 
     public Task update (){
@@ -68,28 +68,6 @@ public class TagService {
                     }
                 });
         return tag;
-    }
-
-    public ArrayList<Go<Tag>> getAll(){
-        ArrayList<Go<Tag>> tags = new ArrayList<>();
-        db.DbRef().child(urlEspacios)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        for (DataSnapshot x: snapshot.getChildren())
-                        {
-                            tag.setKey(x.getKey());
-                            tag.setObject(x.getValue(tag.getObject().getClass()));
-                            tags.add(tag);
-                        }
-
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        tag = null;
-                    }
-                });
-        return tags;
     }
 
     public Query getAllFromEspacios(Go<Espacio> espacio) {

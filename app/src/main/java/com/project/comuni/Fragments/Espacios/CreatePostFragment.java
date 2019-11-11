@@ -11,14 +11,18 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Adapters.Espacios.RecyclerAdapterTags;
 import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
@@ -63,44 +67,55 @@ public class CreatePostFragment extends Fragment {
         recyclerView = view.findViewById(R.id.RVTags);
     }
 
+    private void cuestionarioAObjeto(){
+        post.getObject().setTitulo(titulo.getText().toString());
+        post.getObject().setTexto(descripcion.getText().toString());
+        //post.getObject().setTags(new Go<>(tag));
+        post.getObject().setUsuario(new Go<>(usuario));
+        post.getObject().setEspacio(new Go<>(espacio));
+    }
+
     private void setBoton(){
         submit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                post.getObject().setTitulo(titulo.getText().toString());
-                post.getObject().setTexto(descripcion.getText().toString());
 
-                //post.getObject().setTags(new Go<>(tag));
-                post.getObject().setUsuario(new Go<>(usuario));
-                post.getObject().setEspacio(new Go<>(espacio));
+                cuestionarioAObjeto();
 
                 if(!post.getObject().validar().equals("Ok")){
                     Toast.makeText(getContext(),post.getObject().validar(),Toast.LENGTH_LONG).show();
                 }
                 else{
-                    new PostService(post).create();
+                    new PostService(post).create()
+                            .addOnCompleteListener(getActivity(), new OnCompleteListener() {
+                                @Override
+                                public void onComplete(@NonNull Task task) {
+                                    if (!task.isSuccessful()) {
+                                        Toast.makeText(getContext(), "Ocurrio un error", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(getContext(), "Se creo el espacio", Toast.LENGTH_LONG).show();
+                                        goToEspacios();
+                                    }
+                                }
+                            });
                 }
             }
         });
     }
 
-    private void setRecyclerTags(){
-        Go<Tag> tag = new Go<>();
-        tag.getObject().setEspacio(espacio);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        RecyclerAdapterTags adapter = new RecyclerAdapterTags(new TagService(tag).getAll(), this.getContext());
-        recyclerView.setAdapter(adapter);
+    private void goToEspacios(){
+        AppCompatActivity activity = (MainActivity) this.getContext();
+        Fragment myFragment = new PlacesFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("usuario",usuario);
+        myFragment.setArguments(args);
+        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
     }
 
-    private void GuardarDatos(){
-//        dbF = FirebaseStorage.getInstance();
-//        FirebaseDatabase
-//                .getInstance()
-//                .getReference(NODO_Espacios)
-//                .child(espacio.getId())
-//                .addChildEventListener(new ChildEventListener() {
-//                //asd
-//                }
+    private void setRecyclerTags(){
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        RecyclerAdapterTags adapter = new RecyclerAdapterTags(tags, this.getContext());
+        recyclerView.setAdapter(adapter);
     }
 
     @Nullable

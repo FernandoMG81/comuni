@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/paddingExternoDIItems"
+        android:paddingTop="@dimen/paddingExternoABItems"
+        android:paddingEnd="@dimen/paddingExternoDIItems"
+        android:paddingBottom="@dimen/paddingExternoABItems">
+
+        <EditText
+            android:id="@+id/CreateTagNombre"
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:background="@drawable/searchbox"
+            android:hint="Nombre del Tag"
+            android:paddingStart="15dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="2dp"
+            android:queryHint="Buscar"></EditText>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <EditText
+            android:id="@+id/CreateTagColorT"
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:background="@drawable/searchbox"
+            android:hint="Color del Texto del Tag"
+            android:paddingStart="15dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="2dp"
+            android:queryHint="Buscar"></EditText>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <EditText
+            android:id="@+id/CreateTagColorB"
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:background="@drawable/searchbox"
+            android:hint="Color del Fondo del Tag"
+            android:paddingStart="15dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="2dp"
+            android:queryHint="Buscar"></EditText>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Los colores deben ser en formato hexagecimal (0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F) de 6 caracteres." />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Como se vería su etiqueta:" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="0dp"
+            android:layout_weight="0"
+            android:textAlignment="viewEnd"
+            app:cardCornerRadius="5dp">
+
+            <TextView
+                android:id="@+id/CreateTagDemo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#EEE"
+                android:paddingLeft="5dp"
+                android:paddingTop="2dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="2dp"
+                android:text="Importante"
+                android:textColor="#111" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <Button
+            android:id="@+id/CreateTagSubmit"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Crear Tag" />
+    </LinearLayout>
+</LinearLayout>
