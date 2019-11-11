@@ -46,7 +46,7 @@ import static com.project.comuni.Utils.Util.filtrarString;
 public class ConfigPlaceFragment extends Fragment {
 
     //Variables Datos
-    private Boolean administrador;
+    private Boolean administrador = false;
     private Go<Espacio> espacio = new Go<>();
     private Go<Usuario> usuario = new Go<>(new Usuario());
     private ArrayList<Go<Tag>> tags = new ArrayList<>();
@@ -89,31 +89,37 @@ public class ConfigPlaceFragment extends Fragment {
         AgregarTagButton = v.findViewById(R.id.AgregarTag);
         AgregarTagButton.setVisibility(View.GONE);
 
+        Nombre.setText(espacio.getObject().getNombre());
+        Descripcion.setText(espacio.getObject().getDescripcion());
     }
 
-    private void setRecyclerAdmin(){
+    private void setRecyclerAdmin() {
         ArrayList<Go<Usuario>> usuarios = new ArrayList<>();
-        for (Map.Entry<String,Usuario> x:espacio.getObject().getAdministradores().entrySet()) {
-            usuarios.add(new Go<>(x));
+        if (espacio.getObject().getAdministradores() != null) {
+            for (Map.Entry<String, Usuario> x : espacio.getObject().getAdministradores().entrySet()) {
+                usuarios.add(new Go<>(x));
+            }
+            recyclerViewAdmins.setLayoutManager(new LinearLayoutManager(getContext()));
+            RecyclerAdapterUsuarios adapter = new RecyclerAdapterUsuarios(getContext(), espacio, usuarios, administrador);
+            recyclerViewAdmins.setAdapter(adapter);
         }
-        recyclerViewAdmins.setLayoutManager(new LinearLayoutManager(getContext()));
-        RecyclerAdapterUsuarios adapter = new RecyclerAdapterUsuarios(getContext(),espacio, usuarios, administrador);
-        recyclerViewAdmins.setAdapter(adapter);
     }
 
     private void setRecyclerMiembros(){
         ArrayList<Go<Usuario>> usuarios = new ArrayList<>();
-        for (Map.Entry<String,Usuario> x:espacio.getObject().getMiembros().entrySet()) {
-            usuarios.add(new Go<>(x));
+        if(espacio.getObject().getMiembros()!= null) {
+            for (Map.Entry<String, Usuario> x : espacio.getObject().getMiembros().entrySet()) {
+                usuarios.add(new Go<>(x));
+            }
+            recyclerViewMiembros.setLayoutManager(new LinearLayoutManager(getContext()));
+            RecyclerAdapterUsuarios adapter = new RecyclerAdapterUsuarios(getContext(), espacio, usuarios, administrador);
+            recyclerViewMiembros.setAdapter(adapter);
         }
-        recyclerViewMiembros.setLayoutManager(new LinearLayoutManager(getContext()));
-        RecyclerAdapterUsuarios adapter = new RecyclerAdapterUsuarios(getContext(),espacio, usuarios, administrador);
-        recyclerViewMiembros.setAdapter(adapter);
     }
 
     private void setRecyclerTags(){
         recyclerViewTags.setLayoutManager(new LinearLayoutManager(getContext()));
-        RecyclerAdapterTags adapter = new RecyclerAdapterTags(getContext(),espacio,tags,administrador);
+        RecyclerAdapterTags adapter = new RecyclerAdapterTags(getContext(),espacio, usuario, tags,administrador);
         recyclerViewTags.setAdapter(adapter);
     }
 
@@ -188,6 +194,8 @@ public class ConfigPlaceFragment extends Fragment {
 
         getData();
         setLayoutReferences(view);
+        setRecyclerAdmin();
+        setRecyclerMiembros();
 
         for (Map.Entry<String,Espacio> x :usuario.getObject().getAdministradores().entrySet())
         {
@@ -197,6 +205,7 @@ public class ConfigPlaceFragment extends Fragment {
                 setAddAdminButton();
                 setAddMiembroButton();
                 setAddTagButton();
+
                 break;
             }
         }
@@ -216,6 +225,19 @@ public class ConfigPlaceFragment extends Fragment {
                             usuario.setObject((x.getValue(usuario.getObject().getClass())));
                         }
 
+                        for (Map.Entry<String,Espacio> x :usuario.getObject().getAdministradores().entrySet())
+                        {
+                            if(x.getKey()==espacio.getKey()){
+                                administrador = true;
+                                setEditEspacioButton();
+                                setAddAdminButton();
+                                setAddMiembroButton();
+                                setAddTagButton();
+
+                                break;
+                            }
+                        }
+
                         new TagService().getAllFromEspacios(espacio)
                                 .addValueEventListener(new ValueEventListener() {
 
@@ -232,7 +254,9 @@ public class ConfigPlaceFragment extends Fragment {
                                             tagx.setObject(x.getValue(tagx.getObject().getClass()));
                                             tags.add(tagx);
                                         }
-
+                                        if (tags.size()>0) {
+                                            setRecyclerTags();
+                                        }
                                     }
 
                                 });

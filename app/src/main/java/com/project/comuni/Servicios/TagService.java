@@ -45,7 +45,7 @@ public class TagService {
     }
 
     public Task update (){
-        return db.update(tag,urlEspacios);
+        return db.update(new Go<>(tag.getKey(), tag.getObject().returnSmall()),urlEspacios);
     }
 
     public Task delete (){

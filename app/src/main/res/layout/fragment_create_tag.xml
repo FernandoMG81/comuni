@@ -110,5 +110,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Crear Tag" />
+
+        <Button
+            android:id="@+id/EditTagSubmit"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#fb840e"
+            android:text="Editar Tag" />
+
+        <Button
+            android:id="@+id/DeleteTagSubmit"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#f74432"
+            android:text="Borrar Tag" />
     </LinearLayout>
 </LinearLayout>

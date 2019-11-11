@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.comuni.Activities.MainActivity;
-import com.project.comuni.Fragments.Espacios.CreateTagFragment;
+import com.project.comuni.Fragments.Espacios.EditTagFragment;
 import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Tag;
@@ -37,9 +37,10 @@ public class RecyclerAdapterTags extends RecyclerView.Adapter<RecyclerAdapterTag
     private Context context;
 
 
-    public RecyclerAdapterTags(Context context, Go<Espacio> espacio, ArrayList<Go<Tag>> tags, Boolean administrador) {
+    public RecyclerAdapterTags(Context context, Go<Espacio> espacio, Go<Usuario> usuario, ArrayList<Go<Tag>> tags, Boolean administrador) {
         this.context = context;
         this.espacio = espacio;
+        this.usuario = usuario;
         this.tags = tags;
         this.administrador = administrador;
     }
@@ -57,8 +58,8 @@ public class RecyclerAdapterTags extends RecyclerView.Adapter<RecyclerAdapterTag
         Log.d(TAG, "onBindViewHolder: ");
 
         holder.Tag.setText(tags.get(position).getObject().getText());
-        holder.Tag.setBackgroundColor(Color.parseColor(tags.get(position).getObject().getBackgroundColor()));
-        holder.Tag.setTextColor(Color.parseColor(tags.get(position).getObject().getTextColor()));
+        holder.Tag.setBackgroundColor(Color.parseColor(tags.get(position).getObject().ColorB()));
+        holder.Tag.setTextColor(Color.parseColor(tags.get(position).getObject().ColorT()));
         if(administrador) {
             holder.LL.setOnClickListener((view) -> {
                         tag = tags.get(position);
@@ -77,11 +78,11 @@ public class RecyclerAdapterTags extends RecyclerView.Adapter<RecyclerAdapterTag
 
     public void onClick(View view) {
         AppCompatActivity activity = (MainActivity) view.getContext();
-        Fragment myFragment = new CreateTagFragment();
+        Fragment myFragment = new EditTagFragment();
         Bundle args = new Bundle();
+        args.putSerializable("usuario",usuario);
         args.putSerializable("espacioActual",espacio);
         args.putSerializable("tag",tag);
-        args.putSerializable("usuario",usuario);
         myFragment.setArguments(args);
         activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
     }

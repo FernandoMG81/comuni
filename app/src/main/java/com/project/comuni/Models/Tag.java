@@ -78,11 +78,11 @@ public class Tag {
         return  "Ok";
     }
 
-    public String getColorT() {
+    public String ColorT() {
         return "#" + textColor;
     }
 
-    public String getColorB() {
+    public String ColorB() {
         return "#" + backgroundColor;
     }
 
