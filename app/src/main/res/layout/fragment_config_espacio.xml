@@ -41,6 +41,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/AgregarEspacio"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Agregar SubEspacio" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="#fb840e"
                 android:text="Editar Espacio" />
+
         </LinearLayout>
 
         <TextView

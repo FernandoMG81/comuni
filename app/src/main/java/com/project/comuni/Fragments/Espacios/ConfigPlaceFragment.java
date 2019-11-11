@@ -61,6 +61,7 @@ public class ConfigPlaceFragment extends Fragment {
     private RecyclerView recyclerViewMiembros;
     private RecyclerView recyclerViewTags;
     //Buttons
+    private Button AgregarEspacioButton;
     private Button EditarEspacioButton;
     private Button AgregarAdminButton;
     private Button AgregarMiembroButton;
@@ -80,6 +81,7 @@ public class ConfigPlaceFragment extends Fragment {
         recyclerViewMiembros = v.findViewById(R.id.RVMiembros);
         recyclerViewTags = v.findViewById(R.id.RVTags);
 
+        AgregarEspacioButton = v.findViewById(R.id.AgregarEspacio);
         EditarEspacioButton = v.findViewById(R.id.EditarEspacio);
         EditarEspacioButton.setVisibility(View.GONE);
         AgregarAdminButton = v.findViewById(R.id.AgregarAdministrador);
@@ -121,6 +123,22 @@ public class ConfigPlaceFragment extends Fragment {
         recyclerViewTags.setLayoutManager(new LinearLayoutManager(getContext()));
         RecyclerAdapterTags adapter = new RecyclerAdapterTags(getContext(),espacio, usuario, tags,administrador);
         recyclerViewTags.setAdapter(adapter);
+    }
+
+    private void setAgregarEspacioButton(){
+        EditarEspacioButton.setVisibility(View.VISIBLE);
+        EditarEspacioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (MainActivity) view.getContext();
+                Fragment myFragment = new CreateEspacioFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("espacioActual", espacio);
+                args.putSerializable("usuario",usuario);
+                myFragment.setArguments(args);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
+            }
+        });
     }
 
     private void setEditEspacioButton(){
@@ -201,6 +219,7 @@ public class ConfigPlaceFragment extends Fragment {
         {
             if(x.getKey()==espacio.getKey()){
                 administrador = true;
+                setAgregarEspacioButton();
                 setEditEspacioButton();
                 setAddAdminButton();
                 setAddMiembroButton();
@@ -229,6 +248,7 @@ public class ConfigPlaceFragment extends Fragment {
                         {
                             if(x.getKey()==espacio.getKey()){
                                 administrador = true;
+                                setAgregarEspacioButton();
                                 setEditEspacioButton();
                                 setAddAdminButton();
                                 setAddMiembroButton();
