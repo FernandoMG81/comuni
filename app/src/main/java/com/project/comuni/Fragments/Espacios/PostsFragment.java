@@ -19,6 +19,7 @@ import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Post;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
+import com.project.comuni.Servicios.EspacioService;
 import com.project.comuni.Servicios.LoginService;
 import com.project.comuni.Servicios.PostService;
 import com.project.comuni.Servicios.UsuarioService;
@@ -31,6 +32,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.project.comuni.Utils.Util.filtrarString;
 
@@ -191,31 +194,45 @@ public class PostsFragment extends Fragment {
                         for (DataSnapshot x: dataSnapshot.getChildren()) {
                             usuario.setObject((x.getValue(usuario.getObject().getClass())));
                         }
-
-                        new PostService().getAllFromEspacios(espacio)
+                        new EspacioService(espacio).getObject()
                                 .addValueEventListener(new ValueEventListener() {
 
                                     @Override
-                                    public void onCancelled(DatabaseError databaseError) {
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                     }
 
                                     @Override
-                                    public void onDataChange(DataSnapshot snapshot) {
-                                        for (DataSnapshot x : snapshot.getChildren()) {
-                                            Go<Post> postx = new Go<>(new Post());
-                                            postx.setKey(x.getKey());
-                                            postx.setObject(x.getValue(postx.getObject().getClass()));
-                                            posts.add(postx);
-                                        }
-                                        setSearch();
-                                        if (posts.size() > 0) {
-                                            filterData();
-                                            setRecycler();
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot x : dataSnapshot.getChildren()) {
+                                                espacio.setObject(x.getValue(espacio.getObject().getClass()));
+
                                         }
 
+                                        new PostService().getAllFromEspacios(espacio)
+                                                .addValueEventListener(new ValueEventListener() {
+
+                                                    @Override
+                                                    public void onCancelled(DatabaseError databaseError) {
+
+                                                    }
+
+                                                    @Override
+                                                    public void onDataChange(DataSnapshot snapshot) {
+                                                        for (DataSnapshot x : snapshot.getChildren()) {
+                                                            Go<Post> postx = new Go<>(new Post());
+                                                            postx.setKey(x.getKey());
+                                                            postx.setObject(x.getValue(postx.getObject().getClass()));
+                                                            posts.add(postx);
+                                                        }
+                                                        setSearch();
+                                                        if (posts.size() > 0) {
+                                                            filterData();
+                                                            setRecycler();
+                                                        }
+                                                    }
+                                                });
                                     }
-
                                 });
                     }
                 });

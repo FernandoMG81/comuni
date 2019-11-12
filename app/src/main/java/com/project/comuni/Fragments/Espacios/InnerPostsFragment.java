@@ -58,7 +58,7 @@ public class InnerPostsFragment extends Fragment {
         Tag.setBackgroundColor(Color.parseColor(post.getObject().getTag().getObject().getBackgroundColor()));
         NombreUsuario.setText(post.getObject().getUsuario().getObject().getNombre()
                 + " " + post.getObject().getUsuario().getObject().getApellido());
-        Fecha.setText(post.getObject().getCreado());
+        Fecha.setText(post.getObject().getCreated());
     }
 
     @Nullable

@@ -33,7 +33,9 @@ import com.project.comuni.R;
 import com.project.comuni.Servicios.PostService;
 import com.project.comuni.Servicios.TagService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CreatePostFragment extends Fragment {
 
@@ -51,7 +53,6 @@ public class CreatePostFragment extends Fragment {
     private TextView titulo;
     private TextView descripcion;
     private Button submit;
-    //private RecyclerView recyclerView;
     private Spinner tagSpinner;
 
     private void getData() {
@@ -65,7 +66,6 @@ public class CreatePostFragment extends Fragment {
         titulo = view.findViewById(R.id.CreatePostTitulo);
         descripcion = view.findViewById(R.id.CreatePostDescripción);
         submit = view.findViewById(R.id.CreatePostSubmit);
-        //recyclerView = view.findViewById(R.id.RVTags);
         tagSpinner = view.findViewById(R.id.tagSpinner);
     }
 
@@ -75,6 +75,10 @@ public class CreatePostFragment extends Fragment {
         post.getObject().setTags(tag);
         post.getObject().setUsuario(new Go<>(usuario));
         post.getObject().setEspacio(new Go<>(espacio));
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        date.getTime();
+        post.getObject().setCreated(sdf.format(date));
     }
 
     private void setBoton(){
@@ -110,6 +114,7 @@ public class CreatePostFragment extends Fragment {
         Fragment myFragment = new PostsFragment();
         Bundle args = new Bundle();
         args.putSerializable("usuario",usuario);
+        args.putSerializable("espacioActual",espacio);
         myFragment.setArguments(args);
         activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
     }

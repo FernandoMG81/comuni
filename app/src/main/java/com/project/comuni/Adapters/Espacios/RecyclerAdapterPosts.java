@@ -53,16 +53,16 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
             holder.Titulo.setText(posts.get(position).getObject().getTitulo());
             if(posts.get(position).getObject().getTag() != null) {
                 holder.Tag.setText(posts.get(position).getObject().getTag().getObject().getText());
-                holder.Tag.setBackgroundColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().getBackgroundColor()));
-                holder.Tag.setTextColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().getTextColor()));
+                holder.Tag.setBackgroundColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().ColorB()));
+                holder.Tag.setTextColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().ColorT()));
             }
-            /*holder.Fecha.setText(posts.get(position).getObject().getCreado());
-            String TextoTruncado = truncate(posts.get(position).getObject().getTexto(), 50);
-            holder.Descripcion.setText(TextoTruncado);
+            holder.Fecha.setText(posts.get(position).getObject().getCreated());
+            //String TextoTruncado = truncate(posts.get(position).getObject().getTexto(), 50);
+            holder.Descripcion.setText(posts.get(position).getObject().getTexto());
             //holder.FotoUsuario.setBackgroundResource(posts.get(position).getObject().getUsuario().getObject().getFoto());
             holder.NombreUsuario.setText(posts.get(position).getObject().getUsuario().getObject().getNombre()
                     + " " + posts.get(position).getObject().getUsuario().getObject().getApellido());
-*/
+
             holder.RL.setOnClickListener((view) -> {
                 this.post = posts.get(position);
                 Toast.makeText(context, post.getObject().getTitulo(), Toast.LENGTH_SHORT).show();

@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,8 +56,16 @@ public class ConfigPlaceFragment extends Fragment {
 
     // Layout
     //Espacio
-    TextView Nombre;
-    TextView Descripcion;
+    private TextView Nombre;
+    private TextView Descripcion;
+    //Desplegar
+    private LinearLayout LLAdmins;
+    private LinearLayout LLMiembros;
+    private LinearLayout LLTags;
+    //TextBox Mensaje vacio
+    private TextView AdminsVacio;
+    private TextView MiembrosVacio;
+    private TextView TagsVacio;
     //Recyclers
     private RecyclerView recyclerViewAdmins;
     private RecyclerView recyclerViewMiembros;
@@ -77,11 +87,26 @@ public class ConfigPlaceFragment extends Fragment {
         Nombre = v.findViewById(R.id.ConfigPlaceNombre);
         Descripcion = v.findViewById(R.id.ConfigPlaceDescripcion);
 
+        AdminsVacio =v.findViewById(R.id.ConfigAdminVacio);
+        AdminsVacio.setVisibility(View.GONE);
+        MiembrosVacio =v.findViewById(R.id.configMiembrosVacio);
+        MiembrosVacio.setVisibility(View.GONE);
+        TagsVacio =v.findViewById(R.id.configTagsVacio);
+        TagsVacio.setVisibility(View.GONE);
+
+        LLAdmins =v.findViewById(R.id.LLConfigAdmin);
+        LLMiembros =v.findViewById(R.id.LLConfigMiembros);
+        LLTags =v.findViewById(R.id.LLConfigTags);
+
         recyclerViewAdmins = v.findViewById(R.id.RVAdministradores);
+        recyclerViewAdmins.setVisibility(View.GONE);
         recyclerViewMiembros = v.findViewById(R.id.RVMiembros);
+        recyclerViewMiembros.setVisibility(View.GONE);
         recyclerViewTags = v.findViewById(R.id.RVTags);
+        recyclerViewTags.setVisibility(View.GONE);
 
         AgregarEspacioButton = v.findViewById(R.id.AgregarEspacio);
+        AgregarEspacioButton.setVisibility(View.GONE);
         EditarEspacioButton = v.findViewById(R.id.EditarEspacio);
         EditarEspacioButton.setVisibility(View.GONE);
         AgregarAdminButton = v.findViewById(R.id.AgregarAdministrador);
@@ -93,6 +118,80 @@ public class ConfigPlaceFragment extends Fragment {
 
         Nombre.setText(espacio.getObject().getNombre());
         Descripcion.setText(espacio.getObject().getDescripcion());
+    }
+
+    private void setDesplegarAdmins(){
+        LLAdmins.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (recyclerViewAdmins.getVisibility() == View.GONE) {
+                    recyclerViewAdmins.setVisibility(View.VISIBLE);
+                    if(espacio.getObject().getAdministradores() != null){
+                        if(espacio.getObject().getAdministradores().size()==0){
+                            AdminsVacio.setVisibility(View.VISIBLE);
+                        }
+                        else{
+                            AdminsVacio.setVisibility(View.GONE);
+                        }
+                    }
+                    else{
+                        AdminsVacio.setVisibility(View.VISIBLE);
+                    }
+
+                }
+                else
+                {
+                    recyclerViewAdmins.setVisibility(View.GONE);
+                    AdminsVacio.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    private void setDesplegarMiembros(){
+        LLMiembros.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (recyclerViewMiembros.getVisibility() == View.GONE) {
+                    recyclerViewMiembros.setVisibility(View.VISIBLE);
+                    if(espacio.getObject().getMiembros() != null){
+                        if(espacio.getObject().getMiembros().size()==0){
+                            MiembrosVacio.setVisibility(View.VISIBLE);
+                        }
+                        else{
+                            MiembrosVacio.setVisibility(View.GONE);
+                        }
+                    }
+                    else{
+                        MiembrosVacio.setVisibility(View.VISIBLE);
+                    }
+                }
+                else
+                {
+                    recyclerViewMiembros.setVisibility(View.GONE);
+                    MiembrosVacio.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    private void setDesplegarTags(){
+        LLTags.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (recyclerViewTags.getVisibility() == View.GONE) {
+                    recyclerViewTags.setVisibility(View.VISIBLE);
+                    if(tags.size() == 0){
+                        TagsVacio.setVisibility(View.VISIBLE);
+                    }
+                }
+                else
+                {
+                    recyclerViewTags.setVisibility(View.GONE);
+                    TagsVacio.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void setRecyclerAdmin() {
@@ -126,13 +225,14 @@ public class ConfigPlaceFragment extends Fragment {
     }
 
     private void setAgregarEspacioButton(){
-        EditarEspacioButton.setVisibility(View.VISIBLE);
-        EditarEspacioButton.setOnClickListener(new View.OnClickListener() {
+        AgregarEspacioButton.setVisibility(View.VISIBLE);
+        AgregarEspacioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity = (MainActivity) view.getContext();
                 Fragment myFragment = new CreateEspacioFragment();
                 Bundle args = new Bundle();
+                args.putSerializable("queHacer", 1);
                 args.putSerializable("espacioActual", espacio);
                 args.putSerializable("usuario",usuario);
                 myFragment.setArguments(args);
@@ -149,6 +249,7 @@ public class ConfigPlaceFragment extends Fragment {
                 AppCompatActivity activity = (MainActivity) view.getContext();
                 Fragment myFragment = new CreateEspacioFragment();
                 Bundle args = new Bundle();
+                args.putSerializable("queHacer", 2);
                 args.putSerializable("espacioActual", espacio);
                 args.putSerializable("usuario",usuario);
                 myFragment.setArguments(args);
@@ -162,13 +263,25 @@ public class ConfigPlaceFragment extends Fragment {
         AgregarAdminButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppCompatActivity activity = (MainActivity) view.getContext();
-                Fragment myFragment = new CreatePostFragment();
-                Bundle args = new Bundle();
-                args.putSerializable("espacioActual", espacio);
-                args.putSerializable("usuario",usuario);
-                myFragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
+                ArrayList<Go<Usuario>> usuarios = new ArrayList<>();
+                if(espacio.getObject().getAdministradores()!=null) {
+                    for (Map.Entry<String, Usuario> x : espacio.getObject().getAdministradores().entrySet()) {
+                        usuarios.add(new Go<>(x.getKey(), x.getValue()));
+                    }
+
+                    AppCompatActivity activity = (MainActivity) view.getContext();
+                    Fragment myFragment = new ListadoUsuariosFragment();
+                    Bundle args = new Bundle();
+                    args.putSerializable("espacioActual", espacio);
+                    args.putSerializable("usuario", usuario);
+                    args.putSerializable("listadoUsuarios", usuarios);
+                    args.putSerializable("queHacer", 1);
+                    myFragment.setArguments(args);
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
+                }
+                else{
+                    Toast.makeText(getContext(), "Ocurrió un error", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -178,13 +291,25 @@ public class ConfigPlaceFragment extends Fragment {
         AgregarMiembroButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppCompatActivity activity = (MainActivity) view.getContext();
-                Fragment myFragment = new CreatePostFragment();
-                Bundle args = new Bundle();
-                args.putSerializable("espacioActual", espacio);
-                args.putSerializable("usuario",usuario);
-                myFragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
+                ArrayList<Go<Usuario>> usuarios = new ArrayList<>();
+                if(espacio.getObject().getMiembros()!=null) {
+                    for (Map.Entry<String, Usuario> x : espacio.getObject().getMiembros().entrySet()) {
+                        usuarios.add(new Go<>(x.getKey(), x.getValue()));
+                    }
+
+                    AppCompatActivity activity = (MainActivity) view.getContext();
+                    Fragment myFragment = new ListadoUsuariosFragment();
+                    Bundle args = new Bundle();
+                    args.putSerializable("espacioActual", espacio);
+                    args.putSerializable("usuario", usuario);
+                    args.putSerializable("listadoUsuarios", usuarios);
+                    args.putSerializable("queHacer", 2);
+                    myFragment.setArguments(args);
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
+                }
+                else{
+                    Toast.makeText(getContext(), "Ocurrió un error", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -212,8 +337,13 @@ public class ConfigPlaceFragment extends Fragment {
 
         getData();
         setLayoutReferences(view);
+
         setRecyclerAdmin();
         setRecyclerMiembros();
+
+        setDesplegarAdmins();
+        setDesplegarMiembros();
+        setDesplegarTags();
 
         for (Map.Entry<String,Espacio> x :usuario.getObject().getAdministradores().entrySet())
         {

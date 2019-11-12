@@ -13,8 +13,11 @@ public class FireUrl {
     private String administradores = "administradores";
     private String miembros = "miembros";
     private String espacios = "Espacios";
+    private String datos = "Datos";
 
     public FireUrl(String root){this.root = root;}
+
+    public FireUrl(){}
 
     public String AddKey(String url, String key){
         return url + "/" + key;
@@ -50,7 +53,9 @@ public class FireUrl {
     }
 
     public String FromUrlEspacios (String url){
-        return ListToUrl(UrlToList(url));
+        return ListToUrl(UrlToList(url))
+                .replace("[","")
+                .replace("]","");
     }
 
     public String getRootInEspacios(Go<Espacio> espacio){
@@ -89,5 +94,9 @@ public class FireUrl {
 
     public String getEspacios() {
         return espacios;
+    }
+
+    public String getDatos() {
+        return datos;
     }
 }
