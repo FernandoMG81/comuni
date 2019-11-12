@@ -3,9 +3,11 @@ package com.project.comuni.Servicios;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.project.comuni.Models.Comentario;
 import com.project.comuni.Models.Firebase.Go;
+import com.project.comuni.Models.Post;
 import com.project.comuni.Utils.FireUrl;
 
 import java.util.ArrayList;
@@ -67,25 +69,15 @@ public class ComentarioService {
         return comentario;
     }
 
-    public ArrayList<Go<Comentario>> getAll(){
-        ArrayList<Go<Comentario>> comentarios = new ArrayList<>();
-        db.DbRef().child(urlEspacios)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        for (DataSnapshot x:snapshot.getChildren()) {
-                            comentario.setKey(snapshot.getKey());
-                            comentario.setObject(snapshot.getValue(comentario.getObject().getClass()));
-                            comentarios.add(comentario);
-                        }
+    public Query getAll(){
+        return db.DbRef().child(urlEspacios);
+    }
 
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        comentario = null;
-                    }
-                });
-        return comentarios;
+    public Query getAllFromPost(Go<Post>post){
+        return db.DbRef().child(
+                url.AddKey(url.getRootInEspacios(post.getObject().getEspacio()),
+                        url.AddKey(post.getKey(),
+                                url.getRoot())));
     }
 
 }

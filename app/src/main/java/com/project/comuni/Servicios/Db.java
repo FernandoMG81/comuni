@@ -84,6 +84,12 @@ public class Db<Tobject> {
                 .removeValue();
     }
 
+    public Task<Void> deleteWithDatos(Go<Tobject> obj, String url){
+        return DbRef.child(url)
+                .child(obj.getKey())
+                .removeValue();
+    }
+
     public Query getObject(String key, String url){
         return DbRef.child(url)
                 .orderByKey()
@@ -92,6 +98,10 @@ public class Db<Tobject> {
 
     public Query getAll(String url){
         return DbRef.child(url);
+    }
+
+    public Query getAllWithDatos(String url){
+        return DbRef.child(fireUrl.AddKey(url,fireUrl.getDatos()));
     }
 
 }

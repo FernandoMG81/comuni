@@ -1,10 +1,13 @@
 package com.project.comuni.Fragments.Espacios;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -35,6 +38,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
 
+import static com.project.comuni.Utils.Util.filtrarString;
+
 public class ListadoUsuariosFragment extends Fragment {
 
     //Variables Datos
@@ -42,6 +47,10 @@ public class ListadoUsuariosFragment extends Fragment {
     private Go<Usuario> usuario = new Go<>(new Usuario());
     private ArrayList<Go<Usuario>> usuariosNoListar = new ArrayList<>();
     private ArrayList<Go<Usuario>> usuarios = new ArrayList<>();
+    private ArrayList<Go<Usuario>> usuariosAMostrar = new ArrayList<>();
+
+    //Variables Filtrado
+    private String searchText = "";
 
     //Que Hacer
     // 1 -> Agregar Admins
@@ -49,6 +58,7 @@ public class ListadoUsuariosFragment extends Fragment {
     private  int queHacer;
 
     // Layout
+    private EditText search;
     private RecyclerView recyclerViewUsuarios;
 
     private void getData() {
@@ -60,13 +70,48 @@ public class ListadoUsuariosFragment extends Fragment {
     }
 
     public void setLayoutReferences(View v){
+        search = v.findViewById(R.id.ContactosSearch);
         recyclerViewUsuarios = v.findViewById(R.id.RVContactos);
+    }
+
+    private void setSearch(){
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                searchText = editable.toString();
+                filterData();
+                setRecyclerUsuarios();
+            }
+        });
+    }
+
+    private void filterData(){
+
+        usuariosAMostrar.clear();
+        for (Go<Usuario> x: usuarios){
+            //||
+            //                    filtrarString (x.getObject().getApellido(), searchText)
+            if (filtrarString(x.getObject().getNombre(), searchText) )
+            {
+                usuariosAMostrar.add(x);
+            }
+        }
     }
 
     private void setRecyclerUsuarios() {
             recyclerViewUsuarios.setLayoutManager(new LinearLayoutManager(getContext()));
             RecyclerAdapterAgregarUsuarios adapter = new RecyclerAdapterAgregarUsuarios(
-                    getContext(), espacio, usuarios, queHacer);
+                    getContext(), espacio, usuariosAMostrar, queHacer);
             recyclerViewUsuarios.setAdapter(adapter);
     }
 
@@ -99,6 +144,8 @@ public class ListadoUsuariosFragment extends Fragment {
                         }
 
                             if (usuarios.size()> 0){
+                                setSearch();
+                                filterData();
                                 setRecyclerUsuarios();
                             }
                     }

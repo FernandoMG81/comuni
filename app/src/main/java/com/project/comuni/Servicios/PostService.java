@@ -31,7 +31,6 @@ public class PostService {
     public PostService(){
         db = new Db();
         post = new Go<>();
-
     }
 
     public PostService(Go<Post> postx){
@@ -41,19 +40,19 @@ public class PostService {
     }
 
     public Task create (){
+        post.setKey(db.createKey(urlEspacios));
         if (!(post.getObject().getTag().getKey() != null)) {
         post.getObject().getTag().setObject(null);
         }
-        return db.create(post,urlEspacios);
+        return db.update(post,urlEspacios);
     }
-
 
     public Task update (){
         return db.update(post,urlEspacios);
     }
 
     public Task delete (){
-        return db.delete(post,urlEspacios);
+        return db.deleteWithDatos(post,urlEspacios);
     }
 
     public Query getObject(){

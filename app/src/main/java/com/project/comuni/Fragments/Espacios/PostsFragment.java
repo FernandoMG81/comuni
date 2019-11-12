@@ -104,41 +104,9 @@ public class PostsFragment extends Fragment {
 
     private void setRecycler(){
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        RecyclerAdapterPosts adapter = new RecyclerAdapterPosts(postsAMostrar, getContext());
+        RecyclerAdapterPosts adapter = new RecyclerAdapterPosts(getContext(), usuario, espacio, postsAMostrar);
         recyclerView.setAdapter(adapter);
     }
-
-   /* private void setAddTagButton(){
-        newTagButton.setVisibility(View.VISIBLE);
-        newTagButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AppCompatActivity activity = (MainActivity) view.getContext();
-                Fragment myFragment = new CreateTagFragment();
-                Bundle args = new Bundle();
-                args.putSerializable("espacioActual", espacio);
-                args.putSerializable("usuario",usuario);
-                myFragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
-            }
-        });
-    }*/
-
-   /* private void setAddEspacioButton(){
-        newEspacioButton.setVisibility(View.VISIBLE);
-        newEspacioButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AppCompatActivity activity = (MainActivity) view.getContext();
-                Fragment myFragment = new CreateEspacioFragment();
-                Bundle args = new Bundle();
-                args.putSerializable("espacioActual", espacio);
-                args.putSerializable("usuario",usuario);
-                myFragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
-            }
-        });
-    }*/
 
     private void setAddPostButton(){
         newPostButton.setOnClickListener(new View.OnClickListener() {
@@ -225,6 +193,7 @@ public class PostsFragment extends Fragment {
                                                             postx.setObject(x.getValue(postx.getObject().getClass()));
                                                             posts.add(postx);
                                                         }
+
                                                         setSearch();
                                                         if (posts.size() > 0) {
                                                             filterData();

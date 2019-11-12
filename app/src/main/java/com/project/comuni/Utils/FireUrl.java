@@ -59,13 +59,13 @@ public class FireUrl {
     }
 
     public String getRootInEspacios(Go<Espacio> espacio){
-        if(espacio.getObject().getEspacioUrl() == null){
-            return (AddKey(getEspacios(),espacio.getKey()));
-        }
-        else {
+        if(espacio.getObject().getEspacioUrl() != null){
             return (AddKey(getEspacios(),
                     AddKey(espacio.getObject().getEspacioUrl(),
                             espacio.getKey())));
+        }
+        else {
+            return (AddKey(getEspacios(),espacio.getKey()));
         }
     }
 

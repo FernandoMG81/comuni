@@ -19,8 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Fragments.Espacios.InnerPostsFragment;
+import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Post;
+import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 
 import java.util.ArrayList;
@@ -28,14 +30,23 @@ import java.util.ArrayList;
 public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPosts.ViewHolder> implements View.OnClickListener {
     private static final String TAG = "RecyclerAdapterMessages";
 
-    private Go<Post> post = new Go<>();
-    private View.OnClickListener listener;
+    //Variable Recycler
     private ArrayList<Go<Post>> posts;
+
+    //Variables de Bundle
+    private Go<Usuario> usuario = new Go<>();
+    private Go<Espacio> espacio = new Go<>();
+    private Go<Post> post = new Go<>();
+
+    //Otras Variables
+    private View.OnClickListener listener;
     private Context context;
 
-    public RecyclerAdapterPosts(ArrayList<Go<Post>> posts, Context context) {
-        this.posts = posts;
+    public RecyclerAdapterPosts(Context context,Go<Usuario> usuario, Go<Espacio> espacio, ArrayList<Go<Post>> posts) {
         this.context = context;
+        this.usuario = usuario;
+        this.espacio = espacio;
+        this.posts = posts;
     }
 
     @NonNull
@@ -80,6 +91,8 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
         AppCompatActivity activity = (MainActivity) view.getContext();
         Fragment myFragment = new InnerPostsFragment();
         Bundle args = new Bundle();
+        args.putSerializable("usuario",usuario);
+        args.putSerializable("espacioActual",espacio);
         args.putSerializable("post",post);
         myFragment.setArguments(args);
         activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
