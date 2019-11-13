@@ -76,8 +76,9 @@ public class ComentarioService {
     public Query getAllFromPost(Go<Post>post){
         return db.DbRef().child(
                 url.AddKey(url.getRootInEspacios(post.getObject().getEspacio()),
-                        url.AddKey(post.getKey(),
-                                url.getRoot())));
+                        url.AddKey(url.getPosts(),
+                                url.AddKey(post.getKey(),
+                                        url.getRoot()))));
     }
 
 }

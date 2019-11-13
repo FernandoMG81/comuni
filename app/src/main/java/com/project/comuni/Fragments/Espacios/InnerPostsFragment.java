@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -25,28 +29,32 @@ import com.project.comuni.Models.Post;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.ComentarioService;
-import com.project.comuni.Servicios.EspacioService;
-import com.project.comuni.Servicios.LoginService;
-import com.project.comuni.Servicios.PostService;
-import com.project.comuni.Servicios.UsuarioService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class InnerPostsFragment extends Fragment {
 
     //Variables
-    private Go<Espacio> espacio = new Go<>();
-    private Go<Usuario> usuario = new Go<>();
-    private Go<Post> post = new Go<>();
+    private Go<Comentario> comentario = new Go<>(new Comentario());
+    private Go<Espacio> espacio = new Go<>(new Espacio());
+    private Go<Usuario> usuario = new Go<>(new Usuario());
+    private Go<Post> post = new Go<>(new Post());
     private ArrayList<Go<Comentario>> comentarios = new ArrayList<>();
 
     //Layout
+    //Post
     private TextView Titulo;
     private TextView Descripcion;
     private TextView Tag;
     private TextView NombreUsuario;
     private TextView Fecha;
+    //Recycler Comentarios
     private RecyclerView recyclerView;
+    //Escribir Comentario
+    TextView comentarioTexto;
+    Button comentarioSubmit;
 
     public void getData() {
         Bundle bundle = getArguments();
@@ -62,7 +70,11 @@ public class InnerPostsFragment extends Fragment {
         Tag = view.findViewById(R.id.InnerPlacesTag);
         NombreUsuario = view.findViewById(R.id.InnerPlacesUsuario);
         Fecha = view.findViewById(R.id.InnerPlacesFecha);
+
         recyclerView = view.findViewById(R.id.RVInnerPosts);
+
+        comentarioTexto = view.findViewById(R.id.InnerFragmentComentarioTexto);
+        comentarioSubmit = view.findViewById(R.id.InnerFragmentComentarioSubmit);
 
         Titulo.setText(post.getObject().getTitulo());
         Descripcion.setText(post.getObject().getTexto());
@@ -80,6 +92,33 @@ public class InnerPostsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
+    public void setBoton(){
+        comentarioSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                comentario.getObject().setTexto(comentarioTexto.getText().toString());
+                comentario.getObject().setPost(post);
+                comentario.getObject().setUsuario(usuario);
+                Date date = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy");
+                comentario.getObject().setCreated(sdf.format(date.getTime()));
+
+                new ComentarioService(comentario).create()
+                        .addOnCompleteListener(new OnCompleteListener() {
+                            @Override
+                            public void onComplete(@NonNull Task task) {
+                                if (task.isSuccessful()){
+                                    Toast.makeText(getContext(), "Se guardó el comentario", Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    Toast.makeText(getContext(), "Ocurrio un error", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        });
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -87,7 +126,7 @@ public class InnerPostsFragment extends Fragment {
 
         getData();
         setLayout(view);
-
+        setBoton();
             new ComentarioService().getAllFromPost(post)
                     .addValueEventListener(new ValueEventListener() {
 

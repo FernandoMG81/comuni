@@ -13,6 +13,7 @@ public class FireUrl {
     private String administradores = "administradores";
     private String miembros = "miembros";
     private String espacios = "Espacios";
+    private String posts = "Posts";
     private String datos = "Datos";
 
     public FireUrl(String root){this.root = root;}
@@ -98,5 +99,9 @@ public class FireUrl {
 
     public String getDatos() {
         return datos;
+    }
+
+    public String getPosts() {
+        return posts;
     }
 }
