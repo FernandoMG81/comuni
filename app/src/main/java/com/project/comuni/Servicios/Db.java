@@ -7,6 +7,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.comuni.Models.Firebase.Go;
+import com.project.comuni.Utils.FireUrl;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Db<Tobject> {
 
@@ -15,6 +19,8 @@ public class Db<Tobject> {
 
     private FirebaseStorage fStorage;
     private StorageReference StRef;
+
+    private FireUrl fireUrl = new FireUrl();
 
     public Db(){
         fDatabase = FirebaseDatabase.getInstance();
@@ -52,8 +58,33 @@ public class Db<Tobject> {
                 .setValue(obj.getObject());
     }
 
+    //Busca en una url y key dada y sobreescribe el objeto
+    public Task<Void> updateWithDatos(Go<Tobject> obj, String url){
+        return DbRef
+                .child(url)
+                .child(obj.getKey())
+                .child(fireUrl.getDatos())
+                .setValue(obj.getObject());
+    }
+
+    //Busca en una url y key dada y sobreescribe el objeto
+    public Task<Void> updateWithChildren(Go<Tobject> obj, String url){
+        Map<String, Tobject> mapObj = new HashMap<>();
+        mapObj.put(obj.getKey(), obj.getObject());
+        return DbRef
+                .child(url)
+                .child(obj.getKey())
+                .updateChildren((Map<String, Object>) mapObj);
+    }
+
     //Busca en una url y key dada y borra el objeto
     public Task<Void> delete(Go<Tobject> obj, String url){
+        return DbRef.child(url)
+                .child(obj.getKey())
+                .removeValue();
+    }
+
+    public Task<Void> deleteWithDatos(Go<Tobject> obj, String url){
         return DbRef.child(url)
                 .child(obj.getKey())
                 .removeValue();
@@ -67,6 +98,10 @@ public class Db<Tobject> {
 
     public Query getAll(String url){
         return DbRef.child(url);
+    }
+
+    public Query getAllWithDatos(String url){
+        return DbRef.child(fireUrl.AddKey(url,fireUrl.getDatos()));
     }
 
 }

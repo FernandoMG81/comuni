@@ -21,19 +21,20 @@ import com.project.comuni.Utils.FireUrl;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class UsuarioService {
 
-    private Db db;
+    private Db db = new Db();
 
     private FireUrl url = new FireUrl("Usuarios");
     private ArrayList<String> urlEspacios;
     private ArrayList<String> urlEspaciosAdministradores;
     private ArrayList<String> urlEspaciosMiembros;
 
-    private Go<Usuario> usuario;
+    private Go<Usuario> usuario = new Go<>();
 
     private ArrayList<String> setUrlEspacios(Map<String,Espacio> espacios){
         ArrayList<String> Arrayx = new ArrayList<>();
@@ -44,16 +45,10 @@ public class UsuarioService {
     }
 
     public UsuarioService(){
-        db = new Db();
-        usuario = new Go<>();
-        urlEspaciosAdministradores = setUrlEspacios(usuario.getObject().getAdministradores());
-        urlEspaciosMiembros = setUrlEspacios(usuario.getObject().getMiembros());
-        urlEspacios = urlEspaciosMiembros;
-        urlEspacios.addAll(urlEspaciosAdministradores);
+
     }
 
     public UsuarioService(Go<Usuario> usuariox){
-        db = new Db();
         usuario = usuariox;
     }
 
@@ -93,20 +88,8 @@ public class UsuarioService {
        return db.getObject(usuario.getKey(),url.getRoot());
     }
 
-    public Go<Usuario> getAll(){
-        db.DbRef().child(url.getRoot())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        usuario.setKey(snapshot.getKey());
-                        usuario.setObject(snapshot.getValue(usuario.getObject().getClass()));
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        usuario = null;
-                    }
-                });
-        return usuario;
+    public Query getAll(){
+        return db.DbRef().child(url.getRoot());
     }
 
 }

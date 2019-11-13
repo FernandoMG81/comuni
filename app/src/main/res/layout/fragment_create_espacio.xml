@@ -62,5 +62,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Crear Espacio" />
+
+        <Button
+            android:id="@+id/EditEspacioSubmit"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#fb840e"
+            android:text="Editar Espacio" />
+
     </LinearLayout>
 </LinearLayout>

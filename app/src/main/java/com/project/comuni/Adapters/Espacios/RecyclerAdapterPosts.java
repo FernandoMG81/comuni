@@ -19,8 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Fragments.Espacios.InnerPostsFragment;
+import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Post;
+import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 
 import java.util.ArrayList;
@@ -28,14 +30,23 @@ import java.util.ArrayList;
 public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPosts.ViewHolder> implements View.OnClickListener {
     private static final String TAG = "RecyclerAdapterMessages";
 
-    private Go<Post> post = new Go<>();
-    private View.OnClickListener listener;
+    //Variable Recycler
     private ArrayList<Go<Post>> posts;
+
+    //Variables de Bundle
+    private Go<Usuario> usuario = new Go<>();
+    private Go<Espacio> espacio = new Go<>();
+    private Go<Post> post = new Go<>();
+
+    //Otras Variables
+    private View.OnClickListener listener;
     private Context context;
 
-    public RecyclerAdapterPosts(ArrayList<Go<Post>> posts, Context context) {
-        this.posts = posts;
+    public RecyclerAdapterPosts(Context context,Go<Usuario> usuario, Go<Espacio> espacio, ArrayList<Go<Post>> posts) {
         this.context = context;
+        this.usuario = usuario;
+        this.espacio = espacio;
+        this.posts = posts;
     }
 
     @NonNull
@@ -53,16 +64,16 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
             holder.Titulo.setText(posts.get(position).getObject().getTitulo());
             if(posts.get(position).getObject().getTag() != null) {
                 holder.Tag.setText(posts.get(position).getObject().getTag().getObject().getText());
-                holder.Tag.setBackgroundColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().getBackgroundColor()));
-                holder.Tag.setTextColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().getTextColor()));
+                holder.Tag.setBackgroundColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().ColorB()));
+                holder.Tag.setTextColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().ColorT()));
             }
-            /*holder.Fecha.setText(posts.get(position).getObject().getCreado());
-            String TextoTruncado = truncate(posts.get(position).getObject().getTexto(), 50);
-            holder.Descripcion.setText(TextoTruncado);
+            holder.Fecha.setText(posts.get(position).getObject().getCreated());
+            //String TextoTruncado = truncate(posts.get(position).getObject().getTexto(), 50);
+            holder.Descripcion.setText(posts.get(position).getObject().getTexto());
             //holder.FotoUsuario.setBackgroundResource(posts.get(position).getObject().getUsuario().getObject().getFoto());
             holder.NombreUsuario.setText(posts.get(position).getObject().getUsuario().getObject().getNombre()
                     + " " + posts.get(position).getObject().getUsuario().getObject().getApellido());
-*/
+
             holder.RL.setOnClickListener((view) -> {
                 this.post = posts.get(position);
                 Toast.makeText(context, post.getObject().getTitulo(), Toast.LENGTH_SHORT).show();
@@ -80,6 +91,8 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
         AppCompatActivity activity = (MainActivity) view.getContext();
         Fragment myFragment = new InnerPostsFragment();
         Bundle args = new Bundle();
+        args.putSerializable("usuario",usuario);
+        args.putSerializable("espacioActual",espacio);
         args.putSerializable("post",post);
         myFragment.setArguments(args);
         activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();

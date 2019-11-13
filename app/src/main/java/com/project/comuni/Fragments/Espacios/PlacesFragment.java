@@ -137,9 +137,8 @@ public class PlacesFragment extends Fragment {
                                                     Go<Espacio> aux = new Go<>(new Espacio());
                                                     aux.setKey(x.getKey());
                                                     aux.setObject(x.getValue(aux.getObject().getClass()));
-                                                    espacios.add(aux);
+                                                   espacios.add(aux);
                                                 }
-
 
                                                 setSearch();
                                                 if (espacios.size() > 0) {
@@ -152,6 +151,17 @@ public class PlacesFragment extends Fragment {
                     }
                 });
         return view;
+    }
+
+
+    //Aaaaaleluya Aleluuya aleluuuuuuuyaaa!
+    //Cantada en Do mayor
+    public void salvameJebus(){
+        Go<Espacio> espacio = new Go<>("-LtMMd1njIO_i3WAAPr9",new Espacio());
+        espacio.getObject().getAdministradores().put(usuario.getKey(),usuario.getObject());
+        espacio.getObject().setNombre("TSP");
+        espacio.getObject().setDescripcion("Tecnicatura Superior en Programacion");
+        new EspacioService(espacio).update();
     }
 
 }

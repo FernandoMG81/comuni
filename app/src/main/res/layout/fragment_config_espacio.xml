@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/fondo_vacio_cromatico"
+    android:isScrollContainer="true"
     tools:context=".Activities.MainActivity">
 
     <LinearLayout
@@ -15,12 +16,12 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:isScrollContainer="true"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-        }
 
         <TextView
             android:id="@+id/ConfigPlaceNombre"
@@ -36,9 +37,16 @@
             android:text="Descripcion"
             android:textSize="15sp" />
 
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
             android:orientation="horizontal">
 
             <Button
@@ -65,9 +73,19 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="15dp" />
+            android:layout_height="7dp" />
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="0"
+            android:background="#ccc"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp" />
 
         <LinearLayout
+            android:id="@+id/LLConfigAdmin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -94,6 +112,12 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/ConfigAdminVacio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No hay Administradores" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RVAdministradores"
             android:layout_width="match_parent"
@@ -104,7 +128,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="0"
+            android:background="#ccc"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp" />
+
         <LinearLayout
+            android:id="@+id/LLConfigMiembros"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -131,17 +165,35 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/configMiembrosVacio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No hay Miembros" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RVMiembros"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="7dp"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="0"
+            android:background="#ccc"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp" />
+
         <LinearLayout
+            android:id="@+id/LLConfigTags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -168,15 +220,32 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/configTagsVacio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No hay Tags" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RVTags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="0"
+            android:background="#ccc"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

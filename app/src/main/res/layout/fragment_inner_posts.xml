@@ -114,7 +114,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RVInnerPosts"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp" />
 
     </LinearLayout>
 
@@ -127,21 +131,25 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="334dp"
-            android:layout_height="77dp"
+            android:layout_height="48dp"
             android:layout_weight="1">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/InnerFragmentComentarioTexto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Escriba su comentario..." />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/InnerFragmentComentarioSubmit"
             android:layout_width="match_parent"
-            android:layout_height="77dp"
-            android:layout_weight="5"
-            android:text="Enviar" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="6"
+            android:minWidth="150dp"
+            android:text="Enviar"
+            style="@style/Widget.AppCompat.Button.Colored"/>
     </LinearLayout>
 
 </LinearLayout>

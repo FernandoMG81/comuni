@@ -20,7 +20,6 @@ public class Usuario {
     private String foto;
     private String creado;
     private String token;
-
     private String deleted;
 
     public Usuario() { }
@@ -40,11 +39,21 @@ public class Usuario {
         this.deleted = usuario.getValue().getDeleted();
     }
 
-    public Usuario(String nombre, String apellido, String foto, String creado) {
+
+    public Usuario(String nombre, String apellido, String foto, String email) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.foto = foto;
-        this.creado = creado;
+        this.email = email;
+    }
+
+    public Usuario returnSmall(){
+        return new Usuario(
+                nombre,
+                apellido,
+                foto,
+                email
+        );
     }
 
     public Boolean validarRegistro(String contrasena1, String contrasena2){

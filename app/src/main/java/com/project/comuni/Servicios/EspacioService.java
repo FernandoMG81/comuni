@@ -15,11 +15,12 @@ import com.project.comuni.Models.Usuario;
 import com.project.comuni.Utils.FireUrl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class EspacioService {
 
-    private Db db;
+    private Db db = new Db();
 
     private FireUrl url = new FireUrl("Espacios");
     private ArrayList<String> urlUsuarios = new ArrayList<>();
@@ -27,34 +28,22 @@ public class EspacioService {
     private ArrayList<String> urlUsuariosMiembros;
     private String urlEspacio = url.getRoot();
 
-    private Go<Espacio> espacio;
+    private Go<Espacio> espacio = new Go<>();
 
     private ArrayList<String> setUrlUsuarios(Map<String,Usuario> usuarios){
         ArrayList<String> Arrayx = new ArrayList<>();
         if (usuarios != null) {
             for (Map.Entry<String, Usuario> x : usuarios.entrySet()) {
                 url.getRootInUsuarios(new Go<Usuario>(x));
+
             }
         }
         return Arrayx;
     }
 
-    public EspacioService(){
-        db = new Db();
-        espacio = new Go<>();
-        espacio.setObject(new Espacio());
-        if(espacio.getObject().getMiembros()!= null) {
-            urlUsuariosMiembros = setUrlUsuarios(espacio.getObject().getMiembros());
-            urlUsuarios.addAll(urlUsuariosMiembros);
-        }
-        if(espacio.getObject().getAdministradores()!= null) {
-            urlUsuariosAdministradores = setUrlUsuarios(espacio.getObject().getAdministradores());
-            urlUsuarios.addAll(urlUsuariosAdministradores);
-        }
-    }
+    public EspacioService(){}
 
     public EspacioService(Go<Espacio> espaciox){
-        db = new Db();
         espacio = espaciox;
         urlUsuariosAdministradores = setUrlUsuarios(espacio.getObject().getAdministradores());
         urlUsuariosMiembros = setUrlUsuarios(espacio.getObject().getMiembros());
@@ -67,20 +56,23 @@ public class EspacioService {
 
     public Task create (){
         espacio.setKey(db.createKey(urlEspacio));
-       return db.update(espacio,url.getRootInEspacios(espacio)).addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
+       return db.updateWithDatos(new Go<Espacio>(espacio.getKey(),espacio.getObject().returnSmallerMaps())
+               ,urlEspacio).addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
             @Override
             public void onComplete(@NonNull Task<Transaction.Result> task) {
                 if (task.isSuccessful()) {
                     if (espacio.getObject().getAdministradores()!= null) {
                         for (Map.Entry<String, Usuario> x : espacio.getObject().getAdministradores().entrySet()) {
-                            Go<Usuario> aux = new Go<>(x.getKey(), x.getValue());
-                            db.update(espacio, url.AddKey(url.getUsuarios(), url.AddKey(aux.getKey(),url.getAdministradores())));
+                            Go<Usuario> aux = new Go<>(x.getKey(), x.getValue().returnSmall());
+                            db.update(new Go<>(espacio.getKey(), espacio.getObject().returnSmall()),
+                                    url.AddKey(url.getUsuarios(), url.AddKey(aux.getKey(),url.getAdministradores())));
                         }
                     }
                     if (espacio.getObject().getMiembros()!= null) {
                         for (Map.Entry<String, Usuario> x : espacio.getObject().getMiembros().entrySet()) {
-                            Go<Usuario> aux = new Go<>(x.getKey(), x.getValue());
-                            db.update(espacio, url.AddKey(url.getUsuarios(), url.AddKey(aux.getKey(),url.getMiembros())));
+                            Go<Usuario> aux = new Go<>(x.getKey(), x.getValue().returnSmall());
+                            db.update(new Go<>(espacio.getKey(), espacio.getObject().returnSmall()),
+                                    url.AddKey(url.getUsuarios(), url.AddKey(aux.getKey(),url.getMiembros())));
                         }
                     }
                 }
@@ -89,16 +81,29 @@ public class EspacioService {
     }
 
     public Task update () {
-        return db.update(espacio, urlEspacio).addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
-            @Override
-            public void onComplete(@NonNull Task<Transaction.Result> task) {
-                if (task.isSuccessful()) {
-                    for (String x : urlUsuarios) {
-                        db.update(espacio, x);
+        return db.updateWithDatos(new Go<>(espacio.getKey(), espacio.getObject().returnSmallerMaps()),
+                urlEspacio)
+                .addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Transaction.Result> task) {
+                        if (task.isSuccessful()) {
+                            if (espacio.getObject().getAdministradores() != null) {
+                                for (Map.Entry<String, Usuario> x : espacio.getObject().getAdministradores().entrySet()) {
+                                    Go<Usuario> aux = new Go<>(x.getKey(), x.getValue());
+                                    db.update(new Go<>(espacio.getKey(), espacio.getObject().returnSmall()),
+                                            url.AddKey(url.getUsuarios(), url.AddKey(aux.getKey(), url.getAdministradores())));
+                                }
+                            }
+                            if (espacio.getObject().getMiembros() != null) {
+                                for (Map.Entry<String, Usuario> x : espacio.getObject().getMiembros().entrySet()) {
+                                    Go<Usuario> aux = new Go<>(x.getKey(), x.getValue());
+                                    db.update(new Go<>(espacio.getKey(), espacio.getObject().returnSmall()),
+                                            url.AddKey(url.getUsuarios(), url.AddKey(aux.getKey(), url.getMiembros())));
+                                }
+                            }
+                        }
                     }
-                }
-            }
-        });
+                });
     }
 
     public Task delete (){
@@ -115,40 +120,19 @@ public class EspacioService {
         });
     }
 
-    public Go<Espacio> getObject(){
-        db.DbRef().child(urlEspacio)
-                .orderByKey()
-                .equalTo(espacio.getKey())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        espacio.setKey(snapshot.getKey());
-                        espacio.setObject(snapshot.getValue(espacio.getObject().getClass()));
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        espacio = null;
-                    }
-                });
-        return espacio;
+    public Query getObject(){
+        return db.getObject(url.getDatos(),url.AddKey(urlEspacio,espacio.getKey()));
     }
 
     private Query getAllFrom(String url) {
         return db.DbRef().child(url);
     }
-    public Query getAllFromUsuario(Go<Usuario> usuario){return getAllFrom(url.AddKey(url.getUsuarios(),url.AddKey(usuario.getKey(),url.getAdministradores())));}
-    public Query getAll(){
-        return getAllFrom(urlEspacio);
+    public Query getAllFromUsuario(Go<Usuario> usuario)
+    {
+        return getAllFrom(
+                url.AddKey(url.getUsuarios(),
+                        url.AddKey(usuario.getKey(),
+                                url.getAdministradores())));
     }
 
-/*    public ArrayList<Go<Espacio>> getAllFromUsuario(Go<Usuario> usuario){
-        ArrayList<Go<Espacio>> espacios = new ArrayList<>();
-        espacios = getAllFrom(url.AddKey(url.getUsuarios(),
-                           url.AddKey(usuario.getKey(),
-                             url.getAdministradores())));
-        espacios.addAll(getAllFrom(url.AddKey(url.getUsuarios(),
-                url.AddKey(usuario.getKey(),
-                        url.getMiembros()))));
-        return espacios;
-    }*/
 }

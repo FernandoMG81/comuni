@@ -1,6 +1,7 @@
 package com.project.comuni.Fragments.Espacios;
 
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.EspacioService;
+import com.project.comuni.Utils.FireUrl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +37,11 @@ public class CreateEspacioFragment extends Fragment {
     //Variables
     private Go<Usuario> usuario = new Go<>(new Usuario());
     private Go<Espacio> espacio = new Go<>(new Espacio());
-    private Go<Espacio> espacioActual = new Go<>(new Espacio());
+
+    //Que Hacer
+    // 1 -> Crear
+    // 2 -> Editar
+    private  int queHacer;
 
     //Layout
     private TextView titulo;
@@ -44,27 +50,56 @@ public class CreateEspacioFragment extends Fragment {
 
     private void getData() {
         Bundle bundle = getArguments();
+        this.queHacer = (int) bundle.getSerializable("queHacer");
         this.usuario = (Go<Usuario>) bundle.getSerializable("usuario");
         this.espacio = (Go<Espacio>) bundle.getSerializable("espacioActual");
     }
 
     private void cuestionarioAObjeto(){
-        espacio = new Go<>(new Espacio());
         espacio.getObject().setNombre(titulo.getText().toString());
         espacio.getObject().setDescripcion(descripcion.getText().toString());
-        //post.getObject().setTags(new Go<>(tag));
-        Map<String,Usuario> admin = new HashMap<>();
-        admin.put(usuario.getKey(),usuario.getObject());
-        espacio.getObject().setAdministradores(admin);
+
+        if(queHacer == 1){
+            Map<String,Usuario> admin = new HashMap<>();
+            admin.put(usuario.getKey(),usuario.getObject());
+            espacio.getObject().setAdministradores(admin);
+
+            espacio.getObject().setMiembros(null);
+
+            //Setear Url de espacio
+            if(espacio.getObject().getEspacioUrl()!=null){
+                if(!espacio.getObject().getEspacioUrl().isEmpty()){
+                    FireUrl url = new FireUrl();
+                    espacio.getObject().setEspacioUrl(url.AddKey(espacio.getObject().getEspacioUrl(),espacio.getKey()));
+                }
+                else{
+                    espacio.getObject().setEspacioUrl(espacio.getKey());
+                }
+            }
+            else{
+                espacio.getObject().setEspacioUrl(espacio.getKey());
+            }
+        }
     }
 
     private void setLayoutReference(View view){
         titulo = view.findViewById(R.id.CreateEspacioTitulo);
         descripcion = view.findViewById(R.id.CreateEspacioDescripción);
-        submit = view.findViewById(R.id.CreateEspacioSubmit);
+
+        if(queHacer==1){
+            view.findViewById(R.id.EditEspacioSubmit).setVisibility(View.GONE);
+            submit = view.findViewById(R.id.CreateEspacioSubmit);
+        }
+        else{
+            titulo.setText(espacio.getObject().getNombre());
+            descripcion.setText(espacio.getObject().getDescripcion());
+            view.findViewById(R.id.CreateEspacioSubmit).setVisibility(View.GONE);
+            submit = view.findViewById(R.id.EditEspacioSubmit);
+        }
+
     }
 
-    private void setBoton(){
+    private void setBotonAgregar(){
         submit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -74,7 +109,7 @@ public class CreateEspacioFragment extends Fragment {
                     Toast.makeText(getContext(),espacio.getObject().validar(),Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Task task = new EspacioService(espacio).create()
+                    new EspacioService(espacio).create()
                             .addOnCompleteListener(getActivity(), new OnCompleteListener() {
                                 @Override
                                 public void onComplete(@NonNull Task task) {
@@ -91,15 +126,42 @@ public class CreateEspacioFragment extends Fragment {
         });
     }
 
+    private void setBotonEditar(){
+        submit.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                cuestionarioAObjeto();
+
+                if(!espacio.getObject().validar().equals("Ok")){
+                    Toast.makeText(getContext(),espacio.getObject().validar(),Toast.LENGTH_LONG).show();
+                }
+                else{
+                    new EspacioService(espacio).update()
+                            .addOnCompleteListener(getActivity(), new OnCompleteListener() {
+                                @Override
+                                public void onComplete(@NonNull Task task) {
+                                    if (!task.isSuccessful()) {
+                                        Toast.makeText(getContext(), "Ocurrio un error", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(getContext(), "Se editó el espacio", Toast.LENGTH_LONG).show();
+                                        goToEspacios();
+                                    }
+                                }
+                            });
+                }
+            }
+        });
+    }
+
     private void goToEspacios(){
         AppCompatActivity activity = (MainActivity) this.getContext();
-        Fragment myFragment = new PostsFragment();
+        Fragment myFragment = new ConfigPlaceFragment();
         Bundle args = new Bundle();
         args.putSerializable("usuario",usuario);
+        args.putSerializable("espacioActual",espacio);
         myFragment.setArguments(args);
         activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
     }
-
 
     @Nullable
     @Override
@@ -108,7 +170,12 @@ public class CreateEspacioFragment extends Fragment {
 
         getData();
         setLayoutReference(view);
-        setBoton();
+        if(queHacer == 1){
+            setBotonAgregar();
+        }
+        else{
+            setBotonEditar();
+        }
 
         return view;
     }
