@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,6 +52,7 @@ public class PostsFragment extends Fragment {
 
     // Layout
     private EditText search;
+    private TextView postsVacios;
     private RecyclerView recyclerView;
     private Button ConfigPlacesButton;
     private Button newPostButton;
@@ -63,9 +65,13 @@ public class PostsFragment extends Fragment {
 
     public void setLayoutReferences(View v){
         search = v.findViewById(R.id.NewsSearch);
+        postsVacios = v.findViewById(R.id.PlacesPostsVacio);
         recyclerView = v.findViewById(R.id.RVPosts);
         ConfigPlacesButton = v.findViewById(R.id.PlacesButtonConfig);
         newPostButton = v.findViewById(R.id.PlacesButtonPost);
+
+        postsVacios.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
     }
 
     private void setSearch(){
@@ -196,8 +202,12 @@ public class PostsFragment extends Fragment {
 
                                                         setSearch();
                                                         if (posts.size() > 0) {
+                                                            recyclerView.setVisibility(View.VISIBLE);
                                                             filterData();
                                                             setRecycler();
+                                                        }
+                                                        else{
+                                                            postsVacios.setVisibility(View.VISIBLE);
                                                         }
                                                     }
                                                 });

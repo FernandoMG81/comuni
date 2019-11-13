@@ -16,6 +16,8 @@
             android:id="@+id/CreatePostTitulo"
             android:layout_width="match_parent"
             android:layout_height="27dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/searchbox"
             android:hint="Titulo del Post"
             android:paddingStart="15dp"
@@ -24,15 +26,12 @@
             android:paddingBottom="2dp"
             android:queryHint="Buscar"></EditText>
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
-
         <EditText
             android:id="@+id/CreatePostDescripción"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/searchbox"
             android:hint="Descripción del Post"
             android:maxHeight="200dp"
@@ -46,31 +45,27 @@
         </EditText>
 
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
-
-        <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/CreatePostTextSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:text="Elija una de las siguientes etiquetas:" />
 
         <Spinner
             android:id="@+id/tagSpinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
 
         <Button
             android:id="@+id/CreatePostSubmit"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:text="Postear" />
     </LinearLayout>
 </LinearLayout>

@@ -33,6 +33,8 @@ import com.project.comuni.R;
 import com.project.comuni.Servicios.PostService;
 import com.project.comuni.Servicios.TagService;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,6 +52,7 @@ public class CreatePostFragment extends Fragment {
     private Go<Usuario> usuario = new Go<>(new Usuario());
 
     //Layout
+    private TextView textEtiquetas;
     private TextView titulo;
     private TextView descripcion;
     private Button submit;
@@ -67,6 +70,10 @@ public class CreatePostFragment extends Fragment {
         descripcion = view.findViewById(R.id.CreatePostDescripción);
         submit = view.findViewById(R.id.CreatePostSubmit);
         tagSpinner = view.findViewById(R.id.tagSpinner);
+        textEtiquetas = view.findViewById(R.id.CreatePostTextSpinner);
+
+        tagSpinner.setVisibility(View.GONE);
+        textEtiquetas.setVisibility(View.GONE);
     }
 
     private void cuestionarioAObjeto(){
@@ -168,7 +175,9 @@ public class CreatePostFragment extends Fragment {
                             tags.add(tag);
                         }
 
-                        if (tags.size() > 0) {
+                        if (tags.size() > 1) {
+                            tagSpinner.setVisibility(View.VISIBLE);
+                            textEtiquetas.setVisibility(View.VISIBLE);
                             setRecyclerTags();
                         }
                     }
