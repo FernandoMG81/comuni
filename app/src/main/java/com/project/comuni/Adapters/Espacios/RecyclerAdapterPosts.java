@@ -76,7 +76,6 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
 
             holder.RL.setOnClickListener((view) -> {
                 this.post = posts.get(position);
-                Toast.makeText(context, post.getObject().getTitulo(), Toast.LENGTH_SHORT).show();
                 onClick(holder.RL);
             });
     }

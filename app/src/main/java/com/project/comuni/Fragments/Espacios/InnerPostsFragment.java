@@ -107,10 +107,7 @@ public class InnerPostsFragment extends Fragment {
                         .addOnCompleteListener(new OnCompleteListener() {
                             @Override
                             public void onComplete(@NonNull Task task) {
-                                if (task.isSuccessful()){
-                                    Toast.makeText(getContext(), "Se guardó el comentario", Toast.LENGTH_SHORT).show();
-                                }
-                                else{
+                                if (!task.isSuccessful()){
                                     Toast.makeText(getContext(), "Ocurrio un error", Toast.LENGTH_SHORT).show();
                                 }
                             }

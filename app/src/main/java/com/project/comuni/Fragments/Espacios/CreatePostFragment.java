@@ -99,8 +99,7 @@ public class CreatePostFragment extends Fragment {
                                     if (!task.isSuccessful()) {
                                         Toast.makeText(getContext(), "Ocurrio un error", Toast.LENGTH_LONG).show();
                                     } else {
-                                        Toast.makeText(getContext(), "Se creo el espacio", Toast.LENGTH_LONG).show();
-                                        goToEspacios();
+                                        goToPosts();
                                     }
                                 }
                             });
@@ -109,7 +108,7 @@ public class CreatePostFragment extends Fragment {
         });
     }
 
-    private void goToEspacios(){
+    private void goToPosts(){
         AppCompatActivity activity = (MainActivity) this.getContext();
         Fragment myFragment = new PostsFragment();
         Bundle args = new Bundle();

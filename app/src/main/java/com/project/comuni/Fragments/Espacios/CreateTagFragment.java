@@ -94,7 +94,6 @@ public class CreateTagFragment extends Fragment {
                                     if (!task.isSuccessful()) {
                                         Toast.makeText(getContext(), "Ocurrio un error", Toast.LENGTH_LONG).show();
                                     } else {
-                                        Toast.makeText(getContext(), "Se creo la etiqueta", Toast.LENGTH_LONG).show();
                                         goToEspacios();
                                     }
                                 }
