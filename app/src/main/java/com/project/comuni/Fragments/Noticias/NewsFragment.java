@@ -2,9 +2,14 @@ package com.project.comuni.Fragments.Noticias;
 
 
 import android.app.Dialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,7 +24,9 @@ import android.widget.Toolbar;
 
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,17 +35,28 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.project.comuni.Adapters.Noticias.RecyclerAdapterNews;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Noticia;
+import com.project.comuni.Notifications.NotificationHandler;
 import com.project.comuni.R;
 import com.project.comuni.Utils.Constantes;
 
+import org.json.JSONObject;
+
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -64,10 +82,38 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
     private FirebaseUser currentUser;
 
 
+    //TODO:Notificaciones
+    private static final String CHANNEL_ID = "simplified_coding";
+    private static final String CHANNEL_NAME = "Simplified Coding";
+    private static final String CHANNEL_DESC = "Simplified Coding Notifications";
+
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
+
+        /*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(CHANNEL_DESC);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }*/
+
+        //TODO:Notificaciones
+        FirebaseMessaging.getInstance().subscribeToTopic("Noticias");
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                       if(task.isSuccessful()){
+                            String token = task.getResult().getToken();
+                       }else{
+
+                       }
+                    }
+                });
 
         postRecyclerView = view.findViewById(R.id.RVNews);
         postRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -91,9 +137,22 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
         });
 
         return view;
+
     }
 
- //TODO RESOLVER EL LISTADO
+    //TODO:Notificaciones
+    private void displayNotification(){
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getContext(),CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notif_icon)
+                .setContentTitle("Titulo de prueba")
+                .setContentText("Prueba de notificacion")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationMC = NotificationManagerCompat.from(getContext());
+        notificationMC.notify(1,mBuilder.build());
+    }
+
+
     @Override
     public void onStart() {
         super.onStart();
@@ -176,6 +235,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
                                                  ,popupDescription.getText().toString()
                                                  ,currentUser.getUid());
                    addNews(noticia);
+                   displayNotification();
                 }
 
             }
@@ -204,9 +264,15 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
                 popupTitle.setText("");
                 popupDescription.setText("");
                 popAddNews.dismiss();
+
+
             }
         });
 
     }
 
+
 }
+
+
+

@@ -19,6 +19,7 @@ public class Usuario {
     private Map<String,Espacio>  miembros = new HashMap<>();
     private String foto;
     private String creado;
+    private String token;
 
     private String deleted;
 
@@ -66,6 +67,13 @@ public class Usuario {
         return false;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getEmail() {
         return email;

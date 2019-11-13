@@ -4,16 +4,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -68,6 +74,10 @@ public class MensajeriaActivity extends AppCompatActivity {
     private String PHOTO_RECEPTOR;
     private String NAME_RECEPTOR;
 
+    //Notificaciones
+    private static final String CHANNEL_ID = "simplified_coding";
+    private static final String CHANNEL_NAME = "Simplified Coding";
+    private static final String CHANNEL_DESC = "Simplified Coding Notifications";
 
     private FirebaseStorage storage;
     private StorageReference storageReference;
@@ -213,7 +223,7 @@ public class MensajeriaActivity extends AppCompatActivity {
     }
 
     //Funcion para que la pantalla scrollee al ultimo mensaje
-private void setScrollbar (){
+    private void setScrollbar (){
         rvMensajes.scrollToPosition(adapter.getItemCount()-1);
 }
 
@@ -322,4 +332,36 @@ private void setScrollbar (){
         }
     }
 */
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+        setContentView(R.layout.activity_mensajeria);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,CHANNEL_NAME,NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(CHANNEL_DESC);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+
+
+
+    }
+
+    private void displayNotification(){
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notif_icon)
+                .setContentTitle("Titulo de prueba")
+                .setContentText("Prueba de notificacion")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationMC = NotificationManagerCompat.from(this);
+        notificationMC.notify(1,mBuilder.build());
+    }
+
+
+
+
 }

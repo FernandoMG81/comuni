@@ -7,12 +7,15 @@ public class User {
     private String nombre;
     private String email;
     private String tipoUsuario;
+    private String token;
 
 
     public User(){
-
-
     }
+
+    public String getToken() {return token;}
+
+    public void setToken(String token) {this.token = token;}
 
     public String getFotoPerfilURL() {
         return fotoPerfilURL;

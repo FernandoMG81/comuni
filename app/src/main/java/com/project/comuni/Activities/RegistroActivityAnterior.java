@@ -31,6 +31,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -188,40 +190,60 @@ public class RegistroActivityAnterior extends AppCompatActivity {
                                             UsuarioDAO.getInstance().subirFotoUri(fotoPerfilUri, new UsuarioDAO.IDevolverURLfoto() {
                                                 @Override
                                                 public void devolverUrlString(String url) {
-                                                    Toast.makeText(RegistroActivityAnterior.this, "Se registro correctamente", Toast.LENGTH_LONG).show();
-                                                    User usuario = new User();
-                                                    usuario.setEmail(correo);
-                                                    usuario.setNombre(nombre);
-                                                    usuario.setFotoPerfilURL(url);
-                                                    FirebaseUser currentUser = mAuth.getCurrentUser();
-                                                    DatabaseReference reference = database.getReference("Usuarios/"+currentUser.getUid());
-                                                    reference.setValue(usuario);
-                                                    actualizarDatosUsuario(usuario.getNombre(),fotoPerfilUri,mAuth.getCurrentUser());
-                                                    finish();
+                                                    FirebaseInstanceId.getInstance().getInstanceId()
+                                                            .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                                                    if (task.isSuccessful()){
+                                                                        User usuario = new User();
+                                                                        usuario.setEmail(correo);
+                                                                        usuario.setNombre(nombre);
+                                                                        usuario.setFotoPerfilURL(url);
+                                                                        usuario.setToken(task.getResult().getToken());
+                                                                        FirebaseUser currentUser = mAuth.getCurrentUser();
+                                                                        DatabaseReference reference = database.getReference("Usuarios/"+currentUser.getUid());
+                                                                        reference.setValue(usuario);
+                                                                        actualizarDatosUsuario(usuario.getNombre(),fotoPerfilUri,mAuth.getCurrentUser());
+                                                                        finish();
+                                                                        Toast.makeText(RegistroActivityAnterior.this, "Se registro correctamente", Toast.LENGTH_LONG).show();
+                                                                    }else{
+                                                                        Toast.makeText(RegistroActivityAnterior.this, "Error al registrar ID", Toast.LENGTH_LONG).show();
+                                                                    }
+                                                                }
+                                                            });
                                                 }
                                             });
 
 
                                         }else{
-                                            Toast.makeText(RegistroActivityAnterior.this, "Se registro correctamente", Toast.LENGTH_LONG).show();
-                                            User usuario = new User();
-                                            usuario.setEmail(correo);
-                                            usuario.setNombre(nombre);
-                                            usuario.setFotoPerfilURL(Constantes.URL_FOTO_POR_DEFECTO_USUARIOS);
-                                            FirebaseUser currentUser = mAuth.getCurrentUser();
-                                            DatabaseReference reference = database.getReference("Usuarios/"+currentUser.getUid());
-                                            reference.setValue(usuario);
-                                            actualizarDatosUsuario(usuario.getNombre(),fotoPerfilUri,mAuth.getCurrentUser());
-                                            finish();
+                                            FirebaseInstanceId.getInstance().getInstanceId()
+                                                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                                            if (task.isSuccessful()){
+                                                                User usuario = new User();
+                                                                usuario.setEmail(correo);
+                                                                usuario.setNombre(nombre);
+                                                                usuario.setToken(task.getResult().getToken());
+                                                                usuario.setFotoPerfilURL(Constantes.URL_FOTO_POR_DEFECTO_USUARIOS);
+                                                                FirebaseUser currentUser = mAuth.getCurrentUser();
+                                                                DatabaseReference reference = database.getReference("Usuarios/"+currentUser.getUid());
+                                                                reference.setValue(usuario);
+                                                                actualizarDatosUsuario(usuario.getNombre(),fotoPerfilUri,mAuth.getCurrentUser());
+                                                                finish();
+                                                                Toast.makeText(RegistroActivityAnterior.this, "Se registro correctamente", Toast.LENGTH_LONG).show();
+                                                            }else{
+                                                                Toast.makeText(RegistroActivityAnterior.this, "Error al registrar ID", Toast.LENGTH_LONG).show();
+                                                            }
+                                                        }
+                                                    });
                                         }
-
-
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         regProgreso.setVisibility(View.INVISIBLE);
                                         btnRegistrar.setEnabled(true);
 
-                                        Toast.makeText(RegistroActivityAnterior.this, "Error al registrarse ACA", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(RegistroActivityAnterior.this, "Error al registrarse", Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
@@ -322,6 +344,21 @@ public class RegistroActivityAnterior extends AppCompatActivity {
         });
     }
 
+    public String obtieneToken () {
 
+        final String[] token = {""};
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (task.isSuccessful()) {
+                            token[0] = task.getResult().getToken();
+                        } else {
 
+                        }
+                    }
+                });
+
+        return token[0];
+    }
 }

@@ -22,6 +22,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.kbeanie.multipicker.api.CacheLocation;
 import com.kbeanie.multipicker.api.CameraImagePicker;
 import com.kbeanie.multipicker.api.ImagePicker;
@@ -160,6 +164,7 @@ public class RegistroActivity extends AppCompatActivity {
             public void onClick(View v) {
                 usuario.getObject().setEmail(txtCorreo.getText().toString());
                 usuario.getObject().setNombre(txtNombre.getText().toString());
+                usuario.getObject().setToken(obtieneToken());
                 String contrasena = txtContraseña.getText().toString();
                 if (usuario.getObject().validarRegistro(contrasena, txtContraseñaRepetida.getText().toString())) {
                     new LoginService().createUser(usuario, contrasena, fotoPerfilUri)
@@ -172,7 +177,12 @@ public class RegistroActivity extends AppCompatActivity {
 
                                         finish();
                                     } else {
-                                        Toast.makeText(RegistroActivity.this, "Error al registrarse", Toast.LENGTH_LONG).show();
+                                        if(task.getException() instanceof FirebaseAuthUserCollisionException){
+
+                                        }else{
+                                            Toast.makeText(RegistroActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                        }
+
                                     }
                                 }
                             });
@@ -253,6 +263,25 @@ public class RegistroActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+    }
+
+
+    public String obtieneToken (){
+
+        final String[] token = {""};
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (task.isSuccessful()){
+                            token[0] = task.getResult().getToken();
+                        }else{
+
+                        }
+                    }
+                });
+
+        return token[0];
     }
 
 }

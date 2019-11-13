@@ -53,6 +53,8 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:3.7.0' //Recortar Imagen Descargar Imagen
     implementation 'com.kbeanie:multipicker:1.6' //Multipicker de archivos para chat
     implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'

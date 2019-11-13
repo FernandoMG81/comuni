@@ -7,4 +7,5 @@ public class Constantes {
     public static final String NODO_MENSAJES = "Mensajes";
     public static final String NODO_FOTOS_PERFIL = "Fotos/FotoPerfil/";
     public static final String NODO_NOTICIAS = "Noticias";
+    public static final String CHANNEL_ID = "simplified_coding";
 }
