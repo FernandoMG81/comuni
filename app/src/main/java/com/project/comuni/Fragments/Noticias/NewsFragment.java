@@ -277,11 +277,16 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
                                                  ,popupDescription.getText().toString()
                                                  ,currentUser.getUid());
                    addNews(noticia);
+                   sendNotifications(popupTitle.getText().toString(), popupDescription.getText().toString());
                    displayNotification();
                 }
 
             }
         });
+    }
+
+    private void sendNotifications(String toString, String toString1) {
+
     }
 
     @Override
