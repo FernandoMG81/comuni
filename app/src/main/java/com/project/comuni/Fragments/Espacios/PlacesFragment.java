@@ -164,4 +164,11 @@ public class PlacesFragment extends Fragment {
         new EspacioService(espacio).update();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        espacios.clear();
+        espaciosAMostrar.clear();
+    }
+
 }

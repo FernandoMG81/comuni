@@ -107,10 +107,7 @@ public class InnerPostsFragment extends Fragment {
                         .addOnCompleteListener(new OnCompleteListener() {
                             @Override
                             public void onComplete(@NonNull Task task) {
-                                if (task.isSuccessful()){
-                                    Toast.makeText(getContext(), "Se guardó el comentario", Toast.LENGTH_SHORT).show();
-                                }
-                                else{
+                                if (!task.isSuccessful()){
                                     Toast.makeText(getContext(), "Ocurrio un error", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -137,6 +134,7 @@ public class InnerPostsFragment extends Fragment {
 
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
+                            comentarios.clear();
                             for (DataSnapshot x : snapshot.getChildren()) {
                                 Go<Comentario> comentariox = new Go<>(new Comentario());
                                 comentariox.setKey(x.getKey());

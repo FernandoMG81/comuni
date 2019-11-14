@@ -1,13 +1,10 @@
 package com.project.comuni.Fragments.Espacios;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,27 +20,21 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.project.comuni.Activities.MainActivity;
-import com.project.comuni.Adapters.Espacios.RecyclerAdapterPlaces;
-import com.project.comuni.Adapters.Espacios.RecyclerAdapterPosts;
 import com.project.comuni.Adapters.Espacios.RecyclerAdapterTags;
 import com.project.comuni.Adapters.Espacios.RecyclerAdapterUsuarios;
+import com.project.comuni.Fragments.Espacios.ABMs.CreateEspacioFragment;
+import com.project.comuni.Fragments.Espacios.ABMs.CreateTagFragment;
 import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
-import com.project.comuni.Models.Post;
 import com.project.comuni.Models.Tag;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.LoginService;
-import com.project.comuni.Servicios.PostService;
 import com.project.comuni.Servicios.TagService;
 import com.project.comuni.Servicios.UsuarioService;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Map;
-
-import static com.project.comuni.Utils.Util.filtrarString;
 
 public class ConfigPlaceFragment extends Fragment {
 

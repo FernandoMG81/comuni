@@ -1,31 +1,27 @@
 package com.project.comuni.Adapters.Espacios;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.project.comuni.Activities.MainActivity;
-import com.project.comuni.Fragments.Espacios.CreateTagFragment;
+import com.bumptech.glide.Glide;
 import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
-import com.project.comuni.Models.Tag;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerAdapterUsuarios extends RecyclerView.Adapter<RecyclerAdapterUsuarios.ViewHolder> {
     private static final String TAG = "RecyclerAdapterMessages";
@@ -59,7 +55,7 @@ public class RecyclerAdapterUsuarios extends RecyclerView.Adapter<RecyclerAdapte
 
         holder.Nombre.setText(usuarios.get(position).getObject().getNombre()
                 + " " + usuarios.get(position).getObject().getApellido());
-       //Foto
+        Glide.with(context).load(usuarios.get(position).getObject().getFoto()).into(holder.FotoUsuarioCircular);
         if(administrador) {
             holder.LL.setOnClickListener((view) -> {
                         usuariox = usuarios.get(position);
@@ -82,12 +78,14 @@ public class RecyclerAdapterUsuarios extends RecyclerView.Adapter<RecyclerAdapte
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView Nombre;
-        //Foto
+        ImageView FotoUsuario;
+        CircleImageView FotoUsuarioCircular;
         LinearLayout LL;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             Nombre = itemView.findViewById(R.id.civNombre);
+            FotoUsuarioCircular = itemView.findViewById(R.id.civImagenPerfil);
             LL = itemView.findViewById(R.id.cardview_layout_usuario);
         }
     }

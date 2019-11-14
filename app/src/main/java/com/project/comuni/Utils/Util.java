@@ -23,26 +23,33 @@ public class Util {
     }
 
     public static Boolean filtrarString (String TextoAFiltrar, String TextoComparacion){
-        //Caracteres Especiales
-        TextoComparacion = Normalizer.normalize(TextoComparacion, Normalizer.Form.NFD);
-        TextoComparacion = TextoComparacion.replaceAll("[^\\x00-\\x7F]", "");
-        TextoComparacion = TextoComparacion.toLowerCase();
+        if(TextoComparacion!=null){
+            if(!TextoAFiltrar.isEmpty()) {
+                //Caracteres Especiales
+                TextoComparacion = Normalizer.normalize(TextoComparacion, Normalizer.Form.NFD);
+                TextoComparacion = TextoComparacion.replaceAll("[^\\x00-\\x7F]", "");
+                TextoComparacion = TextoComparacion.toLowerCase();
 
-        TextoAFiltrar = Normalizer.normalize(TextoAFiltrar, Normalizer.Form.NFD);
-        TextoAFiltrar = TextoAFiltrar.replaceAll("[^\\x00-\\x7F]", "");
-        TextoAFiltrar = TextoAFiltrar.toLowerCase();
+                TextoAFiltrar = Normalizer.normalize(TextoAFiltrar, Normalizer.Form.NFD);
+                TextoAFiltrar = TextoAFiltrar.replaceAll("[^\\x00-\\x7F]", "");
+                TextoAFiltrar = TextoAFiltrar.toLowerCase();
 
-        //Funcion en si
-        if (TextoComparacion == null){
-            return true;
-        }
-        if (!TextoComparacion.isEmpty()) {
-            if (TextoAFiltrar.contains(TextoComparacion)) {
-                return true;
+                //Funcion en si
+                if (TextoComparacion == null) {
+                    return true;
+                }
+                if (!TextoComparacion.isEmpty()) {
+                    if (TextoAFiltrar.contains(TextoComparacion)) {
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
+                return  false;
             }
-        } else {
-            return true;
+            return  false;
         }
         return  false;
+
     }
 }

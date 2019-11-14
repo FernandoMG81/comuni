@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.comuni.Activities.MainActivity;
-import com.project.comuni.Fragments.Espacios.EditTagFragment;
+import com.project.comuni.Fragments.Espacios.ABMs.EditTagFragment;
 import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Tag;

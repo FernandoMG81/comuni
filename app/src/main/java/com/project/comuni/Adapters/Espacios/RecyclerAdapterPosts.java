@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Fragments.Espacios.InnerPostsFragment;
 import com.project.comuni.Models.Espacio;
@@ -26,6 +27,8 @@ import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPosts.ViewHolder> implements View.OnClickListener {
     private static final String TAG = "RecyclerAdapterMessages";
@@ -63,20 +66,21 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
         Log.d(TAG, "onBindViewHolder: ");
             holder.Titulo.setText(posts.get(position).getObject().getTitulo());
             if(posts.get(position).getObject().getTag() != null) {
-                holder.Tag.setText(posts.get(position).getObject().getTag().getObject().getText());
-                holder.Tag.setBackgroundColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().ColorB()));
-                holder.Tag.setTextColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().ColorT()));
+                if (posts.get(position).getObject().getTag().getObject()!= null) {
+                    holder.Tag.setText(posts.get(position).getObject().getTag().getObject().getText());
+                    holder.Tag.setBackgroundColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().ColorB()));
+                    holder.Tag.setTextColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().ColorT()));
+                }
             }
             holder.Fecha.setText(posts.get(position).getObject().getCreated());
             //String TextoTruncado = truncate(posts.get(position).getObject().getTexto(), 50);
             holder.Descripcion.setText(posts.get(position).getObject().getTexto());
-            //holder.FotoUsuario.setBackgroundResource(posts.get(position).getObject().getUsuario().getObject().getFoto());
+            Glide.with(context).load(posts.get(position).getObject().getUsuario().getObject().getFoto()).into(holder.FotoUsuario);
             holder.NombreUsuario.setText(posts.get(position).getObject().getUsuario().getObject().getNombre()
                     + " " + posts.get(position).getObject().getUsuario().getObject().getApellido());
 
             holder.RL.setOnClickListener((view) -> {
                 this.post = posts.get(position);
-                Toast.makeText(context, post.getObject().getTitulo(), Toast.LENGTH_SHORT).show();
                 onClick(holder.RL);
             });
     }
@@ -105,6 +109,7 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
         TextView Fecha;
         TextView Descripcion;
         ImageView FotoUsuario;
+        CircleImageView FotoUsuarioCircular;
         TextView NombreUsuario;
         RelativeLayout RL;
 

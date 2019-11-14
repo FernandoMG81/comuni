@@ -100,6 +100,7 @@ public class ContactosFragment extends Fragment {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
+                        usuarios.clear();
                         for (DataSnapshot x: snapshot.getChildren())
                         {
                             for (Go<Usuario> y:usuariosNoListar) {

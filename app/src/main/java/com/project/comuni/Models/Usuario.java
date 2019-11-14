@@ -66,6 +66,36 @@ public class Usuario {
         return true;
     }
 
+    public String validarDatos(){
+        if (nombre.isEmpty()){
+            return "Debe completar su nombre.";
+        }
+        if (apellido.isEmpty()){
+            return "Debe completar su apellido";
+        }
+        return "Ok";
+    }
+
+    public String validarEmail(){
+        if (TextUtils.isEmpty(email)) {
+            return "No completo el mail";
+        }
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            return "No ingresó un mail válido";
+        }
+        return "Ok";
+    }
+
+    public String validarContrasenas(String contrasena, String contrasena2){
+        if (!(contrasena.length() >= 6) ){
+            return "La contraseña debe tener al menos 6 caracteres";
+        }
+        if (!contrasena.equals(contrasena2)){
+            return "Las contraseñas no coinciden";
+        }
+        return "Ok";
+    }
+
     public Boolean administrador(String key){
         for (Map.Entry<String, Espacio> espacio: administradores.entrySet())
         {
