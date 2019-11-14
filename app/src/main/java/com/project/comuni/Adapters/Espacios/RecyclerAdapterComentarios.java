@@ -7,19 +7,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.project.comuni.Models.Comentario;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.R;
+import com.project.comuni.Servicios.ComentarioService;
 
 import java.util.ArrayList;
 
 public class RecyclerAdapterComentarios extends RecyclerView.Adapter<RecyclerAdapterComentarios.ViewHolder> {
     private static final String TAG = "RecyclerAdapterMessages";
 
+    private Go<Comentario> comentario;
     private ArrayList<Go<Comentario>> comentarios;
     private Context context;
 
@@ -44,6 +49,23 @@ public class RecyclerAdapterComentarios extends RecyclerView.Adapter<RecyclerAda
         holder.Usuario.setText(comentarios.get(position).getObject().getUsuario().getObject().getNombre()
                 + " " +comentarios.get(position).getObject().getUsuario().getObject().getApellido());
         holder.Comentario.setText(comentarios.get(position).getObject().getTexto());
+
+        holder.RL.setOnLongClickListener((view -> {
+            this.comentario = comentarios.get(position);
+            new ComentarioService(comentario).delete()
+                    .addOnCompleteListener(new OnCompleteListener() {
+                        @Override
+                        public void onComplete(@NonNull Task task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(context, "El post se borró exitosamente.", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                Toast.makeText(context, "No se pudo borrar el post.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+            return true;
+        }));
 
     }
 

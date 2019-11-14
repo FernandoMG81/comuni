@@ -52,7 +52,7 @@ public class PostService {
     }
 
     public Task delete (){
-        return db.deleteWithDatos(post,urlEspacios);
+        return db.delete(post,urlEspacios);
     }
 
     public Query getObject(){

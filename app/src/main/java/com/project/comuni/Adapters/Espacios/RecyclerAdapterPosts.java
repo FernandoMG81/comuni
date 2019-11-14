@@ -18,6 +18,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Fragments.Espacios.InnerPostsFragment;
 import com.project.comuni.Models.Espacio;
@@ -25,6 +27,7 @@ import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Post;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
+import com.project.comuni.Servicios.PostService;
 
 import java.util.ArrayList;
 
@@ -83,6 +86,23 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
                 this.post = posts.get(position);
                 onClick(holder.RL);
             });
+
+            holder.RL.setOnLongClickListener((view -> {
+                this.post = posts.get(position);
+                new PostService(post).delete()
+                        .addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(context, "El post se borró exitosamente.", Toast.LENGTH_SHORT).show();
+                        }
+                    else{
+                        Toast.makeText(context, "No se pudo borrar el post.", Toast.LENGTH_SHORT).show();
+                    }
+                    }
+                });
+                return true;
+            }));
     }
 
     @Override

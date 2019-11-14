@@ -196,7 +196,7 @@ public class PostsFragment extends Fragment {
                                         }
 
                                         getPost = new PostService().getAllFromEspacios(espacio);
-                                        getPost.addListenerForSingleValueEvent(listenerPost = new ValueEventListener() {
+                                        getPost.addValueEventListener(listenerPost = new ValueEventListener() {
 
                                                     @Override
                                                     public void onCancelled(DatabaseError databaseError) {
@@ -205,6 +205,7 @@ public class PostsFragment extends Fragment {
 
                                                     @Override
                                                     public void onDataChange(DataSnapshot snapshot) {
+                                                        posts.clear();
                                                         for (DataSnapshot x : snapshot.getChildren()) {
                                                             Go<Post> postx = new Go<>(new Post());
                                                             postx.setKey(x.getKey());
@@ -228,13 +229,6 @@ public class PostsFragment extends Fragment {
                     }
                 });
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        postsAMostrar.clear();
-        posts.clear();
     }
 
 }

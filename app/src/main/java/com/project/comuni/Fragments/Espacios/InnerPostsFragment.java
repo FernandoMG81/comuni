@@ -78,9 +78,11 @@ public class InnerPostsFragment extends Fragment {
 
         Titulo.setText(post.getObject().getTitulo());
         Descripcion.setText(post.getObject().getTexto());
-        Tag.setText(post.getObject().getTag().getObject().getText());
-        Tag.setTextColor(Color.parseColor(post.getObject().getTag().getObject().ColorT()));
-        Tag.setBackgroundColor(Color.parseColor(post.getObject().getTag().getObject().ColorB()));
+        if (post.getObject().getTag().getObject() != null) {
+            Tag.setText(post.getObject().getTag().getObject().getText());
+            Tag.setTextColor(Color.parseColor(post.getObject().getTag().getObject().ColorT()));
+            Tag.setBackgroundColor(Color.parseColor(post.getObject().getTag().getObject().ColorB()));
+        }
         NombreUsuario.setText(post.getObject().getUsuario().getObject().getNombre()
                 + " " + post.getObject().getUsuario().getObject().getApellido());
         Fecha.setText(post.getObject().getCreated());
