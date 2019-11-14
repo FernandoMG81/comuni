@@ -10,12 +10,15 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -62,6 +65,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
+import static com.project.comuni.Utils.Util.filtrarString;
 
 public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItemListener {
 
@@ -74,6 +78,12 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
     private ProgressBar popupClickProgress;
     private RecyclerAdapterNews newsAdapter ;
     private ArrayList<Go<Noticia>> newsList;
+    private ArrayList<Go<Noticia>> noticiasAMostrar = new ArrayList<>();
+
+
+    //Variables Filtrado
+    private String searchText = "";
+    private EditText search;
 
     //Variables Firebase
     private FirebaseDatabase firebaseDatabase;
@@ -87,14 +97,44 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
     private static final String CHANNEL_NAME = "Simplified Coding";
     private static final String CHANNEL_DESC = "Simplified Coding Notifications";
 
+    private void setSearch(){
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                searchText = editable.toString();
+                noticiasAMostrar.clear();
+                for (Go<Noticia> x: newsList){
+                    if (filtrarString(x.getObject().getTitulo(), searchText) ||
+                            filtrarString (x.getObject().getTexto(), searchText) ||
+                                    filtrarString (x.getObject().getNombre(), searchText))
+                    {
+                        noticiasAMostrar.add(x);
+                    }
+                }
+                newsAdapter = new RecyclerAdapterNews(noticiasAMostrar,getContext());
+                postRecyclerView.setAdapter(newsAdapter);
+            }
+        });
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
-        /*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        /*if(Build.VERSION.SDK_INTnewsAdapter = new RecyclerAdapterNews(newsList,getContext());
+                if(newsAdapter.getItemCount()!=0){
+                    postRecyclerView.setAdapter(newsAdapter); >= Build.VERSION_CODES.O){
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID,CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription(CHANNEL_DESC);
             NotificationManager manager = getSystemService(NotificationManager.class);
@@ -115,6 +155,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
                     }
                 });
 
+        search = view.findViewById(R.id.NewsSearch);
         postRecyclerView = view.findViewById(R.id.RVNews);
         postRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         addNewsButton = view.findViewById(R.id.newsButton);
@@ -127,6 +168,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
 
         //Dialog nueva noticia
         iniPopup();
+        setSearch();
 
         addNewsButton.setOnClickListener(new View.OnClickListener() {
             @Override
