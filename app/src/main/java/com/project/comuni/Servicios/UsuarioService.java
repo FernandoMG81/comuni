@@ -56,6 +56,10 @@ public class UsuarioService {
         return db.create(usuario,url.getRoot());
     }
 
+    public Task updateSoloUsuario() {
+        return db.update(usuario,url.getRoot());
+    }
+
     public Task update () {
         return db.update(usuario, url.getRoot())
                 .addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {

@@ -105,11 +105,10 @@ public class PlacesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_places, container, false);
-
         setLayoutReferences(view);
         usuario = new LoginService().getGoUser();
         new UsuarioService(usuario).getObject()
-                .addValueEventListener(new ValueEventListener() {
+                .addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -122,6 +121,8 @@ public class PlacesFragment extends Fragment {
                             usuario.setObject((x.getValue(usuario.getObject().getClass())));
                         }
 
+                        //salvameJebus();
+
                         new EspacioService().getAllFromUsuario(usuario)
                                 .addValueEventListener(
                                         new ValueEventListener() {
@@ -133,6 +134,7 @@ public class PlacesFragment extends Fragment {
 
                                             @Override
                                             public void onDataChange(DataSnapshot snapshot) {
+                                                espacios.clear();
                                                 for (DataSnapshot x : snapshot.getChildren()) {
                                                     Go<Espacio> aux = new Go<>(new Espacio());
                                                     aux.setKey(x.getKey());
@@ -161,7 +163,7 @@ public class PlacesFragment extends Fragment {
         espacio.getObject().getAdministradores().put(usuario.getKey(),usuario.getObject());
         espacio.getObject().setNombre("TSP");
         espacio.getObject().setDescripcion("Tecnicatura Superior en Programacion");
-        new EspacioService(espacio).update();
+        new EspacioService(espacio).create();
     }
 
     @Override

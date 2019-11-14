@@ -29,6 +29,7 @@ import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Tag;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
+import com.project.comuni.Servicios.EspacioService;
 import com.project.comuni.Servicios.LoginService;
 import com.project.comuni.Servicios.TagService;
 import com.project.comuni.Servicios.UsuarioService;
@@ -43,7 +44,6 @@ public class ConfigPlaceFragment extends Fragment {
     private Go<Espacio> espacio = new Go<>();
     private Go<Usuario> usuario = new Go<>(new Usuario());
     private ArrayList<Go<Tag>> tags = new ArrayList<>();
-
 
     // Layout
     //Espacio
@@ -192,7 +192,7 @@ public class ConfigPlaceFragment extends Fragment {
                 usuarios.add(new Go<>(x));
             }
             recyclerViewAdmins.setLayoutManager(new LinearLayoutManager(getContext()));
-            RecyclerAdapterUsuarios adapter = new RecyclerAdapterUsuarios(getContext(), espacio, usuarios, administrador);
+            RecyclerAdapterUsuarios adapter = new RecyclerAdapterUsuarios(getContext(), espacio, usuarios, administrador,1);
             recyclerViewAdmins.setAdapter(adapter);
         }
     }
@@ -204,7 +204,7 @@ public class ConfigPlaceFragment extends Fragment {
                 usuarios.add(new Go<>(x));
             }
             recyclerViewMiembros.setLayoutManager(new LinearLayoutManager(getContext()));
-            RecyclerAdapterUsuarios adapter = new RecyclerAdapterUsuarios(getContext(), espacio, usuarios, administrador);
+            RecyclerAdapterUsuarios adapter = new RecyclerAdapterUsuarios(getContext(), espacio, usuarios, administrador,2);
             recyclerViewMiembros.setAdapter(adapter);
         }
     }
@@ -287,6 +287,7 @@ public class ConfigPlaceFragment extends Fragment {
                     for (Map.Entry<String, Usuario> x : espacio.getObject().getMiembros().entrySet()) {
                         usuarios.add(new Go<>(x.getKey(), x.getValue()));
                     }
+                }
 
                     AppCompatActivity activity = (MainActivity) view.getContext();
                     Fragment myFragment = new ListadoUsuariosFragment();
@@ -297,10 +298,8 @@ public class ConfigPlaceFragment extends Fragment {
                     args.putSerializable("queHacer", 2);
                     myFragment.setArguments(args);
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
-                }
-                else{
-                    Toast.makeText(getContext(), "Ocurrió un error", Toast.LENGTH_SHORT).show();
-                }
+
+
             }
         });
     }
@@ -321,6 +320,32 @@ public class ConfigPlaceFragment extends Fragment {
         });
     }
 
+    private void getTags(){
+        new TagService().getAllFromEspacios(espacio)
+                .addValueEventListener(new ValueEventListener() {
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        tags.clear();
+                        for (DataSnapshot x : snapshot.getChildren()) {
+                            Go<Tag> tagx = new Go<>(new Tag());
+                            tagx.setKey(x.getKey());
+                            tagx.setObject(x.getValue(tagx.getObject().getClass()));
+                            tags.add(tagx);
+                        }
+                        if (tags.size()>0) {
+                            setRecyclerTags();
+                        }
+                    }
+
+                });
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -328,17 +353,13 @@ public class ConfigPlaceFragment extends Fragment {
 
         getData();
         setLayoutReferences(view);
-
-        setRecyclerAdmin();
-        setRecyclerMiembros();
-
         setDesplegarAdmins();
         setDesplegarMiembros();
         setDesplegarTags();
 
         for (Map.Entry<String,Espacio> x :usuario.getObject().getAdministradores().entrySet())
         {
-            if(x.getKey()==espacio.getKey()){
+            if(x.getKey().equals(espacio.getKey())){
                 administrador = true;
                 setAgregarEspacioButton();
                 setEditEspacioButton();
@@ -350,9 +371,12 @@ public class ConfigPlaceFragment extends Fragment {
             }
         }
 
+        setRecyclerAdmin();
+        setRecyclerMiembros();
+
         usuario = new LoginService().getGoUser();
         new UsuarioService(usuario).getObject()
-                .addValueEventListener(new ValueEventListener() {
+                .addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -364,43 +388,23 @@ public class ConfigPlaceFragment extends Fragment {
                         for (DataSnapshot x: dataSnapshot.getChildren()) {
                             usuario.setObject((x.getValue(usuario.getObject().getClass())));
                         }
+                            for (Map.Entry<String,Espacio> x :usuario.getObject().getAdministradores().entrySet())
+                            {
+                                if(x.getKey().equals(espacio.getKey())){
+                                    administrador = true;
+                                    setAgregarEspacioButton();
+                                    setEditEspacioButton();
+                                    setAddAdminButton();
+                                    setAddMiembroButton();
+                                    setAddTagButton();
 
-                        for (Map.Entry<String,Espacio> x :usuario.getObject().getAdministradores().entrySet())
-                        {
-                            if(x.getKey()==espacio.getKey()){
-                                administrador = true;
-                                setAgregarEspacioButton();
-                                setEditEspacioButton();
-                                setAddAdminButton();
-                                setAddMiembroButton();
-                                setAddTagButton();
-
-                                break;
+                                    break;
+                                }
+                                getTags();
+                                setRecyclerAdmin();
+                                setRecyclerMiembros();
                             }
-                        }
 
-                        new TagService().getAllFromEspacios(espacio)
-                                .addValueEventListener(new ValueEventListener() {
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-
-                                    @Override
-                                    public void onDataChange(DataSnapshot snapshot) {
-                                        for (DataSnapshot x : snapshot.getChildren()) {
-                                            Go<Tag> tagx = new Go<>(new Tag());
-                                            tagx.setKey(x.getKey());
-                                            tagx.setObject(x.getValue(tagx.getObject().getClass()));
-                                            tags.add(tagx);
-                                        }
-                                        if (tags.size()>0) {
-                                            setRecyclerTags();
-                                        }
-                                    }
-
-                                });
                     }
                 });
         return view;

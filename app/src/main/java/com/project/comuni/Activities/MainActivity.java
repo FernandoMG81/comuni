@@ -58,6 +58,14 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_logout:
                 logOut();
                 return true;
+            case R.id.menu_mi_perfil:
+                Titulo = "Mi Perfil";
+                logOut();
+                return true;
+            case R.id.menu_acerca_de:
+                Titulo = "Acerca De";
+                logOut();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

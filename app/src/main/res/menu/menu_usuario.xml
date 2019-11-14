@@ -5,9 +5,6 @@
     <item android:id="@+id/menu_logout"
         android:title="Log out"
         app:showAsAction="never"></item>
-    <item android:id="@+id/menu_configuracion"
-        android:title="Configuración"
-        app:showAsAction="never"></item>
     <item android:id="@+id/menu_mi_perfil"
         android:title="Mi perfil"
         app:showAsAction="never"></item>

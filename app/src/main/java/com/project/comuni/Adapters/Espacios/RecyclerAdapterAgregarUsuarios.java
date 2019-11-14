@@ -36,7 +36,7 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
     private Go<Espacio> espacio;
     private Go<Usuario> usuarioActual;
     private ArrayList<Go<Usuario>> usuarios = new ArrayList<>();
-    private Go<Usuario> usuariox;
+    private Go<Usuario> usuariox = new Go<>(new Usuario());
     private Context context;
     //Que Hacer?
     // 1 -> Agregar a Admin
@@ -48,6 +48,20 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
         this.espacio = espacio;
         this.usuarios = usuarios;
         this.queHacer = queHacer;
+    }
+
+    public void updateDatabase(){
+        new EspacioService(espacio).updateSoloEspacio()
+                .addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if (task.isSuccessful()) {
+
+
+                        }
+                    }
+                });
+
     }
 
     @NonNull
@@ -71,9 +85,9 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
 
        //Foto
             holder.AgregarButton.setOnClickListener((view) -> {
-                usuariox = usuarios.get(position);
-                new UsuarioService(usuariox).getObject()
-                        .addValueEventListener(new ValueEventListener() {
+                this.usuariox = usuarios.get(position);
+                new UsuarioService(this.usuariox).getObject()
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -83,13 +97,12 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 for (DataSnapshot x : dataSnapshot.getChildren()) {
-                                    usuariox = new Go<Usuario>(
-                                            x.getKey(),
-                                            x.getValue(usuariox.getObject().getClass()
-                                            ));
+                                    Go<Usuario> aux = new Go<>(x.getKey(), new Usuario());
+                                    aux.setObject(x.getValue(usuariox.getObject().getClass()));
+                                    usuariox = aux;
                                 }
 
-                                usuarios.remove(usuariox);
+                                //usuarios.remove(usuariox);
 
                                 //Si es null inicializar para evitar errores
                                 if (!(usuariox.getObject().getAdministradores() != null)) {
@@ -98,76 +111,106 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
                                 if (!(usuariox.getObject().getMiembros() != null)) {
                                     usuariox.getObject().setMiembros(new HashMap<>());
                                 }
+                                if(!(espacio.getObject().getMiembros()!=null)) {
+                                    espacio.getObject().setMiembros(new HashMap<>());
+                                }
+                                if(!(espacio.getObject().getAdministradores()!=null)) {
+                                    espacio.getObject().setAdministradores(new HashMap<>());
+                                }
 
                                 //Guardar en admin sacar de Miembros
                                 if (queHacer == 1) {
-                                    for (Map.Entry<String,Usuario> x: espacio.getObject().getMiembros().entrySet())
-                                    {
-                                        if(x.getKey().equals(usuariox.getKey())){
-                                            Map<String,Usuario> aux;
+                                    for (Map.Entry<String, Usuario> x : espacio.getObject().getMiembros().entrySet()) {
+                                        if (x.getKey().equals(usuariox.getKey())) {
+                                            Map<String, Usuario> aux;
                                             aux = espacio.getObject().getMiembros();
                                             aux.remove(x.getKey());
                                             espacio.getObject().setMiembros(aux);
+                                            break;
                                         }
+
                                     }
-                                    for (Map.Entry<String,Espacio> x: usuariox.getObject().getMiembros().entrySet())
-                                    {
-                                        if(x.getKey().equals(espacio.getKey())){
-                                            Map<String,Espacio> aux;
+
+                                    for (Map.Entry<String, Espacio> x : usuariox.getObject().getMiembros().entrySet()) {
+                                        if (x.getKey().equals(espacio.getKey())) {
+                                            Map<String, Espacio> aux;
                                             aux = usuariox.getObject().getMiembros();
                                             aux.remove(x.getKey());
                                             usuariox.getObject().setMiembros(aux);
                                             break;
                                         }
+
                                     }
                                     espacio.getObject().getAdministradores().put(usuariox.getKey(), usuariox.getObject());
                                     usuariox.getObject().getAdministradores().put(espacio.getKey(), espacio.getObject().returnSmall());
+                                    new UsuarioService(usuariox).updateSoloUsuario().addOnCompleteListener(new OnCompleteListener() {
+                                        @Override
+                                        public void onComplete(@NonNull Task task) {
+                                            String texto = "miembro.";
+                                            if(queHacer == 1){
+                                                texto = "administrador.";
+
+                                            }
+                                            Toast.makeText(context, usuariox.getObject().getNombre() + " " +
+                                                    usuariox.getObject().getNombre()
+                                                    + " ahora es " + texto, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                    updateDatabase();
+
                                 }
 
 
                                 //QueHacer 2
                                 //Guardar en Miembros sacar de Admins
                                 else {
-                                    for (Map.Entry<String,Usuario> x: espacio.getObject().getAdministradores().entrySet())
-                                    {
-                                        if(x.getKey().equals(usuariox.getKey())){
-                                            Map<String,Usuario> aux;
-                                            aux = espacio.getObject().getAdministradores();
-                                            aux.remove(x.getKey());
-                                            espacio.getObject().setAdministradores(aux);
-                                            break;
+                                    boolean unicoAdministrador = false;
+                                    if (espacio.getObject().getAdministradores().size() == 1) {
+                                        for (Map.Entry<String, Usuario> x : espacio.getObject().getAdministradores().entrySet()) {
+                                            if (x.getKey().equals(usuariox.getKey())) {
+                                                unicoAdministrador = true;
+                                            }
                                         }
                                     }
-                                    for (Map.Entry<String,Espacio> x: usuariox.getObject().getAdministradores().entrySet())
-                                    {
-                                        if(x.getKey().equals(espacio.getKey())){
-                                            Map<String,Espacio> aux;
-                                            aux = usuariox.getObject().getAdministradores();
-                                            aux.remove(x.getKey());
-                                            usuariox.getObject().setAdministradores(aux);
-                                            break;
+                                    if(!unicoAdministrador){
+                                        for (Map.Entry<String, Usuario> x : espacio.getObject().getAdministradores().entrySet()) {
+                                            if (x.getKey().equals(usuariox.getKey())) {
+                                                Map<String, Usuario> aux;
+                                                aux = espacio.getObject().getAdministradores();
+                                                aux.remove(x.getKey());
+                                                espacio.getObject().setAdministradores(aux);
+                                                break;
+                                            }
                                         }
-                                    }
-                                    espacio.getObject().getMiembros().put(usuariox.getKey(), usuariox.getObject());
-                                    usuariox.getObject().getMiembros().put(espacio.getKey(), espacio.getObject().returnSmall());
-                                }
+                                        for (Map.Entry<String, Espacio> x : usuariox.getObject().getAdministradores().entrySet()) {
+                                            if (x.getKey().equals(espacio.getKey())) {
+                                                Map<String, Espacio> aux;
+                                                aux = usuariox.getObject().getAdministradores();
+                                                aux.remove(x.getKey());
+                                                usuariox.getObject().setAdministradores(aux);
+                                                break;
+                                            }
+                                        }
 
-                                new EspacioService(espacio).update()
-                                        .addOnCompleteListener(new OnCompleteListener() {
+                                        espacio.getObject().getMiembros().put(usuariox.getKey(), usuariox.getObject());
+                                        usuariox.getObject().getMiembros().put(espacio.getKey(), espacio.getObject().returnSmall());
+                                        new UsuarioService(usuariox).updateSoloUsuario().addOnCompleteListener(new OnCompleteListener() {
                                             @Override
                                             public void onComplete(@NonNull Task task) {
-                                                if (task.isSuccessful()) {
-                                                    String texto = "miembro.";
-                                                    if(queHacer == 1){
-                                                        texto = "administrador.";
+                                                String texto = "miembro.";
+                                                if(queHacer == 1){
+                                                    texto = "administrador.";
 
-                                                    }
-                                                    Toast.makeText(context, usuariox.getObject().getNombre() + " " +
-                                                            usuariox.getObject().getNombre()
-                                                            + " ahora es administrador" + texto, Toast.LENGTH_SHORT).show();
                                                 }
+                                                Toast.makeText(context, usuariox.getObject().getNombre() + " " +
+                                                        usuariox.getObject().getNombre()
+                                                        + " ahora es " + texto, Toast.LENGTH_SHORT).show();
                                             }
                                         });
+                                        updateDatabase();
+
+                                    }
+                                }
                             }
 
                         });

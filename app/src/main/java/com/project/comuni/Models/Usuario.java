@@ -39,7 +39,6 @@ public class Usuario {
         this.deleted = usuario.getValue().getDeleted();
     }
 
-
     public Usuario(String nombre, String apellido, String foto, String email) {
         this.nombre = nombre;
         this.apellido = apellido;

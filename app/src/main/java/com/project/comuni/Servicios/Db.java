@@ -86,6 +86,7 @@ public class Db<Tobject> {
 
     public Task<Void> deleteWithDatos(Go<Tobject> obj, String url){
         return DbRef.child(url)
+                .child(fireUrl.getDatos())
                 .child(obj.getKey())
                 .removeValue();
     }

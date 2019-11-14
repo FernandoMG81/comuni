@@ -70,7 +70,6 @@ public class ContactosFragment extends Fragment {
 
         recyclerUsuarios = v.findViewById(R.id.RVAdministradores);
 
-
         Nombre.setText(espacio.getObject().getNombre());
         Descripcion.setText(espacio.getObject().getDescripcion());
     }
@@ -82,7 +81,7 @@ public class ContactosFragment extends Fragment {
                 usuarios.add(new Go<>(x));
             }
             recyclerUsuarios.setLayoutManager(new LinearLayoutManager(getContext()));
-            RecyclerAdapterUsuarios adapter = new RecyclerAdapterUsuarios(getContext(), espacio, usuarios, administrador);
+            RecyclerAdapterUsuarios adapter = new RecyclerAdapterUsuarios(getContext(), espacio, usuarios, administrador,queHacer);
             recyclerUsuarios.setAdapter(adapter);
         }
     }

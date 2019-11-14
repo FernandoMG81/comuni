@@ -50,13 +50,13 @@ public class EspacioService {
         urlUsuarios = urlUsuariosMiembros;
         urlUsuarios.addAll(urlUsuariosAdministradores);
         if(espacio.getObject().getEspacioUrl() != null){
-            urlEspacio = url.AddKey(url.getRoot(),url.FromUrlEspacios(espacio.getObject().getEspacioUrl()));
+            urlEspacio = url.AddKey(url.getRoot(),espacio.getObject().getEspacioUrl());
         }
     }
 
     public Task create (){
         espacio.setKey(db.createKey(urlEspacio));
-       return db.updateWithDatos(new Go<Espacio>(espacio.getKey(),espacio.getObject().returnSmallerMaps())
+       return db.updateWithDatos(new Go<>(espacio.getKey(),espacio.getObject().returnSmallerMaps())
                ,urlEspacio).addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
             @Override
             public void onComplete(@NonNull Task<Transaction.Result> task) {
@@ -78,6 +78,11 @@ public class EspacioService {
                 }
             }
         });
+    }
+
+    public Task updateSoloEspacio(){
+        return db.updateWithDatos(new Go<>(espacio.getKey(), espacio.getObject().returnSmallerMaps()),
+                urlEspacio);
     }
 
     public Task update () {
@@ -106,6 +111,20 @@ public class EspacioService {
                 });
     }
 
+    public Task updateEspacioUsuario(Go<Usuario> usuario){
+
+        return db.updateWithDatos(new Go<>(espacio.getKey(), espacio.getObject().returnSmallerMaps()),
+                urlEspacio)
+                .addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Transaction.Result> task) {
+                        if (task.isSuccessful()) {
+                            new UsuarioService(usuario).updateSoloUsuario();
+                        }
+                    }
+                });
+    }
+
     public Task delete (){
 
         return db.delete(espacio, urlEspacio).addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
@@ -117,6 +136,47 @@ public class EspacioService {
                     }
                 }
             }
+        });
+    }
+
+    public Task deleteUsuario (Go<Usuario> usuario){
+
+        for (Map.Entry<String,Espacio> espaciox:usuario.getObject().getAdministradores().entrySet())
+        {
+            if (espacio.getKey().equals(espaciox.getKey())){
+                return db.delete(usuario,
+                        url.AddKey(urlEspacio,
+                                url.AddKey(espacio.getKey(),
+                                        url.AddKey(url.getDatos(),
+                                            url.getAdministradores()))))
+                        .addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Transaction.Result> task) {
+                                if (task.isSuccessful()) {
+                                    db.delete(espacio,
+                                            url.AddKey(url.getUsuarios(),
+                                                    url.AddKey(usuario.getKey(),
+                                                            url.getAdministradores())));
+                                }
+                            }
+                        });
+            }
+        }
+        return db.delete(usuario,
+                        url.AddKey(urlEspacio,
+                            url.AddKey(espacio.getKey(),
+                                    url.AddKey(url.getDatos(),
+                                        url.getMiembros()))))
+                .addOnCompleteListener(new OnCompleteListener<Transaction.Result>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Transaction.Result> task) {
+                        if (task.isSuccessful()) {
+                            db.delete(espacio,
+                                    url.AddKey(url.getUsuarios(),
+                                            url.AddKey(usuario.getKey(),
+                                                    url.getMiembros())));
+                        }
+                    }
         });
     }
 
