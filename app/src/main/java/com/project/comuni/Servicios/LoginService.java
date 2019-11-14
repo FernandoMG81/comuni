@@ -112,7 +112,7 @@ public class LoginService {
         //Date date = new Date();
         //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("SSS.ss-mm-hh-dd-MM-yyyy", Locale.getDefault());
 
-       String fireUrl = "Fotos/FotoPerfil/"+getUser().getUid();
+       String fireUrl = "Fotos/FotoPerfil/"+ getUser().getUid();
         db.Storage(fireUrl).putFile(foto).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {

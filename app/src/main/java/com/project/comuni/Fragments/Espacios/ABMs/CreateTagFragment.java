@@ -1,4 +1,4 @@
-package com.project.comuni.Fragments.Espacios;
+package com.project.comuni.Fragments.Espacios.ABMs;
 
 
 import android.graphics.Color;
@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.project.comuni.Activities.MainActivity;
+import com.project.comuni.Fragments.Espacios.ConfigPlaceFragment;
 import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Tag;
@@ -28,7 +29,7 @@ import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.TagService;
 
-public class EditTagFragment extends Fragment {
+public class CreateTagFragment extends Fragment {
 
     //Db
     private FirebaseStorage dbF;
@@ -53,10 +54,10 @@ public class EditTagFragment extends Fragment {
         Bundle bundle = getArguments();
         this.usuario = (Go<Usuario>) bundle.getSerializable("usuario");
         this.espacio = (Go<Espacio>) bundle.getSerializable("espacioActual");
-        this.tag = (Go<Tag>) bundle.getSerializable("tag");
     }
 
     private void cuestionarioAObjeto(){
+        tag = new Go<>(new Tag());
         tag.getObject().setEspacio(espacio);
         tag.getObject().setText(nombre.getText().toString());
         tag.getObject().setTextColor(colorT.getText().toString());
@@ -64,27 +65,20 @@ public class EditTagFragment extends Fragment {
     }
 
     private void setLayoutReference(View view){
+        createSubmit = view.findViewById(R.id.CreateTagSubmit);
+        editSubmit = view.findViewById(R.id.EditTagSubmit);
+        editSubmit.setVisibility(View.GONE);
+        deleteSubmit = view.findViewById(R.id.DeleteTagSubmit);
+        deleteSubmit.setVisibility(View.GONE);
+
         nombre = view.findViewById(R.id.CreateTagNombre);
         colorT = view.findViewById(R.id.CreateTagColorT);
         colorB = view.findViewById(R.id.CreateTagColorB);
         demo = view.findViewById(R.id.CreateTagDemo);
-
-        createSubmit = view.findViewById(R.id.CreateTagSubmit);
-        createSubmit.setVisibility(View.GONE);
-        editSubmit = view.findViewById(R.id.EditTagSubmit);
-        deleteSubmit = view.findViewById(R.id.DeleteTagSubmit);
-
-
-        nombre.setText(tag.getObject().getText());
-        colorT.setText(tag.getObject().getTextColor());
-        colorB.setText(tag.getObject().getBackgroundColor());
-        demo.setText(tag.getObject().getText());
-        demo.setTextColor(Color.parseColor(tag.getObject().ColorT()));
-        demo.setBackgroundColor(Color.parseColor(tag.getObject().ColorB()));
     }
 
-    private void setBotonEdit(){
-        editSubmit.setOnClickListener(new View.OnClickListener(){
+    private void setBoton(){
+        createSubmit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
 
@@ -94,41 +88,13 @@ public class EditTagFragment extends Fragment {
                     Toast.makeText(getContext(),tag.getObject().validar(),Toast.LENGTH_LONG).show();
                 }
                 else{
-                    new TagService(tag).update()
+                    new TagService(tag).create()
                             .addOnCompleteListener(getActivity(), new OnCompleteListener() {
                                 @Override
                                 public void onComplete(@NonNull Task task) {
                                     if (!task.isSuccessful()) {
                                         Toast.makeText(getContext(), "Ocurrio un error", Toast.LENGTH_LONG).show();
                                     } else {
-                                        goToEspacios();
-                                    }
-                                }
-                            });
-                }
-            }
-        });
-    }
-
-    private void setBotonDelete(){
-        deleteSubmit.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-
-                cuestionarioAObjeto();
-
-                if(!tag.getObject().validar().equals("Ok")){
-                    Toast.makeText(getContext(),tag.getObject().validar(),Toast.LENGTH_LONG).show();
-                }
-                else{
-                    new TagService(tag).delete()
-                            .addOnCompleteListener(getActivity(), new OnCompleteListener() {
-                                @Override
-                                public void onComplete(@NonNull Task task) {
-                                    if (!task.isSuccessful()) {
-                                        Toast.makeText(getContext(), "Ocurrio un error", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Toast.makeText(getContext(), "Se borró la etiqueta", Toast.LENGTH_LONG).show();
                                         goToEspacios();
                                     }
                                 }
@@ -228,8 +194,7 @@ public class EditTagFragment extends Fragment {
         getData();
         setLayoutReference(view);
         setDemo();
-        setBotonEdit();
-        setBotonDelete();
+        setBoton();
 
         return view;
     }

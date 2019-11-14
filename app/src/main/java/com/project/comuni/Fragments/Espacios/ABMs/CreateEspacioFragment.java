@@ -1,4 +1,4 @@
-package com.project.comuni.Fragments.Espacios;
+package com.project.comuni.Fragments.Espacios.ABMs;
 
 
 import android.content.res.ColorStateList;
@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.project.comuni.Activities.MainActivity;
+import com.project.comuni.Fragments.Espacios.ConfigPlaceFragment;
 import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Usuario;

@@ -10,11 +10,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.common.api.internal.ListenerHolders;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Adapters.Espacios.RecyclerAdapterPosts;
+import com.project.comuni.Fragments.Espacios.ABMs.CreatePostFragment;
 import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Post;
@@ -33,8 +37,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.project.comuni.Utils.Util.filtrarString;
 
@@ -56,6 +58,14 @@ public class PostsFragment extends Fragment {
     private RecyclerView recyclerView;
     private Button ConfigPlacesButton;
     private Button newPostButton;
+
+    //Listeners
+    private Query getUsuario;
+    private ValueEventListener listenerUsuario;
+    private Query getEspacio;
+    private ValueEventListener listenerEspacio;
+    private Query getPost;
+    private ValueEventListener listenerPost;
 
     private void getData() {
         Bundle bundle = getArguments();
@@ -155,8 +165,9 @@ public class PostsFragment extends Fragment {
         setAddConfigButton();
 
         usuario = new LoginService().getGoUser();
-        new UsuarioService(usuario).getObject()
-                .addValueEventListener(new ValueEventListener() {
+        getUsuario = new UsuarioService(usuario).getObject();
+
+        getUsuario.addListenerForSingleValueEvent(listenerUsuario =new ValueEventListener() {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -168,8 +179,9 @@ public class PostsFragment extends Fragment {
                         for (DataSnapshot x: dataSnapshot.getChildren()) {
                             usuario.setObject((x.getValue(usuario.getObject().getClass())));
                         }
-                        new EspacioService(espacio).getObject()
-                                .addValueEventListener(new ValueEventListener() {
+
+                        getEspacio = new EspacioService(espacio).getObject();
+                        getEspacio.addListenerForSingleValueEvent(listenerEspacio = new ValueEventListener() {
 
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -183,8 +195,8 @@ public class PostsFragment extends Fragment {
 
                                         }
 
-                                        new PostService().getAllFromEspacios(espacio)
-                                                .addValueEventListener(new ValueEventListener() {
+                                        getPost = new PostService().getAllFromEspacios(espacio);
+                                        getPost.addListenerForSingleValueEvent(listenerPost = new ValueEventListener() {
 
                                                     @Override
                                                     public void onCancelled(DatabaseError databaseError) {
@@ -216,6 +228,13 @@ public class PostsFragment extends Fragment {
                     }
                 });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        postsAMostrar.clear();
+        posts.clear();
     }
 
 }

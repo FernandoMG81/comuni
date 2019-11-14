@@ -1,4 +1,4 @@
-package com.project.comuni.Fragments.Espacios;
+package com.project.comuni.Fragments.Espacios.ABMs;
 
 
 import android.os.Bundle;
@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.project.comuni.Activities.MainActivity;
+import com.project.comuni.Fragments.Espacios.PostsFragment;
 import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Post;

@@ -134,6 +134,7 @@ public class InnerPostsFragment extends Fragment {
 
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
+                            comentarios.clear();
                             for (DataSnapshot x : snapshot.getChildren()) {
                                 Go<Comentario> comentariox = new Go<>(new Comentario());
                                 comentariox.setKey(x.getKey());
