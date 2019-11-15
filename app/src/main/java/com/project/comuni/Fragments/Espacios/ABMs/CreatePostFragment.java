@@ -63,7 +63,8 @@ public class CreatePostFragment extends Fragment {
         Bundle bundle = getArguments();
         this.espacio = (Go<Espacio>) bundle.getSerializable("espacioActual");
         this.usuario = (Go<Usuario>) bundle.getSerializable("usuario");
-        this.tags.add(new Go<Tag>(new Tag(espacio,"Sin Etiqueta","FFFFFF","FFFFFF")));
+        this.tag = new Go<>(new Tag(espacio,"Sin Etiqueta","FFFFFF","FFFFFF"));
+        this.tags.add(tag);
     }
 
     private void setLayoutReference(View view){
