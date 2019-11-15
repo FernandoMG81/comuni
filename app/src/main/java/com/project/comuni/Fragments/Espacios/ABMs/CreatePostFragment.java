@@ -59,11 +59,15 @@ public class CreatePostFragment extends Fragment {
     private Button submit;
     private Spinner tagSpinner;
 
+    public CreatePostFragment(){
+        this.tags.add(new Go<Tag>(new Tag(espacio,"Sin Etiqueta","FFFFFF","FFFFFF")));
+    }
+
     private void getData() {
         Bundle bundle = getArguments();
         this.espacio = (Go<Espacio>) bundle.getSerializable("espacioActual");
         this.usuario = (Go<Usuario>) bundle.getSerializable("usuario");
-        this.tags.add(new Go<Tag>(new Tag(espacio,"Sin Etiqueta","FFFFFF","FFFFFF")));
+       // this.tags.add(new Go<Tag>(new Tag(espacio,"Sin Etiqueta","FFFFFF","FFFFFF")));
     }
 
     private void setLayoutReference(View view){
@@ -80,6 +84,9 @@ public class CreatePostFragment extends Fragment {
     private void cuestionarioAObjeto(){
         post.getObject().setTitulo(titulo.getText().toString());
         post.getObject().setTexto(descripcion.getText().toString());
+
+
+
         if(!tag.getObject().getText().equals("Sin Etiqueta")) {
             post.getObject().setTags(tag);
         }
@@ -87,6 +94,7 @@ public class CreatePostFragment extends Fragment {
             tag.getObject().setText("");
             post.getObject().setTags(tag);
         }
+
         post.getObject().setUsuario(new Go<>(usuario));
         post.getObject().setEspacio(new Go<>(espacio));
         Date date = new Date();
