@@ -59,21 +59,12 @@
                     android:textSize="12sp" />
             </RelativeLayout>
 
-            <Button
-                android:id="@+id/RecyclerUsuariosButton"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:layout_weight="0"
-                android:text="Agregar"
-                android:textSize="12sp" />
         </LinearLayout>
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/RecyclerUsuariosLinea"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="16dp"

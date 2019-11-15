@@ -30,9 +30,12 @@ import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Tag;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
+import com.project.comuni.Servicios.EspacioService;
 import com.project.comuni.Servicios.LoginService;
 import com.project.comuni.Servicios.TagService;
 import com.project.comuni.Servicios.UsuarioService;
+
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -58,6 +61,7 @@ public class ListadoUsuariosFragment extends Fragment {
     private  int queHacer;
 
     // Layout
+    private TextView vacio;
     private EditText search;
     private RecyclerView recyclerViewUsuarios;
 
@@ -70,6 +74,8 @@ public class ListadoUsuariosFragment extends Fragment {
     }
 
     public void setLayoutReferences(View v){
+        vacio = v.findViewById(R.id.ContactosTextoVacio);
+        vacio.setVisibility(View.GONE);
         search = v.findViewById(R.id.ContactosSearch);
         recyclerViewUsuarios = v.findViewById(R.id.RVContactos);
     }
@@ -115,6 +121,31 @@ public class ListadoUsuariosFragment extends Fragment {
             recyclerViewUsuarios.setAdapter(adapter);
     }
 
+    private void setUsuariosNoListar(){
+        Go<Usuario> aux;
+        if(queHacer == 1){
+            for ( Map.Entry <String,Usuario> x : espacio.getObject().getMiembros().entrySet())
+            {
+                aux = new Go<>(x.getKey(), x.getValue());
+                usuariosNoListar.add(aux);
+            }
+        }
+        else{
+            for ( Map.Entry <String,Usuario> x : espacio.getObject().getAdministradores().entrySet())
+            {
+                aux = new Go<>(x.getKey(), x.getValue());
+                usuariosNoListar.add(aux);
+            }
+        }
+        for (Go<Usuario> x : usuariosNoListar) {
+            for (Go<Usuario> y : usuarios)
+                if (x.getKey().equals(y.getKey())) {
+                    usuarios.remove(y);
+                    break;
+                }
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -125,10 +156,16 @@ public class ListadoUsuariosFragment extends Fragment {
 
         new UsuarioService().getAll()
                 .addValueEventListener(new ValueEventListener() {
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        usuario = null;
+                    }
+
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         usuarios.clear();
-                        for (DataSnapshot x: snapshot.getChildren()) {
+                        for (DataSnapshot x : snapshot.getChildren()) {
                             Go<Usuario> usuariox = new Go<>(
                                     x.getKey(),
                                     x.getValue(usuario.getObject().getClass()
@@ -136,23 +173,33 @@ public class ListadoUsuariosFragment extends Fragment {
                             usuarios.add(usuariox);
                         }
 
-                        for (Go<Usuario> x:usuariosNoListar) {
-                            for(Go<Usuario> y: usuarios)
-                            if (x.getKey().equals(y.getKey())) {
-                                usuarios.remove(y);
-                                break;
-                            }
-                        }
+                        new EspacioService(espacio).getObject()
+                                .addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                            if (usuarios.size()> 0){
-                                setSearch();
-                                filterData();
-                                setRecyclerUsuarios();
-                            }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        usuario = null;
+                                    }
+
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        usuariosNoListar.clear();
+                                        for (DataSnapshot x : dataSnapshot.getChildren()) {
+                                            espacio.setObject(x.getValue(espacio.getObject().getClass()));
+                                        }
+
+                                        setUsuariosNoListar();
+
+                                        if (usuarios.size() > 0) {
+                                            setSearch();
+                                            filterData();
+                                            setRecyclerUsuarios();
+                                            vacio.setVisibility(View.GONE);
+                                        } else {
+                                            vacio.setVisibility(View.VISIBLE);
+                                        }
+                                    }
+
+                                });
                     }
                 });
 

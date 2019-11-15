@@ -10,6 +10,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@mipmap/fondo_vacio_cromatico"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,11 +49,23 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/PlacesTextVacio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/fondo_vacio_cromatico"
+            android:gravity="center|center_vertical"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingBottom="120dp"
+            android:text="Aún no has sido agregado a ningún grupo. ¡Habla con el administrador!"
+            android:textSize="24sp" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RVPlaces"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@mipmap/fondo_vacio_cromatico"
+            android:layout_marginTop="8dp"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
