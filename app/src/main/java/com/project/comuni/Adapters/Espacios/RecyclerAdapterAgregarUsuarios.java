@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +31,8 @@ import com.project.comuni.Servicios.UsuarioService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<RecyclerAdapterAgregarUsuarios.ViewHolder> {
     private static final String TAG = "RecyclerAdapterMessages";
@@ -83,8 +87,9 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
             holder.Nombre.setText(usuarios.get(position).getObject().getNombre());
         }
 
-       //Foto
-            holder.AgregarButton.setOnClickListener((view) -> {
+       Glide.with(context).load(usuarios.get(position).getObject().getFotoPerfilURL()).into(holder.FotoUsuarioCircular);
+
+        holder.AgregarButton.setOnClickListener((view) -> {
                 this.usuariox = usuarios.get(position);
                 new UsuarioService(this.usuariox).getObject()
                         .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -226,7 +231,8 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView Nombre;
-        //Foto
+        ImageView FotoUsuario;
+        CircleImageView FotoUsuarioCircular;
         Button AgregarButton;
         LinearLayout LL;
 
@@ -235,6 +241,8 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
             Nombre = itemView.findViewById(R.id.RecyclerUsuariosNombre);
             AgregarButton= itemView.findViewById(R.id.RecyclerUsuariosButton);
             LL = itemView.findViewById(R.id.RVUsuarios);
+            FotoUsuarioCircular = itemView.findViewById(R.id.RecyclerImagenPerfil);
+
         }
     }
 }
