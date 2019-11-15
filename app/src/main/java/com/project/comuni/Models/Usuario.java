@@ -8,8 +8,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.project.comuni.Models.Firebase.Go;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +18,7 @@ public class Usuario {
     private String apellido = "";
     private Map<String,Espacio> administradores = new HashMap<>();
     private Map<String,Espacio>  miembros = new HashMap<>();
-    private String foto;
+    private String fotoPerfilURL;
     private String creado;
     private String token;
     private String deleted;
@@ -37,7 +35,7 @@ public class Usuario {
         this.apellido = usuario.getValue().getApellido();
         this.administradores = usuario.getValue().getAdministradores();
         this.miembros = usuario.getValue().getMiembros();
-        this.foto = usuario.getValue().getFoto();
+        this.fotoPerfilURL = usuario.getValue().getFoto();
         this.creado = usuario.getValue().getCreado();
         this.deleted = usuario.getValue().getDeleted();
     }
@@ -45,7 +43,7 @@ public class Usuario {
     public Usuario(String nombre, String apellido, String foto, String email) {
         this.nombre = nombre;
         this.apellido = apellido;
-        this.foto = foto;
+        this.fotoPerfilURL = foto;
         this.email = email;
     }
 
@@ -53,7 +51,7 @@ public class Usuario {
         return new Usuario(
                 nombre,
                 apellido,
-                foto,
+                fotoPerfilURL,
                 email
         );
     }
@@ -157,11 +155,11 @@ public class Usuario {
     }
 
     public String getFoto() {
-        return foto;
+        return fotoPerfilURL;
     }
 
     public void setFoto(String foto) {
-        this.foto = foto;
+        this.fotoPerfilURL = foto;
     }
 
     public String getCreado() {
