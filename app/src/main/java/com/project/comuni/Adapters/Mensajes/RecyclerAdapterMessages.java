@@ -1,6 +1,7 @@
 package com.project.comuni.Adapters.Mensajes;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +18,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.project.comuni.Activities.ListadoUsuariosActivity;
 import com.project.comuni.Activities.MainActivity;
+import com.project.comuni.Activities.MensajeriaActivity;
 import com.project.comuni.Fragments.Mensajes.InnerMessagesFragment;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Mensaje;
@@ -82,12 +85,11 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
 
     @Override
     public void onClick(View view) {
-        AppCompatActivity activity = (MainActivity) view.getContext();
-        Fragment myFragment = new InnerMessagesFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("mensaje",(Serializable) mensaje);
-        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
-
+        Intent intent = new Intent(context, MensajeriaActivity.class);
+        intent.putExtra("key_receptor",mensaje.getObject().getReceptor().getKey());
+        intent.putExtra("photo_receptor",mensaje.getObject().getReceptor().getObject().getFotoPerfilURL());
+        intent.putExtra("name_receptor",mensaje.getObject().getReceptor().getObject().getNombre());
+        context.startActivity(intent);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
