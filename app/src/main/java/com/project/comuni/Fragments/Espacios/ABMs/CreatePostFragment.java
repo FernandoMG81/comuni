@@ -63,7 +63,7 @@ public class CreatePostFragment extends Fragment {
         Bundle bundle = getArguments();
         this.espacio = (Go<Espacio>) bundle.getSerializable("espacioActual");
         this.usuario = (Go<Usuario>) bundle.getSerializable("usuario");
-        this.tags.add(new Go<Tag>(new Tag(espacio,"","FFFFFF","FFFFFF")));
+        this.tags.add(new Go<Tag>(new Tag(espacio,"Sin Etiqueta","FFFFFF","FFFFFF")));
     }
 
     private void setLayoutReference(View view){
@@ -80,7 +80,13 @@ public class CreatePostFragment extends Fragment {
     private void cuestionarioAObjeto(){
         post.getObject().setTitulo(titulo.getText().toString());
         post.getObject().setTexto(descripcion.getText().toString());
-        post.getObject().setTags(tag);
+        if(!tag.getObject().getText().equals("Sin Etiqueta")) {
+            post.getObject().setTags(tag);
+        }
+        else{
+            tag.getObject().setText("");
+            post.getObject().setTags(tag);
+        }
         post.getObject().setUsuario(new Go<>(usuario));
         post.getObject().setEspacio(new Go<>(espacio));
         Date date = new Date();
@@ -127,9 +133,6 @@ public class CreatePostFragment extends Fragment {
     }
 
     private void setRecyclerTags(){
-        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        //RecyclerAdapterTags adapter = new RecyclerAdapterTags(tags, this.getContext());
-        //recyclerView.setAdapter(adapter);
 
         ArrayAdapter<Go<Tag>> spinnerAdapter = new ArrayAdapter<>(
                 this.getContext(), android.R.layout.simple_spinner_item, tags);
@@ -146,7 +149,6 @@ public class CreatePostFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
                 tag = null;
             }
-
         });
     }
 

@@ -3,6 +3,7 @@ package com.project.comuni.Utils;
 import android.content.SharedPreferences;
 
 import java.text.Normalizer;
+import java.util.ArrayList;
 
 public class Util {
 
@@ -52,4 +53,5 @@ public class Util {
         return  false;
 
     }
+
 }
