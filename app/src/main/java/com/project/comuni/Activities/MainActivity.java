@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.project.comuni.Fragments.AcercaDeFragment;
 import com.project.comuni.Fragments.Espacios.PlacesFragment;
 import com.project.comuni.Fragments.Noticias.NewsFragment;
 import com.project.comuni.Fragments.Mensajes.MessagesFragment;
@@ -60,11 +61,13 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_mi_perfil:
                 Titulo = "Mi Perfil";
-                logOut();
+                showToolbar(Titulo,false);
                 return true;
             case R.id.menu_acerca_de:
                 Titulo = "Acerca De";
-                logOut();
+                showToolbar(Titulo,false);
+                Fragment fragment = new AcercaDeFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
