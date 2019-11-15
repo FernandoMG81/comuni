@@ -52,7 +52,7 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
             holder.Contacto.setText(mensajes.get(position).getObject().getEmisor().getObject().getNombre()
                     + " " + mensajes.get(position).getObject().getEmisor().getObject().getApellido());
             holder.Mensaje.setText(mensajes.get(position).getObject().getTexto());
-           //holder.FotoUsuario.setBackgroundResource(mensajes.get(position).getObject().getEmisor().getObject().getFoto());
+           //holder.FotoUsuario.setBackgroundResource(mensajes.get(position).getObject().getEmisor().getObject().getFotoPerfilURL());
             holder.RL.setOnClickListener((view)->{
                 mensaje = mensajes.get(position);
                 onClick(view);

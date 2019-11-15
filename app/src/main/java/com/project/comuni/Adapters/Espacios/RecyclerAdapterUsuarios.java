@@ -69,7 +69,7 @@ public class RecyclerAdapterUsuarios extends RecyclerView.Adapter<RecyclerAdapte
 
         holder.Nombre.setText(usuarios.get(position).getObject().getNombre()
                 + " " + usuarios.get(position).getObject().getApellido());
-        Glide.with(context).load(usuarios.get(position).getObject().getFoto()).into(holder.FotoUsuarioCircular);
+        Glide.with(context).load(usuarios.get(position).getObject().getFotoPerfilURL()).into(holder.FotoUsuarioCircular);
 
         if (administrador) {
             holder.LL.setOnLongClickListener((view) -> {

@@ -36,7 +36,7 @@ public class Usuario {
         this.apellido = usuario.getValue().getApellido();
         this.administradores = usuario.getValue().getAdministradores();
         this.miembros = usuario.getValue().getMiembros();
-        this.fotoPerfilURL = usuario.getValue().getFoto();
+        this.fotoPerfilURL = usuario.getValue().getFotoPerfilURL();
         this.creado = usuario.getValue().getCreado();
         this.deleted = usuario.getValue().getDeleted();
     }
@@ -159,11 +159,11 @@ public class Usuario {
         this.apellido = apellido;
     }
 
-    public String getFoto() {
+    public String getFotoPerfilURL() {
         return fotoPerfilURL;
     }
 
-    public void setFoto(String foto) {
+    public void setFotoPerfilURL(String foto) {
         this.fotoPerfilURL = foto;
     }
 

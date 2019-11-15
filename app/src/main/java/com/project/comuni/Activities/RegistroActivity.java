@@ -294,7 +294,7 @@ public class RegistroActivity extends AppCompatActivity {
             public void devolverUrlString(String url) {
                 Toast.makeText(RegistroActivity.this, "Se registro correctamente", Toast.LENGTH_LONG).show();
 
-                usuario.getObject().setFoto(url);
+                usuario.getObject().setFotoPerfilURL(url);
 
                 FirebaseUser currentUser = mAuth.getCurrentUser();
                 DatabaseReference reference = database.getReference("Usuarios/"+currentUser.getUid());
@@ -307,7 +307,7 @@ public class RegistroActivity extends AppCompatActivity {
 
     }else{
         Toast.makeText(RegistroActivity.this, "Se registro correctamente", Toast.LENGTH_LONG).show();
-        usuario.getObject().setFoto(Constantes.URL_FOTO_POR_DEFECTO_USUARIOS);
+        usuario.getObject().setFotoPerfilURL(Constantes.URL_FOTO_POR_DEFECTO_USUARIOS);
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         DatabaseReference reference = database.getReference("Usuarios/"+currentUser.getUid());

@@ -1,6 +1,5 @@
 package com.project.comuni.Servicios;
 
-import android.app.DownloadManager;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
@@ -55,10 +54,10 @@ public class LoginService {
                         if (task.isSuccessful()) {
                             if (foto != null) {
                                 String url = uploadFoto(foto);
-                                usuario.getObject().setFoto(url);
+                                usuario.getObject().setFotoPerfilURL(url);
                             }
                             else {
-                                usuario.getObject().setFoto(Constantes.URL_FOTO_POR_DEFECTO_USUARIOS);
+                                usuario.getObject().setFotoPerfilURL(Constantes.URL_FOTO_POR_DEFECTO_USUARIOS);
                             }
                             usuario.setKey(getUser().getUid());
                             new UsuarioService(usuario).update();

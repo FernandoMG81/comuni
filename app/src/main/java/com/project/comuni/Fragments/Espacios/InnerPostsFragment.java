@@ -50,6 +50,7 @@ public class InnerPostsFragment extends Fragment {
     private TextView Tag;
     private TextView NombreUsuario;
     private TextView Fecha;
+    private TextView TextoVacio;
     //Recycler Comentarios
     private RecyclerView recyclerView;
     //Escribir Comentario
@@ -71,6 +72,8 @@ public class InnerPostsFragment extends Fragment {
         NombreUsuario = view.findViewById(R.id.InnerPlacesUsuario);
         Fecha = view.findViewById(R.id.InnerPlacesFecha);
 
+        TextoVacio = view.findViewById(R.id.InnerPostsVacio);
+        TextoVacio.setVisibility(View.GONE);
         recyclerView = view.findViewById(R.id.RVInnerPosts);
 
         comentarioTexto = view.findViewById(R.id.InnerFragmentComentarioTexto);
@@ -143,9 +146,13 @@ public class InnerPostsFragment extends Fragment {
                                 comentariox.setObject(x.getValue(comentariox.getObject().getClass()));
                                 comentarios.add(comentariox);
                             }
-
-                                setRecycler();
-
+                                if(comentarios.size()>0) {
+                                    setRecycler();
+                                    TextoVacio.setVisibility(View.GONE);
+                                }
+                                else{
+                                    TextoVacio.setVisibility(View.VISIBLE);
+                                }
                         }
                     });
 
