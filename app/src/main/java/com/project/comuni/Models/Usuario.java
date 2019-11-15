@@ -5,7 +5,10 @@ import android.text.TextUtils;
 import android.util.Patterns;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.project.comuni.Models.Firebase.Go;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,6 +56,22 @@ public class Usuario {
                 foto,
                 email
         );
+    }
+
+    public ArrayList<Go<Espacio>> returnAllEspacios(){
+        ArrayList<Go<Espacio>> espacios = new ArrayList<>();
+        Go<Espacio> espaciox;
+        for (Map.Entry<String,Espacio> x : administradores.entrySet())
+        {
+            espaciox = new Go<>(x.getKey(),x.getValue());
+            espacios.add(espaciox);
+        }
+        for (Map.Entry<String,Espacio> x : miembros.entrySet())
+        {
+            espaciox = new Go<>(x.getKey(),x.getValue());
+            espacios.add(espaciox);
+        }
+        return espacios;
     }
 
     public Boolean validarRegistro(String contrasena1, String contrasena2){

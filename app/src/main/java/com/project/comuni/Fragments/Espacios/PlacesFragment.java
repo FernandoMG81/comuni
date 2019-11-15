@@ -108,7 +108,7 @@ public class PlacesFragment extends Fragment {
         setLayoutReferences(view);
         usuario = new LoginService().getGoUser();
         new UsuarioService(usuario).getObject()
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -117,39 +117,22 @@ public class PlacesFragment extends Fragment {
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        espacios.clear();
+
                         for (DataSnapshot x: dataSnapshot.getChildren()) {
                             usuario.setObject((x.getValue(usuario.getObject().getClass())));
                         }
 
                         //salvameJebus();
 
-                        new EspacioService().getAllFromUsuario(usuario)
-                                .addValueEventListener(
-                                        new ValueEventListener() {
+                        espacios = usuario.getObject().returnAllEspacios();
 
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
+                        setSearch();
+                        if (espacios.size() > 0) {
+                            filterData();
+                            setRecycler();
+                        }
 
-                                            }
-
-                                            @Override
-                                            public void onDataChange(DataSnapshot snapshot) {
-                                                espacios.clear();
-                                                for (DataSnapshot x : snapshot.getChildren()) {
-                                                    Go<Espacio> aux = new Go<>(new Espacio());
-                                                    aux.setKey(x.getKey());
-                                                    aux.setObject(x.getValue(aux.getObject().getClass()));
-                                                   espacios.add(aux);
-                                                }
-
-                                                setSearch();
-                                                if (espacios.size() > 0) {
-                                                    filterData();
-                                                    setRecycler();
-                                                }
-
-                                            }
-                                        });
                     }
                 });
         return view;

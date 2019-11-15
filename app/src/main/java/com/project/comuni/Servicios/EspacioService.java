@@ -187,12 +187,5 @@ public class EspacioService {
     private Query getAllFrom(String url) {
         return db.DbRef().child(url);
     }
-    public Query getAllFromUsuario(Go<Usuario> usuario)
-    {
-        return getAllFrom(
-                url.AddKey(url.getUsuarios(),
-                        url.AddKey(usuario.getKey(),
-                                url.getAdministradores())));
-    }
 
 }
