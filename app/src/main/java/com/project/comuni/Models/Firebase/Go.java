@@ -68,6 +68,10 @@ public class Go <TObject> implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return Object.toString();
+        if(Object!=null){
+            return Object.toString();
+        }
+        return "";
+
     }
 }
