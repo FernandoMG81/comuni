@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:text="Alan Murua - Diseño"
+            android:text="Alan Murua - Diseñador"
             android:textSize="14sp" />
 
         <TextView
@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:text="Damian Di Natale - Coordinación"
+            android:text="Damian Natale - Coordinador"
             android:textSize="14sp" />
 
         <TextView

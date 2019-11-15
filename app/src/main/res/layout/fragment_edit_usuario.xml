@@ -14,122 +14,104 @@
         android:paddingEnd="@dimen/paddingExternoDIItems"
         android:paddingBottom="@dimen/paddingExternoABItems">
 
-        <TextView
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/EditTextHintUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/EditUsuarioNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nombre"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/EditTextHintApellido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/EditUsuarioApellido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Apellido"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/EditTextHintUsuarioFecha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
-            android:text="@string/nombre"
-            android:textSize="18sp" />
+            android:layout_marginEnd="10dp">
 
-        <EditText
-            android:id="@+id/EditUsuarioNombre"
-            android:layout_width="match_parent"
-            android:layout_height="27dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/searchbox"
-            android:hint="Nombre"
-            android:paddingStart="15dp"
-            android:paddingTop="2dp"
-            android:paddingEnd="15dp"
-            android:paddingBottom="2dp"
-            android:queryHint="Buscar"></EditText>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/EditUsuarioFecha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Fecha de Nacimiento"
+                android:inputType="date"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/perfilNombre7"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/EditTextHintUsuarioEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
-            android:text="Apellido"
-            android:textSize="18sp" />
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp">
 
-        <EditText
-            android:id="@+id/EditUsuarioApellido"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/EditUsuarioEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/EditTextHintUsuarioContrasena"
             android:layout_width="match_parent"
-            android:layout_height="27dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/searchbox"
-            android:hint="Apellido"
-            android:paddingStart="15dp"
-            android:paddingTop="2dp"
-            android:paddingEnd="15dp"
-            android:paddingBottom="2dp"
-            android:queryHint="Buscar"></EditText>
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/perfilNombre8"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/EditUsuarioContrasena"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Contraseña"
+                android:inputType="textPassword"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/EditTextHintUsuarioContrasena2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
-            android:text="Fecha de Nacimiento"
-            android:textSize="18sp" />
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/EditUsuarioFecha"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:ems="10"
-            android:hint="Fecha de Nacimiento"
-            android:inputType="date"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp" />
-
-        <TextView
-            android:id="@+id/perfilNombre9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
-            android:text="Email"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/EditUsuarioEmail"
-            android:layout_width="match_parent"
-            android:layout_height="27dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/searchbox"
-            android:hint="Email"
-            android:paddingStart="15dp"
-            android:paddingTop="2dp"
-            android:paddingEnd="15dp"
-            android:paddingBottom="2dp"
-            android:queryHint="Buscar"></EditText>
-
-
-        <EditText
-            android:id="@+id/EditUsuarioContrasena"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:ems="10"
-            android:hint="Contraseña"
-            android:inputType="textPassword"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp" />
-
-        <EditText
-            android:id="@+id/EditUsuarioContrasena2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:ems="10"
-            android:hint="Repetir Contraseña"
-            android:inputType="textPassword"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/EditUsuarioContrasena2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Contraseña"
+                android:inputType="textPassword"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/EditUsuarioSubmitDatos"

@@ -10,11 +10,9 @@ public class MensajePersonal {
     private String keyEmisor;
     private Object createdTimestamp;
 
-
     public MensajePersonal() {
         createdTimestamp = ServerValue.TIMESTAMP;
     }
-
 
     public String getUrlFoto() {
         return urlFoto;

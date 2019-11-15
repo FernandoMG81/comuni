@@ -54,8 +54,8 @@ public class InnerPostsFragment extends Fragment {
     //Recycler Comentarios
     private RecyclerView recyclerView;
     //Escribir Comentario
-    TextView comentarioTexto;
-    Button comentarioSubmit;
+    private TextView comentarioTexto;
+    private Button comentarioSubmit;
 
     public void getData() {
         Bundle bundle = getArguments();

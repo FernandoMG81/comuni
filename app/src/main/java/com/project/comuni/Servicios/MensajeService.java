@@ -8,11 +8,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Mensaje;
 import com.project.comuni.Models.Usuario;
+import com.project.comuni.Utils.Constantes;
 import com.project.comuni.Utils.FireUrl;
 
 import java.util.ArrayList;
@@ -103,25 +105,15 @@ public class MensajeService {
         return mensaje;
     }
 
-    public ArrayList<Go<Mensaje>> getAllFromXandY(Go<Usuario> X, Go<Usuario> Y){
-        ArrayList<Go<Mensaje>> mensajes = new ArrayList<>();
-        db.DbRef().child(url.AddKey(url.getRootInUsuarios(X),
+    public Query getAllFromXandY(Go<Usuario> X, Go<Usuario> Y){
+
+        return db.DbRef().child(url.AddKey(Constantes.NODO_MENSAJES,
                           url.AddKey(url.getRoot(),
-                            Y.getKey())))
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        for (DataSnapshot x:snapshot.getChildren()) {
-                            mensaje.setKey(snapshot.getKey());
-                            mensaje.setObject(snapshot.getValue(mensaje.getObject().getClass()));
-                            mensajes.add(mensaje);
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        mensaje = null;
-                    }
-                });
-        return mensajes;
+                            Y.getKey())));
+    }
+
+    public Query getAllFromUsuario(Go<Usuario> usuariox){
+
+        return db.DbRef().child(url.AddKey(Constantes.NODO_MENSAJES,usuariox.getKey()));
     }
 }

@@ -7,14 +7,16 @@ public class Mensaje {
 
     private Go<Usuario> Emisor;
     private Go<Usuario> Receptor;
+    private String urlFoto;
     private String texto;
-    private String created;
+    private Object created;
 
     public Mensaje() { }
 
-    public Mensaje(Go<Usuario> emisor, Go<Usuario> receptor, String texto, String created) {
+    public Mensaje(Go<Usuario> emisor, Go<Usuario> receptor, String texto, String urlFoto, Object created) {
         Emisor = emisor;
         Receptor = receptor;
+        this.urlFoto = urlFoto;
         this.texto = texto;
         this.created = created;
     }
@@ -43,11 +45,19 @@ public class Mensaje {
         this.texto = texto;
     }
 
-    public String getCreated() {
+    public Object getCreated() {
         return created;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(Object created) {
         this.created = created;
+    }
+
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
     }
 }

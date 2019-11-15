@@ -1,6 +1,7 @@
 package com.project.comuni.Adapters.Mensajes;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,25 +16,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Fragments.Mensajes.InnerMessagesFragment;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Mensaje;
+import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapterMessages.ViewHolder>  implements View.OnClickListener {
     private static final String TAG = "RecyclerAdapterMessages";
 
+    private Go<Usuario> usuario;
     private Go<Mensaje> mensaje;
     private ArrayList<Go<Mensaje>> mensajes;
     private Context context;
 
-    public RecyclerAdapterMessages(ArrayList<Go<Mensaje>> mensajesArray, Context context) {
+    public RecyclerAdapterMessages(ArrayList<Go<Mensaje>> mensajesArray, Context context,Go<Usuario> usuario) {
         this.mensajes = mensajesArray;
         this.context = context;
+        this.usuario = usuario;
     }
 
     @NonNull
@@ -49,11 +56,20 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: ");
 
-            holder.Contacto.setText(mensajes.get(position).getObject().getEmisor().getObject().getNombre()
-                    + " " + mensajes.get(position).getObject().getEmisor().getObject().getApellido());
-            holder.Mensaje.setText(mensajes.get(position).getObject().getTexto());
-           //holder.FotoUsuario.setBackgroundResource(mensajes.get(position).getObject().getEmisor().getObject().getFotoPerfilURL());
-            holder.RL.setOnClickListener((view)->{
+        holder.Mensaje.setText(mensajes.get(position).getObject().getTexto());
+           if(usuario.getKey().equals(mensajes.get(position).getObject().getEmisor().getKey())){
+               holder.Contacto.setText(mensajes.get(position).getObject().getReceptor().getObject().getNombre()
+                       + " " + mensajes.get(position).getObject().getReceptor().getObject().getApellido());
+               Glide.with(context).load(mensajes.get(position).getObject().getReceptor().getObject().getFotoPerfilURL()).into(holder.FotoUsuarioCircular);
+               holder.Mensaje.setTypeface(null, Typeface.ITALIC);
+           }
+           else{
+               holder.Contacto.setText(mensajes.get(position).getObject().getReceptor().getObject().getNombre()
+                       + " " + mensajes.get(position).getObject().getReceptor().getObject().getApellido());
+               Glide.with(context).load(mensajes.get(position).getObject().getEmisor().getObject().getFotoPerfilURL()).into(holder.FotoUsuarioCircular);
+           }
+
+        holder.RL.setOnClickListener((view)->{
                 mensaje = mensajes.get(position);
                 onClick(view);
             });
@@ -78,7 +94,7 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
 
         TextView Contacto;
         TextView Mensaje;
-        ImageView FotoUsuario;
+        CircleImageView FotoUsuarioCircular;
         RelativeLayout RL;
 
         public ViewHolder(@NonNull View itemView) {
@@ -86,7 +102,7 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
             Contacto = itemView.findViewById(R.id.MessagesContacto);
             Mensaje = itemView.findViewById(R.id.MessagesMensaje);
             RL = itemView.findViewById(R.id.RVMesages);
-            FotoUsuario = itemView.findViewById(R.id.MessagesFotoUsuario);
+            FotoUsuarioCircular = itemView.findViewById(R.id.MessagesFotoUsuario);
         }
     }
 }

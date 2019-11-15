@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +17,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.storage.FirebaseStorage;
 import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Fragments.Espacios.ConfigPlaceFragment;
@@ -46,13 +49,20 @@ public class EditUsuarioFragment extends Fragment {
     private int queHacer;
 
     //Layout
+    //Hints
+    private TextInputLayout NombreHint;
+    private TextInputLayout ApellidoHint;
+    private TextInputLayout FechaHint;
+    private TextInputLayout EmailHint;
+    private TextInputLayout ContrasenaHint;
+    private TextInputLayout Contrasena2Hint;
     //Edit Texts
-    private TextView Nombre;
-    private TextView Apellido;
-    private TextView Fecha;
-    private TextView Email;
-    private TextView Contrasena;
-    private TextView Contrasena2;
+    private TextInputEditText Nombre;
+    private TextInputEditText Apellido;
+    private TextInputEditText Fecha;
+    private TextInputEditText Email;
+    private TextInputEditText Contrasena;
+    private TextInputEditText Contrasena2;
     //Buttons
     private Button submitDatos;
     private Button submitEmail;
@@ -65,6 +75,14 @@ public class EditUsuarioFragment extends Fragment {
     }
 
     private void setLayoutReference(View view){
+
+        NombreHint = view.findViewById(R.id.EditTextHintUsuario);
+        ApellidoHint = view.findViewById(R.id.EditTextHintApellido);
+        FechaHint = view.findViewById(R.id.EditTextHintUsuarioFecha);
+        EmailHint = view.findViewById(R.id.EditTextHintUsuarioEmail);
+        ContrasenaHint = view.findViewById(R.id.EditTextHintUsuarioContrasena);
+        Contrasena2Hint = view.findViewById(R.id.EditTextHintUsuarioContrasena2);
+
         Nombre = view.findViewById(R.id.EditUsuarioNombre);
         Apellido = view.findViewById(R.id.EditUsuarioApellido);
         Fecha = view.findViewById(R.id.EditUsuarioFecha);
@@ -81,20 +99,29 @@ public class EditUsuarioFragment extends Fragment {
         //Fecha.setText(usuario.getObject().getApellido());
         Email.setText(usuario.getObject().getEmail());
 
+        //Fecha Desactivada
+        Fecha.setVisibility(View.GONE);
+        FechaHint.setVisibility(View.GONE);
+
         //Borrar de pantala lo que no corresponde al formulario actual
         if(queHacer != 1){
             Nombre.setVisibility(View.GONE);
             Apellido.setVisibility(View.GONE);
-            Fecha.setVisibility(View.GONE);
             submitDatos.setVisibility(View.GONE);
+
+            NombreHint.setVisibility(View.GONE);
+            ApellidoHint.setVisibility(View.GONE);
         }
         if(queHacer != 2){
             Email.setVisibility(View.GONE);
+            EmailHint.setVisibility(View.GONE);
             submitEmail.setVisibility(View.GONE);
         }
         if(queHacer!= 3){
             Contrasena.setVisibility(View.GONE);
             Contrasena2.setVisibility(View.GONE);
+            ContrasenaHint.setVisibility(View.GONE);
+            Contrasena2Hint.setVisibility(View.GONE);
             submitContrasena.setVisibility(View.GONE);
         }
 
