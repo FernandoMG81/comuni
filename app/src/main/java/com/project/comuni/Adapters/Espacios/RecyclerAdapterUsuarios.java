@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -58,7 +59,7 @@ public class RecyclerAdapterUsuarios extends RecyclerView.Adapter<RecyclerAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_usuarios, null, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_usuarios, null, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
@@ -67,9 +68,13 @@ public class RecyclerAdapterUsuarios extends RecyclerView.Adapter<RecyclerAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: ");
 
+        holder.AgregarButton.setVisibility(View.GONE);
         holder.Nombre.setText(usuarios.get(position).getObject().getNombre()
                 + " " + usuarios.get(position).getObject().getApellido());
         Glide.with(context).load(usuarios.get(position).getObject().getFotoPerfilURL()).into(holder.FotoUsuarioCircular);
+        if(position == usuarios.size()){
+            holder.Linea.setVisibility(View.GONE);
+        }
 
         if (administrador) {
             holder.LL.setOnLongClickListener((view) -> {
@@ -95,6 +100,8 @@ public class RecyclerAdapterUsuarios extends RecyclerView.Adapter<RecyclerAdapte
                                             for (Go<Usuario> x:usuarios) {
                                                 if(x.getKey().equals(usuariox.getKey())){
                                                     usuarios.remove(x);
+                                                    notifyDataSetChanged();
+                                                    break;
                                                 }
                                             }
 
@@ -134,12 +141,17 @@ public class RecyclerAdapterUsuarios extends RecyclerView.Adapter<RecyclerAdapte
         ImageView FotoUsuario;
         CircleImageView FotoUsuarioCircular;
         LinearLayout LL;
+        Button AgregarButton;
+        TextView Linea;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            Nombre = itemView.findViewById(R.id.civNombre);
-            FotoUsuarioCircular = itemView.findViewById(R.id.civImagenPerfil);
-            LL = itemView.findViewById(R.id.cardview_layout_usuario);
+            Nombre = itemView.findViewById(R.id.RecyclerUsuariosNombre);
+            AgregarButton= itemView.findViewById(R.id.RecyclerUsuariosButton);
+            LL = itemView.findViewById(R.id.RVUsuarios);
+            FotoUsuarioCircular = itemView.findViewById(R.id.RecyclerImagenPerfil);
+            Linea = itemView.findViewById(R.id.RecyclerUsuariosLinea);
+
         }
     }
 

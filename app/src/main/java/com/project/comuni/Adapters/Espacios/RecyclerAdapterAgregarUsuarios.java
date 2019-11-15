@@ -88,9 +88,13 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
         }
 
        Glide.with(context).load(usuarios.get(position).getObject().getFotoPerfilURL()).into(holder.FotoUsuarioCircular);
+        if(position == usuarios.size()){
+            holder.Linea.setVisibility(View.GONE);
+        }
 
         holder.AgregarButton.setOnClickListener((view) -> {
                 this.usuariox = usuarios.get(position);
+                Go<Usuario> auxParaRemove = usuariox;
                 new UsuarioService(this.usuariox).getObject()
                         .addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -106,8 +110,6 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
                                     aux.setObject(x.getValue(usuariox.getObject().getClass()));
                                     usuariox = aux;
                                 }
-
-                                //usuarios.remove(usuariox);
 
                                 //Si es null inicializar para evitar errores
                                 if (!(usuariox.getObject().getAdministradores() != null)) {
@@ -148,6 +150,8 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
                                     }
                                     espacio.getObject().getAdministradores().put(usuariox.getKey(), usuariox.getObject());
                                     usuariox.getObject().getAdministradores().put(espacio.getKey(), espacio.getObject().returnSmall());
+                                    usuarios.remove(auxParaRemove);
+                                    notifyDataSetChanged();
                                     new UsuarioService(usuariox).updateSoloUsuario().addOnCompleteListener(new OnCompleteListener() {
                                         @Override
                                         public void onComplete(@NonNull Task task) {
@@ -213,6 +217,8 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
                                             }
                                         });
                                         updateDatabase();
+                                        usuarios.remove(auxParaRemove);
+                                        notifyDataSetChanged();
 
                                     }
                                 }
@@ -235,6 +241,7 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
         CircleImageView FotoUsuarioCircular;
         Button AgregarButton;
         LinearLayout LL;
+        TextView Linea;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -242,6 +249,7 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
             AgregarButton= itemView.findViewById(R.id.RecyclerUsuariosButton);
             LL = itemView.findViewById(R.id.RVUsuarios);
             FotoUsuarioCircular = itemView.findViewById(R.id.RecyclerImagenPerfil);
+            Linea = itemView.findViewById(R.id.RecyclerUsuariosLinea);
 
         }
     }

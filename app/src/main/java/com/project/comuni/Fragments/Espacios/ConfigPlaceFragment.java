@@ -62,6 +62,7 @@ public class ConfigPlaceFragment extends Fragment {
     private RecyclerView recyclerViewMiembros;
     private RecyclerView recyclerViewTags;
     //Buttons
+    private LinearLayout LLBotones;
     private Button AgregarEspacioButton;
     private Button EditarEspacioButton;
     private Button AgregarAdminButton;
@@ -96,16 +97,18 @@ public class ConfigPlaceFragment extends Fragment {
         recyclerViewTags = v.findViewById(R.id.RVTags);
         recyclerViewTags.setVisibility(View.GONE);
 
+        LLBotones = v.findViewById(R.id.ConfigPlaceBotonesEspacio);
+        LLBotones.setVisibility(View.GONE);
         AgregarEspacioButton = v.findViewById(R.id.AgregarEspacio);
         AgregarEspacioButton.setVisibility(View.GONE);
         EditarEspacioButton = v.findViewById(R.id.EditarEspacio);
         EditarEspacioButton.setVisibility(View.GONE);
         AgregarAdminButton = v.findViewById(R.id.AgregarAdministrador);
-        AgregarAdminButton.setVisibility(View.GONE);
+        AgregarAdminButton.setVisibility(View.INVISIBLE);
         AgregarMiembroButton = v.findViewById(R.id.AgregarMiembro);
-        AgregarMiembroButton.setVisibility(View.GONE);
+        AgregarMiembroButton.setVisibility(View.INVISIBLE);
         AgregarTagButton = v.findViewById(R.id.AgregarTag);
-        AgregarTagButton.setVisibility(View.GONE);
+        AgregarTagButton.setVisibility(View.INVISIBLE);
 
         Nombre.setText(espacio.getObject().getNombre());
         Descripcion.setText(espacio.getObject().getDescripcion());
@@ -361,6 +364,7 @@ public class ConfigPlaceFragment extends Fragment {
         {
             if(x.getKey().equals(espacio.getKey())){
                 administrador = true;
+                LLBotones.setVisibility(View.VISIBLE);
                 setAgregarEspacioButton();
                 setEditEspacioButton();
                 setAddAdminButton();
@@ -391,6 +395,7 @@ public class ConfigPlaceFragment extends Fragment {
                             for (Map.Entry<String,Espacio> x :usuario.getObject().getAdministradores().entrySet())
                             {
                                 if(x.getKey().equals(espacio.getKey())){
+                                    LLBotones.setVisibility(View.VISIBLE);
                                     administrador = true;
                                     setAgregarEspacioButton();
                                     setEditEspacioButton();

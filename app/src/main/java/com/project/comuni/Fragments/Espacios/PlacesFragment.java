@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -52,13 +53,17 @@ public class PlacesFragment extends Fragment {
     private String searchText = "";
 
     // Layout
+    private TextView vacio;
     private EditText search;
     private RecyclerView recyclerView;
 
 
     public void setLayoutReferences(View v){
+        vacio = v.findViewById(R.id.PlacesTextVacio);
         search = v.findViewById(R.id.NewsSearch);
         recyclerView = v.findViewById(R.id.RVPlaces);
+
+        vacio.setVisibility(View.GONE);
     }
 
     private void setSearch(){
@@ -131,6 +136,10 @@ public class PlacesFragment extends Fragment {
                         if (espacios.size() > 0) {
                             filterData();
                             setRecycler();
+                            vacio.setVisibility(View.GONE);
+                        }
+                        else{
+                            vacio.setVisibility(View.VISIBLE);
                         }
 
                     }

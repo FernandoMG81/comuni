@@ -49,6 +49,18 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/ContactosTextoVacio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/fondo_vacio_cromatico"
+            android:gravity="center|center_vertical"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingBottom="120dp"
+            android:text="Parece que todos los contactos ya han sido asignados a esta area."
+            android:textSize="24sp" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RVContactos"
             android:layout_width="match_parent"
