@@ -20,6 +20,7 @@ import com.project.comuni.Fragments.Espacios.PlacesFragment;
 import com.project.comuni.Fragments.Noticias.NewsFragment;
 import com.project.comuni.Fragments.Mensajes.MessagesFragment;
 import com.project.comuni.Fragments.Espacios.PostsFragment;
+import com.project.comuni.Fragments.PerfilFragment;
 import com.project.comuni.Persistencia.UsuarioDAO;
 import com.project.comuni.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Fragment fragment;
         switch (item.getItemId()){
             case R.id.menu_logout:
                 logOut();
@@ -62,11 +64,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_mi_perfil:
                 Titulo = "Mi Perfil";
                 showToolbar(Titulo,false);
+                fragment = new PerfilFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
                 return true;
             case R.id.menu_acerca_de:
                 Titulo = "Acerca De";
                 showToolbar(Titulo,false);
-                Fragment fragment = new AcercaDeFragment();
+                fragment = new AcercaDeFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
                 return true;
             default:

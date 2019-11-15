@@ -6,6 +6,7 @@ import android.util.Patterns;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.project.comuni.Models.Firebase.Go;
+import com.project.comuni.Utils.Constantes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -110,6 +111,10 @@ public class Usuario {
             return "Las contraseñas no coinciden";
         }
         return "Ok";
+    }
+
+    public String fotoDefault(){
+        return Constantes.URL_FOTO_POR_DEFECTO_USUARIOS;
     }
 
     public Boolean administrador(String key){

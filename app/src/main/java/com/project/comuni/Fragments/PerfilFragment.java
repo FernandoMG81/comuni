@@ -74,10 +74,14 @@ public class PerfilFragment extends Fragment {
 
         Nombre.setText(usuario.getObject().getNombre());
         Apellido.setText(usuario.getObject().getApellido());
-        //Edad.setText(usuario.getObject().getCreado());
-        //Fecha.setText(usuario.getObject().getApellido());
+        Fecha.setText(usuario.getObject().getApellido());
         Created.setText(usuario.getObject().getCreado());
         Email.setText(usuario.getObject().getEmail());
+
+        Apellido.setVisibility(View.GONE);
+        Fecha.setVisibility(View.GONE);
+        Created.setVisibility(View.GONE);
+        Edad.setVisibility(View.GONE);
     }
 
     private void setBotonEditarDatos(){

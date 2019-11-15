@@ -7,6 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@mipmap/fondo_vacio_cromatico"
         android:orientation="vertical"
         android:paddingLeft="@dimen/paddingExternoDIItems"
         android:paddingTop="@dimen/paddingExternoABItems"
@@ -54,7 +55,7 @@
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:text="Comuni es un sistema de comunicación basado en árboles jerárquicos. "
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textView3"
@@ -76,7 +77,7 @@
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:text="Alan Murua - Diseño"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -84,7 +85,7 @@
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:text="Javier Angelelli - Programador"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textView8"
@@ -93,7 +94,7 @@
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:text="Fernando Martín Gordillo - Programador"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -101,7 +102,7 @@
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:text="Damian Di Natale - Coordinación"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textView26"

@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
-    tools:context=".Activities.MainActivity"
-    >
+    android:background="@mipmap/fondo_vacio_cromatico"
+    tools:context=".Activities.MainActivity">
 
     <Button
         android:id="@+id/addBtnMensaje"
