@@ -1,6 +1,7 @@
 package com.project.comuni.Fragments.Noticias;
 
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -15,7 +16,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -63,6 +63,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Retrofit;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 import static com.project.comuni.Utils.Util.filtrarString;
@@ -285,7 +286,15 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
         });
     }
 
-    private void sendNotifications(String toString, String toString1) {
+    private void sendNotifications(String tittle, String body) {
+
+        String titulo = tittle;
+        String texto = body;
+
+
+        //Retrofit retrofit = new Retrofit.Builder()
+                //.baseUrl();
+
 
     }
 
@@ -317,8 +326,6 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
         });
 
     }
-
-
 }
 
 
