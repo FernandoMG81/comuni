@@ -59,18 +59,26 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: ");
 
-        holder.Mensaje.setText(mensajes.get(position).getObject().getTexto());
            if(usuario.getKey().equals(mensajes.get(position).getObject().getEmisor().getKey())){
                holder.Contacto.setText(mensajes.get(position).getObject().getReceptor().getObject().getNombre()
                        + " " + mensajes.get(position).getObject().getReceptor().getObject().getApellido());
                Glide.with(context).load(mensajes.get(position).getObject().getReceptor().getObject().getFotoPerfilURL()).into(holder.FotoUsuarioCircular);
-               holder.Mensaje.setTypeface(null, Typeface.ITALIC);
+               //EN caso que el ultimo mensaje sea Foto
+               holder.Mensaje.setText(" Enviaste un archivo.");
+               holder.Mensaje.setTypeface(null, Typeface.BOLD_ITALIC);
            }
            else{
                holder.Contacto.setText(mensajes.get(position).getObject().getReceptor().getObject().getNombre()
                        + " " + mensajes.get(position).getObject().getReceptor().getObject().getApellido());
                Glide.with(context).load(mensajes.get(position).getObject().getEmisor().getObject().getFotoPerfilURL()).into(holder.FotoUsuarioCircular);
+               //EN caso que el ultimo mensaje sea Foto
+               holder.Mensaje.setText(" Te envio un archivo.");
            }
+           //Si hay texto mandar texto
+        if(mensajes.get(position).getObject().getTexto()!= null){
+            holder.Mensaje.setText(mensajes.get(position).getObject().getTexto());
+            holder.Contacto.setTypeface(null,Typeface.ITALIC);
+            }
 
         holder.RL.setOnClickListener((view)->{
                 mensaje = mensajes.get(position);

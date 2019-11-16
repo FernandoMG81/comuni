@@ -107,7 +107,23 @@ public class LoginService {
         });
     }
 
-   public String uploadFoto(Uri foto){
+    public Task<Void> changePassword(String contrasena){
+        FirebaseUser user = fireAuth.getCurrentUser();
+        return user.updatePassword(contrasena);
+    }
+
+    public Task<Void> changeEmail(Go<Usuario> usuario){
+        FirebaseUser user = fireAuth.getCurrentUser();
+        return user.updateEmail(usuario.getObject().getEmail()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                new UsuarioService(usuario).update();
+            }
+        });
+
+    }
+
+    public String uploadFoto(Uri foto){
         //Date date = new Date();
         //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("SSS.ss-mm-hh-dd-MM-yyyy", Locale.getDefault());
 

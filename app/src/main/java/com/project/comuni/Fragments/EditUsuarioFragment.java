@@ -27,6 +27,7 @@ import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.EspacioService;
+import com.project.comuni.Servicios.LoginService;
 import com.project.comuni.Servicios.UsuarioService;
 import com.project.comuni.Utils.FireUrl;
 
@@ -173,18 +174,20 @@ public class EditUsuarioFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 cuestionarioAObjeto();
-                if (usuarioAGuardar.getObject().validarEmail().equals("Ok")){
+                if (!usuarioAGuardar.getObject().validarEmail().equals("Ok")){
                     Toast.makeText(getContext(), usuarioAGuardar.getObject().validarEmail(), Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new UsuarioService(usuarioAGuardar).update()
-                            .addOnCompleteListener(getActivity(), new OnCompleteListener() {
+                    new LoginService().changeEmail(usuarioAGuardar)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
-                                public void onComplete(@NonNull Task task) {
-                                    if (!task.isSuccessful()) {
-                                        Toast.makeText(getContext(), "Ocurrio un error", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Toast.makeText(getContext(), "Contraseña Actualizada", Toast.LENGTH_LONG).show();
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (!task.isSuccessful()){
+                                        Toast.makeText(getContext(), task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                    }
+                                    else{
+                                        Toast.makeText(getContext(), "Email modificado.", Toast.LENGTH_SHORT).show();
+                                        usuario = usuarioAGuardar;
                                         goToPerfil();
                                     }
                                 }
@@ -201,19 +204,21 @@ public class EditUsuarioFragment extends Fragment {
                 cuestionarioAObjeto();
                 String validacion = usuario.getObject().validarContrasenas(Contrasena.getText().toString(), Contrasena2.getText().toString());
 
-                if (validacion.equals("Ok"))
+                if (!validacion.equals("Ok"))
                 {
                     Toast.makeText(getContext(), validacion, Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new UsuarioService(usuarioAGuardar).update()
-                            .addOnCompleteListener(getActivity(), new OnCompleteListener() {
+                    new LoginService().changePassword(Contrasena.getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
-                                public void onComplete(@NonNull Task task) {
-                                    if (!task.isSuccessful()) {
-                                        Toast.makeText(getContext(), "Ocurrio un error", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Toast.makeText(getContext(), "Contraseña Actualizada", Toast.LENGTH_LONG).show();
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (!task.isSuccessful()){
+                                        Toast.makeText(getContext(), task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                    }
+                                    else{
+                                        Toast.makeText(getContext(), "Contraseña modificada.", Toast.LENGTH_SHORT).show();
+                                        usuario = usuarioAGuardar;
                                         goToPerfil();
                                     }
                                 }

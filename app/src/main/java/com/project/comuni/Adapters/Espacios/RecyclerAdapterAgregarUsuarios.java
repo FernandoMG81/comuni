@@ -218,7 +218,6 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
                                         });
                                         updateDatabase();
                                         usuarios.remove(auxParaRemove);
-                                        notifyDataSetChanged();
 
                                     }
                                 }
