@@ -85,8 +85,6 @@ public class CreatePostFragment extends Fragment {
         post.getObject().setTitulo(titulo.getText().toString());
         post.getObject().setTexto(descripcion.getText().toString());
 
-
-
         if(!tag.getObject().getText().equals("Sin Etiqueta")) {
             post.getObject().setTags(tag);
         }
@@ -155,7 +153,7 @@ public class CreatePostFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                tag = null;
+
             }
         });
     }
@@ -178,12 +176,15 @@ public class CreatePostFragment extends Fragment {
 
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
+                        tags.clear();
+                        tag.setObject(new Tag(espacio,"Sin Etiqueta","FFFFFF","FFFFFF"));
+                        tags.add(tag);
                         for (DataSnapshot x: snapshot.getChildren())
                         {
-                            Go<Tag> tag = new Go<>(new Tag());
-                            tag.setKey(x.getKey());
-                            tag.setObject(x.getValue(tag.getObject().getClass()));
-                            tags.add(tag);
+                            Go<Tag> tagx = new Go<>(new Tag());
+                            tagx.setKey(x.getKey());
+                            tagx.setObject(x.getValue(tagx.getObject().getClass()));
+                            tags.add(tagx);
                         }
 
                         if (tags.size() > 1) {
@@ -191,9 +192,10 @@ public class CreatePostFragment extends Fragment {
                             textEtiquetas.setVisibility(View.VISIBLE);
                             setRecyclerTags();
                         }
+                        setBoton();
                     }
                 });
-        setBoton();
+
 
         return view;
     }

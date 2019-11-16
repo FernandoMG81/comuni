@@ -50,12 +50,6 @@
             android:layout_width="match_parent"
             android:layout_height="20dp" />
 
-        <TextView
-            android:id="@+id/CreatePostTextSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Elija una de las siguientes etiquetas:" />
-
         <Button
             android:id="@+id/CreateEspacioSubmit"
             style="@style/Widget.AppCompat.Button.Colored"

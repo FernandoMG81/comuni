@@ -1,19 +1,25 @@
 package com.project.comuni.Adapters.Espacios;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +34,7 @@ import com.project.comuni.Models.Post;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.PostService;
+import com.project.comuni.Utils.PopUp;
 
 import java.util.ArrayList;
 
@@ -47,6 +54,8 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
     //Otras Variables
     private View.OnClickListener listener;
     private Context context;
+
+    private Dialog popUp;
 
     public RecyclerAdapterPosts(Context context,Go<Usuario> usuario, Go<Espacio> espacio, ArrayList<Go<Post>> posts) {
         this.context = context;
@@ -89,18 +98,8 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
 
             holder.RL.setOnLongClickListener((view -> {
                 this.post = posts.get(position);
-                new PostService(post).delete()
-                        .addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(context, "El post se borró exitosamente.", Toast.LENGTH_SHORT).show();
-                        }
-                    else{
-                        Toast.makeText(context, "No se pudo borrar el post.", Toast.LENGTH_SHORT).show();
-                    }
-                    }
-                });
+                setPopUp();
+                popUp.show();
                 return true;
             }));
     }
@@ -128,8 +127,7 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
         TextView Tag;
         TextView Fecha;
         TextView Descripcion;
-        ImageView FotoUsuario;
-        CircleImageView FotoUsuarioCircular;
+        CircleImageView FotoUsuario;
         TextView NombreUsuario;
         RelativeLayout RL;
 
@@ -144,4 +142,44 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
             NombreUsuario = itemView.findViewById(R.id.PlacesUsuario);
         }
     }
+
+    public void setPopUp() {
+        popUp = new Dialog(context);
+        popUp.setContentView(R.layout.delete_pop_up);
+        popUp.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popUp.getWindow().setLayout(Toolbar.LayoutParams.MATCH_PARENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        popUp.getWindow().getAttributes().gravity = Gravity.TOP;
+
+        //Inicio de los widgets
+
+        CardView BotonSi = popUp.findViewById(R.id.DeleteButtonSi);
+        CardView BotonNo = popUp.findViewById(R.id.DeleteButtonNo);
+
+        //Agregar Listener
+        BotonSi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new PostService(post).delete()
+                        .addOnCompleteListener(new OnCompleteListener() {
+                            @Override
+                            public void onComplete(@NonNull Task task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(context, "El post se borró exitosamente.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(context, "No se pudo borrar el post.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                popUp.dismiss();
+            }
+        });
+
+        BotonNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popUp.dismiss();
+            }
+        });
+    }
+
 }

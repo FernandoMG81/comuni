@@ -126,12 +126,15 @@
                         app:cardCornerRadius="25dp"
                         app:cardElevation="0dp">
 
-                        <ImageView
+
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/PlacesFotoUsuario"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_gravity="right"
-                            android:background="@mipmap/user_default" />
+                            android:src="@mipmap/ic_launcher"
+                            android:background="@mipmap/user_default"/>
+
                     </androidx.cardview.widget.CardView>
 
                     <TextView

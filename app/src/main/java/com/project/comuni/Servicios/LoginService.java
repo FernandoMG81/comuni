@@ -8,7 +8,9 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -109,15 +111,23 @@ public class LoginService {
 
     public Task<Void> changePassword(String contrasena){
         FirebaseUser user = fireAuth.getCurrentUser();
+        AuthCredential credential = EmailAuthProvider
+                .getCredential(user.getEmail(), contrasena);
+        user.reauthenticate(credential);
         return user.updatePassword(contrasena);
     }
 
-    public Task<Void> changeEmail(Go<Usuario> usuario){
+    public Task<Void> changeEmail(Go<Usuario> usuario,String emailViejo, String contrasena){
         FirebaseUser user = fireAuth.getCurrentUser();
+        AuthCredential credential = EmailAuthProvider
+                .getCredential(emailViejo, contrasena);
+        user.reauthenticate(credential);
         return user.updateEmail(usuario.getObject().getEmail()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                new UsuarioService(usuario).update();
+                if (task.isSuccessful()){
+                    new UsuarioService(usuario).update();
+                }
             }
         });
 

@@ -28,6 +28,7 @@ import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.EspacioService;
 import com.project.comuni.Servicios.UsuarioService;
+import com.project.comuni.Utils.Constantes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,8 +67,13 @@ public class RecyclerAdapterContactos extends RecyclerView.Adapter<RecyclerAdapt
             holder.Nombre.setText(usuarios.get(position).getObject().getNombre());
         }
 
-        Glide.with(context).load(usuarios.get(position).getObject().getFotoPerfilURL()).into(holder.FotoUsuarioCircular);
-        if (position == usuarios.size()) {
+        if(usuarios.get(position).getObject().getFotoPerfilURL()!= null) {
+            Glide.with(context).load(usuarios.get(position).getObject().getFotoPerfilURL()).into(holder.FotoUsuarioCircular);
+        }else {
+            Glide.with(context).load(Constantes.URL_FOTO_POR_DEFECTO_USUARIOS).into(holder.FotoUsuarioCircular);
+        }
+
+         if (position == usuarios.size()) {
             holder.Linea.setVisibility(View.GONE);
         }
         holder.LL.setOnClickListener((view -> {
