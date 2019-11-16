@@ -1,16 +1,24 @@
 package com.project.comuni.Models;
 
 
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Patterns;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Utils.Constantes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 public class Usuario {
 

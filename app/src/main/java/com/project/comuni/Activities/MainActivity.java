@@ -6,24 +6,37 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.transition.Slide;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.project.comuni.Fragments.AcercaDeFragment;
 import com.project.comuni.Fragments.Espacios.PlacesFragment;
 import com.project.comuni.Fragments.Noticias.NewsFragment;
 import com.project.comuni.Fragments.Mensajes.MessagesFragment;
 import com.project.comuni.Fragments.Espacios.PostsFragment;
 import com.project.comuni.Fragments.PerfilFragment;
+import com.project.comuni.Models.Firebase.Go;
+import com.project.comuni.Models.Usuario;
 import com.project.comuni.Persistencia.UsuarioDAO;
 import com.project.comuni.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.project.comuni.Utils.Constantes;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
     private String Titulo = "Comuni";
+    private static final String CHANNEL_ID = "1";
+    private static final String CHANNEL_HIGH = "HIGH CHANNEL";
+    private static final String CHANNEL_LOW = "LOW CHANNEL";
+    private static final String CHANNEL_DESC = "COMUNI CHANNEL";
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +57,38 @@ public class MainActivity extends AppCompatActivity {
 
        showToolbar(Titulo,false);
 
+       if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+           NotificationChannel channel = new NotificationChannel(CHANNEL_ID,CHANNEL_HIGH, NotificationManager.IMPORTANCE_DEFAULT);
+           channel.setDescription(CHANNEL_DESC);
+           NotificationManager manager = getSystemService(NotificationManager.class);
+           manager.createNotificationChannel(channel);
+        }
 
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                       if(task.isSuccessful()){
+                           String token = task.getResult().getToken();
+                           guardarToken(token);
+                       }else{
+                           Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                       }
+                    }
+                });
 
       BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
       bottomNav.setOnNavigationItemSelectedListener(navListener);
 
       getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
       new NewsFragment()).commit();
+    }
+
+    private void guardarToken(String token) {
+
+
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference(Constantes.NODO_USUARIOS);
+
     }
 
     @Override
