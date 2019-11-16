@@ -312,7 +312,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
 
 
     //TODO: traer la lista de tokens y actualizarlos al loguearse
-        lista.add("eJHdv_p44ow:APA91bH2g9ZWbv7kTzZcigV4hqZElp8Imrf36MSh0DlGlmo4U8sb6iIPa1_2olby6yIhX4RIz5R64th2USPqnB9M4drvd-JRmUBELP96j3Chp4sOAmazo3KL6qAdoQKOea9uh26UhNys");
+        lista.add("dIAf2g4IOqA:APA91bEJEj1xH5FMJ30GzjT0xM5yWun8Z3dyrr6hihM09UTOxlJMAs4SIORMu5OfnV1MseODSUoPS_rLGFcU2VQ_dw_yzNWMA_oxdkmZbp2qE7kv33gFGR9NzFXB7mDf44EInmQND5j0");
 
      ApiNotification api = retrofit.create(ApiNotification.class);
     for(String token: lista){
