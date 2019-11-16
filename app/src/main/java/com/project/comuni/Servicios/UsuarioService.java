@@ -17,6 +17,7 @@ import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
+import com.project.comuni.Utils.Constantes;
 import com.project.comuni.Utils.FireUrl;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class UsuarioService {
 
     private Db db = new Db();
 
-    private FireUrl url = new FireUrl("Usuarios");
+    private FireUrl url = new FireUrl(Constantes.NODO_USUARIOS);
     private ArrayList<String> urlEspacios;
     private ArrayList<String> urlEspaciosAdministradores;
     private ArrayList<String> urlEspaciosMiembros;

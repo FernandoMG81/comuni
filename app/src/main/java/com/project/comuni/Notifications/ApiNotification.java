@@ -8,12 +8,12 @@ import retrofit2.http.POST;
 
 public interface ApiNotification {
 
- /*   @FormUrlEncoded
+    @FormUrlEncoded
     @POST("send")
     Call<ResponseBody> sendNotification(
-            @Field("token") String token;
-            @Field("token") String title;
+            @Field("token") String token,
+            @Field("title") String title,
             @Field("body") String body
     );
-*/
+
 }

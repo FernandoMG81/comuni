@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -44,8 +45,11 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.project.comuni.Adapters.Noticias.RecyclerAdapterNews;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Noticia;
+import com.project.comuni.Models.Usuario;
+import com.project.comuni.Notifications.ApiNotification;
 import com.project.comuni.Notifications.NotificationHandler;
 import com.project.comuni.R;
+import com.project.comuni.Servicios.UsuarioService;
 import com.project.comuni.Utils.Constantes;
 
 import org.json.JSONObject;
@@ -55,6 +59,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -63,7 +68,12 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 import static com.project.comuni.Utils.Util.filtrarString;
@@ -279,22 +289,48 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
                                                  ,currentUser.getUid());
                    addNews(noticia);
                    sendNotifications(popupTitle.getText().toString(), popupDescription.getText().toString());
-                   displayNotification();
+                   //displayNotification();
                 }
 
             }
         });
     }
 
-    private void sendNotifications(String tittle, String body) {
+    private void sendNotifications(String title, String body) {
 
-        String titulo = tittle;
+        String titulo = title;
         String texto = body;
 
 
-        //Retrofit retrofit = new Retrofit.Builder()
-                //.baseUrl();
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("https://comuniapp-316d5.firebaseapp.com/api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+        ArrayList<Go<Usuario>> usuarios = new ArrayList<>();
+        Go<Usuario> usuario = new Go<>(new Usuario());
+        ArrayList<String> lista = new ArrayList<>();
 
+
+    //TODO: traer la lista de tokens y actualizarlos al loguearse
+        lista.add("eJHdv_p44ow:APA91bH2g9ZWbv7kTzZcigV4hqZElp8Imrf36MSh0DlGlmo4U8sb6iIPa1_2olby6yIhX4RIz5R64th2USPqnB9M4drvd-JRmUBELP96j3Chp4sOAmazo3KL6qAdoQKOea9uh26UhNys");
+
+     ApiNotification api = retrofit.create(ApiNotification.class);
+    for(String token: lista){
+
+        Call<ResponseBody> call = api.sendNotification(token,title,body);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Toast.makeText(getContext(),response.body().toString(),Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
+    }
 
     }
 
