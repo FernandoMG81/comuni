@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +29,9 @@ import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.LoginService;
 import com.project.comuni.Servicios.UsuarioService;
+import com.project.comuni.Utils.Constantes;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PerfilFragment extends Fragment {
 
@@ -44,6 +48,8 @@ public class PerfilFragment extends Fragment {
     private int queHacer;
 
     //Layout
+    //Imagen
+    CircleImageView Foto;
     //Edit Texts
     private TextView Nombre;
     private TextView Apellido;
@@ -61,6 +67,7 @@ public class PerfilFragment extends Fragment {
     }
 
     private void setLayoutReference(View view){
+        Foto = view.findViewById(R.id.PerfilFoto);
         Nombre = view.findViewById(R.id.PerfilNombre);
         Apellido = view.findViewById(R.id.PerfilApellido);
         Edad = view.findViewById(R.id.PerfilEdad);
@@ -72,11 +79,19 @@ public class PerfilFragment extends Fragment {
         EditEmail = view.findViewById(R.id.PerfilSubmitEmail);
         EditContrasena = view.findViewById(R.id.PerfilSubmitContrasena);
 
-        Nombre.setText(usuario.getObject().getNombre());
+        Nombre.setText(usuario.getObject().getNombre() + " " + usuario.getObject().getApellido());
         Apellido.setText(usuario.getObject().getApellido());
         Fecha.setText(usuario.getObject().getApellido());
         Created.setText(usuario.getObject().getCreado());
         Email.setText(usuario.getObject().getEmail());
+
+        if(usuario.getObject().getFotoPerfilURL()!= null) {
+            Glide.with(getContext()).load(usuario.getObject().getFotoPerfilURL()).into(Foto);
+        }
+        else{
+            Glide.with(getContext()).load(Constantes.URL_FOTO_POR_DEFECTO_USUARIOS).into(Foto);
+        }
+
 
         Apellido.setVisibility(View.GONE);
         Fecha.setVisibility(View.GONE);

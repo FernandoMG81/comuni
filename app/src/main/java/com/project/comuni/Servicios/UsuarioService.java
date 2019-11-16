@@ -67,8 +67,10 @@ public class UsuarioService {
                     @Override
                     public void onComplete(@NonNull Task<Transaction.Result> task) {
                         if (task.isSuccessful()) {
-                            for (String x : urlEspacios) {
-                                db.update(usuario, x);
+                            if(urlEspacios!= null){
+                                for (String x : urlEspacios) {
+                                    db.update(usuario, x);
+                                }
                             }
                         }
                     }

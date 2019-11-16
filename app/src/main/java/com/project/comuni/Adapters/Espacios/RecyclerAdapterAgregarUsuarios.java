@@ -1,7 +1,11 @@
 package com.project.comuni.Adapters.Espacios;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +32,7 @@ import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.EspacioService;
 import com.project.comuni.Servicios.UsuarioService;
+import com.project.comuni.Utils.Constantes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +48,7 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
     private ArrayList<Go<Usuario>> usuarios = new ArrayList<>();
     private Go<Usuario> usuariox = new Go<>(new Usuario());
     private Context context;
+
     //Que Hacer?
     // 1 -> Agregar a Admin
     // 2 -> Agregar a Miembros
@@ -87,7 +94,12 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
             holder.Nombre.setText(usuarios.get(position).getObject().getNombre());
         }
 
-       Glide.with(context).load(usuarios.get(position).getObject().getFotoPerfilURL()).into(holder.FotoUsuarioCircular);
+        if(usuarios.get(position).getObject().getFotoPerfilURL()!= null) {
+            Glide.with(context).load(usuarios.get(position).getObject().getFotoPerfilURL()).into(holder.FotoUsuarioCircular);
+        }else {
+            Glide.with(context).load(Constantes.URL_FOTO_POR_DEFECTO_USUARIOS).into(holder.FotoUsuarioCircular);
+        }
+
         if(position == usuarios.size()){
             holder.Linea.setVisibility(View.GONE);
         }
@@ -178,6 +190,7 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
                                         for (Map.Entry<String, Usuario> x : espacio.getObject().getAdministradores().entrySet()) {
                                             if (x.getKey().equals(usuariox.getKey())) {
                                                 unicoAdministrador = true;
+                                                Toast.makeText(context, "No se puede hacer miembro al único Administrador.", Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     }
@@ -252,4 +265,6 @@ public class RecyclerAdapterAgregarUsuarios extends RecyclerView.Adapter<Recycle
 
         }
     }
+
+
 }

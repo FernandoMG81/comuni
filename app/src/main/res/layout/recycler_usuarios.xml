@@ -12,6 +12,7 @@
         android:orientation="horizontal"
         android:padding="5sp">
 
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/RecyclerImagenPerfil"
             android:layout_width="40dp"

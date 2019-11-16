@@ -42,6 +42,7 @@ public class EditUsuarioFragment extends Fragment {
     //Variables
     private Go<Usuario> usuario = new Go<>(new Usuario());
     private Go<Usuario> usuarioAGuardar = new Go<>(new Usuario());
+    private String emailViejo;
 
     //Variables
     // 1 -> Modificar Datos
@@ -113,15 +114,18 @@ public class EditUsuarioFragment extends Fragment {
             NombreHint.setVisibility(View.GONE);
             ApellidoHint.setVisibility(View.GONE);
         }
+        if(queHacer == 1){
+            Contrasena.setVisibility(View.GONE);
+            ContrasenaHint.setVisibility(View.GONE);
+        }
         if(queHacer != 2){
             Email.setVisibility(View.GONE);
             EmailHint.setVisibility(View.GONE);
             submitEmail.setVisibility(View.GONE);
         }
         if(queHacer!= 3){
-            Contrasena.setVisibility(View.GONE);
+
             Contrasena2.setVisibility(View.GONE);
-            ContrasenaHint.setVisibility(View.GONE);
             Contrasena2Hint.setVisibility(View.GONE);
             submitContrasena.setVisibility(View.GONE);
         }
@@ -129,7 +133,7 @@ public class EditUsuarioFragment extends Fragment {
     }
 
     private void cuestionarioAObjeto(){
-
+        usuarioAGuardar = usuario;
         //Modificar Datos Personales
         if(queHacer == 1) {
             usuarioAGuardar = new Go<>(usuario.getKey(),usuario.getObject());
@@ -139,6 +143,7 @@ public class EditUsuarioFragment extends Fragment {
 
         //Modificar Email
         else if(queHacer == 2){
+            emailViejo = usuario.getObject().getEmail();
             usuarioAGuardar.getObject().setEmail(Email.getText().toString());
         }
     }
@@ -170,15 +175,19 @@ public class EditUsuarioFragment extends Fragment {
     }
 
     private void setBotonEditarEmail(){
-        submitDatos.setOnClickListener(new View.OnClickListener(){
+        submitEmail.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 cuestionarioAObjeto();
                 if (!usuarioAGuardar.getObject().validarEmail().equals("Ok")){
                     Toast.makeText(getContext(), usuarioAGuardar.getObject().validarEmail(), Toast.LENGTH_SHORT).show();
                 }
+                else if(Contrasena.getText().toString().length() < 6)
+                    {
+                        Toast.makeText(getContext(), "Contraseña incorrecta.", Toast.LENGTH_SHORT).show();
+                    }
                 else{
-                    new LoginService().changeEmail(usuarioAGuardar)
+                    new LoginService().changeEmail(usuarioAGuardar,emailViejo, Contrasena.getText().toString())
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -198,7 +207,7 @@ public class EditUsuarioFragment extends Fragment {
     }
 
     private void setBotonEditarContraseña(){
-        submitDatos.setOnClickListener(new View.OnClickListener(){
+        submitContrasena.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 cuestionarioAObjeto();
@@ -230,7 +239,7 @@ public class EditUsuarioFragment extends Fragment {
 
     private void goToPerfil(){
         AppCompatActivity activity = (MainActivity) this.getContext();
-        Fragment myFragment = new ConfigPlaceFragment();
+        Fragment myFragment = new PerfilFragment();
         Bundle args = new Bundle();
         args.putSerializable("usuario",usuario);
         myFragment.setArguments(args);
