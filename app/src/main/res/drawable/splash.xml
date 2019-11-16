@@ -4,8 +4,8 @@
     <item android:drawable="@color/colorPrimary"></item>
 
     <item>
-        <bitmap android:gravity="fill"
+        <bitmap
+            android:gravity="fill"
             android:src="@mipmap/fondo_log2"/>
-
     </item>
 </layer-list>
