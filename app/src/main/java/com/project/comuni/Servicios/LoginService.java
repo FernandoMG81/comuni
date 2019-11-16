@@ -20,11 +20,16 @@ import com.google.firebase.storage.UploadTask;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.Utils.Constantes;
+import com.project.comuni.Utils.FireUrl;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginService {
     private FirebaseAuth fireAuth;
     Db db = new Db();
     String fotoUrl ="";
+    private FireUrl fireUrl = new FireUrl();
 
     public interface data{
         static void url(String url){};
@@ -157,5 +162,11 @@ public class LoginService {
             }
         });
         return fotoUrl;
+    }
+
+    public Task<Void> updateToken(String keyUsuario, String token){
+        Map<String,Object> mapToken = new HashMap<>();
+        mapToken.put("token",token);
+        return db.DbRef().child(fireUrl.AddKey(fireUrl.getUsuarios(),keyUsuario)).updateChildren(mapToken);
     }
 }
