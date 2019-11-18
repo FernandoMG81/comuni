@@ -113,8 +113,8 @@ public class RecyclerAdapterComentarios extends RecyclerView.Adapter<RecyclerAda
 
         //Inicio de los widgets
 
-        CardView BotonSi = popUp.findViewById(R.id.DeleteButtonSi);
-        CardView BotonNo = popUp.findViewById(R.id.DeleteButtonNo);
+        Button BotonSi = popUp.findViewById(R.id.DeleteButtonSi);
+        Button BotonNo = popUp.findViewById(R.id.DeleteButtonNo);
 
         //Agregar Listener
 

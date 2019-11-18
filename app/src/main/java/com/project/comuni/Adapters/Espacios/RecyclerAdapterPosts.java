@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
@@ -152,8 +153,8 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
 
         //Inicio de los widgets
 
-        CardView BotonSi = popUp.findViewById(R.id.DeleteButtonSi);
-        CardView BotonNo = popUp.findViewById(R.id.DeleteButtonNo);
+        Button BotonSi = popUp.findViewById(R.id.DeleteButtonSi);
+        Button BotonNo = popUp.findViewById(R.id.DeleteButtonNo);
 
         //Agregar Listener
         BotonSi.setOnClickListener(new View.OnClickListener() {
