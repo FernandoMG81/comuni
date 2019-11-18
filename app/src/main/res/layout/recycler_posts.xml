@@ -98,7 +98,7 @@
                     android:id="@+id/LineaDivisoria"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:background="#aaa" />
+                    android:background="@color/colorAccent" />
 
                 <TextView
                     android:id="@+id/PlacesDescripcionPosteo"

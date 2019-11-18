@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@mipmap/fondo_vacio_cromatico"
+        android:isScrollContainer="true"
         android:orientation="vertical"
         android:paddingLeft="@dimen/paddingExternoDIItems"
         android:paddingTop="@dimen/paddingExternoABItems"
@@ -20,7 +21,8 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/ic_launcher" />
+
         <TextView
             android:id="@+id/PerfilNombre"
             android:layout_width="match_parent"
@@ -29,7 +31,6 @@
             android:layout_marginBottom="10dp"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:text="@string/nombre"
             android:textSize="18sp" />
 
         <TextView
@@ -40,7 +41,6 @@
             android:layout_marginBottom="10dp"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:text="Apellido"
             android:textSize="18sp" />
 
         <TextView
@@ -51,9 +51,7 @@
             android:layout_marginBottom="10dp"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:text="@string/nombre"
-            android:textSize="18sp"
-            tools:text="Edad" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/PerfilFechaNacimiento"
@@ -63,9 +61,7 @@
             android:layout_marginBottom="10dp"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:text="@string/nombre"
-            android:textSize="18sp"
-            tools:text="Fecha de nacimiento" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/PerfilEmail"
@@ -75,8 +71,7 @@
             android:layout_marginBottom="10dp"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:textSize="18sp"
-            tools:text="Email" />
+            android:textSize="18sp" />
 
 
         <TextView
@@ -87,8 +82,7 @@
             android:layout_marginBottom="10dp"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:textSize="18sp"
-            tools:text="Created" />
+            android:textSize="18sp" />
 
 
         <Button

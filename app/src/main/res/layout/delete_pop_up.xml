@@ -8,63 +8,55 @@
     tools:context=".Fragments.Noticias.addNewsFragment">
 
 
-    <TextView
-        android:id="@+id/TextoPopUpDosOpciones"
-        android:layout_width="0dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="338dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="160dp"
         android:layout_marginEnd="50dp"
-        android:gravity="center"
-        android:text="¿Esta seguro que desea eliminarlo?"
-        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/DeleteButtonSi"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginBottom="60dp"
-        app:cardBackgroundColor="@color/colorAccent"
-        app:cardCornerRadius="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextoPopUpDosOpciones">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/TextoPopUpDosOpciones"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Sí"
-            android:textColor="#ffffff"
-            android:textSize="46sp" />
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/DeleteButtonNo"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="60dp"
-        app:cardBackgroundColor="#f74432"
-        app:cardCornerRadius="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextoPopUpDosOpciones">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:gravity="center"
-            android:text="@string/nombre"
-            android:textColor="#ffffff"
-            android:textSize="46sp" />
+            android:paddingStart="20dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="20dp"
+            android:text="¿Esta seguro que desea eliminarlo?"
+            android:textSize="30sp" />
     </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/DeleteButtonSi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginBottom="100dp"
+        android:background="@color/colorAccent"
+        android:text="Button"
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+    <Button
+        android:id="@+id/DeleteButtonNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="100dp"
+        android:background="#f74432"
+        android:text="Button"
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
