@@ -22,24 +22,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.project.comuni.Models.Comentario;
+import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
+import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.ComentarioService;
+import com.project.comuni.Servicios.UsuarioService;
 
 import java.util.ArrayList;
 
 public class RecyclerAdapterComentarios extends RecyclerView.Adapter<RecyclerAdapterComentarios.ViewHolder> {
     private static final String TAG = "RecyclerAdapterMessages";
 
+    private Go<Usuario> usuario;
+    private Go<Espacio> espacio;
     private Go<Comentario> comentario;
     private ArrayList<Go<Comentario>> comentarios;
     private Context context;
 
     private Dialog popUp;
 
-    public RecyclerAdapterComentarios(ArrayList<Go<Comentario>> comentarios, Context context) {
+    public RecyclerAdapterComentarios(ArrayList<Go<Comentario>> comentarios, Context context,  Go<Espacio> espacio, Go<Usuario> usuario) {
         this.comentarios = comentarios;
         this.context = context;
+        this.espacio = espacio;
+        this.usuario = usuario;
     }
 
     @NonNull
@@ -59,13 +66,14 @@ public class RecyclerAdapterComentarios extends RecyclerView.Adapter<RecyclerAda
                 + " " +comentarios.get(position).getObject().getUsuario().getObject().getApellido());
         holder.Comentario.setText(comentarios.get(position).getObject().getTexto());
 
-        holder.RL.setOnLongClickListener((view -> {
-            this.comentario = comentarios.get(position);
-            setPopUp();
-            popUp.show();
-            return true;
-        }));
-
+        if(new UsuarioService(usuario).isAdmin(espacio)){
+            holder.RL.setOnLongClickListener((view -> {
+                this.comentario = comentarios.get(position);
+                setPopUp();
+                popUp.show();
+                return true;
+            }));
+        }
     }
 
     @Override
