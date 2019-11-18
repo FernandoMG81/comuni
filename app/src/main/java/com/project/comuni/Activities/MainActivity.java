@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,8 +43,6 @@ import com.project.comuni.Utils.Constantes;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    private TextView textView;
     private String Titulo = "Comuni";
     private static final String CHANNEL_ID = "1";
     private static final String CHANNEL_HIGH = "HIGH CHANNEL";

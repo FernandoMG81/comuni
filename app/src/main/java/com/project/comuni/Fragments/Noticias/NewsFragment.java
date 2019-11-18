@@ -88,6 +88,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
     private TextView popupTitle, popupDescription;
     private ProgressBar popupClickProgress;
     private RecyclerAdapterNews newsAdapter ;
+    private ProgressBar progressBar;
     private ArrayList<Go<Noticia>> newsList;
     private ArrayList<Go<Noticia>> noticiasAMostrar = new ArrayList<>();
 
@@ -172,6 +173,8 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
         addNewsButton = view.findViewById(R.id.newsButton);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference(Constantes.NODO_NOTICIAS);
+        progressBar = view.findViewById(R.id.newsProgressbar);
+        progressBar.setVisibility(View.VISIBLE);
 
         //TODO: CAMBIAR
         mAuth = FirebaseAuth.getInstance();
@@ -230,6 +233,8 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
                 if(newsAdapter.getItemCount()!=0){
                     postRecyclerView.setAdapter(newsAdapter);
                 }
+
+                progressBar.setVisibility(View.INVISIBLE);
 
             }
 
