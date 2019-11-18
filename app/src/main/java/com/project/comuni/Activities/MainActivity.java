@@ -38,7 +38,11 @@ import com.project.comuni.Models.Usuario;
 import com.project.comuni.Persistencia.UsuarioDAO;
 import com.project.comuni.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.project.comuni.Servicios.LoginService;
 import com.project.comuni.Utils.Constantes;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -85,9 +89,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void guardarToken(String token) {
+        String keyUsuario= new LoginService().getUser().getUid();
+        Map<String,Object> tokenMap = new HashMap<>();
+        tokenMap.put("token",token);
+        FirebaseDatabase.getInstance().getReference(Constantes.NODO_USUARIOS).child(keyUsuario).updateChildren(tokenMap);
 
-
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference(Constantes.NODO_USUARIOS);
 
     }
 

@@ -49,6 +49,7 @@ import com.project.comuni.Models.Usuario;
 import com.project.comuni.Notifications.ApiNotification;
 import com.project.comuni.Notifications.NotificationHandler;
 import com.project.comuni.R;
+import com.project.comuni.Servicios.LoginService;
 import com.project.comuni.Servicios.UsuarioService;
 import com.project.comuni.Utils.Constantes;
 
@@ -197,7 +198,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
     }
 
     //TODO:Notificaciones
-    private void displayNotification(){
+    /*private void displayNotification(){
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getContext(),CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notif_icon)
                 .setContentTitle("Titulo de prueba")
@@ -206,7 +207,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
 
         NotificationManagerCompat notificationMC = NotificationManagerCompat.from(getContext());
         notificationMC.notify(1,mBuilder.build());
-    }
+    }*/
 
 
     @Override
@@ -315,27 +316,52 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
         Go<Usuario> usuario = new Go<>(new Usuario());
         ArrayList<String> lista = new ArrayList<>();
 
+        new UsuarioService().getAll()
+                .addValueEventListener(new ValueEventListener() {
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        lista.clear();
+                        String userActual = new LoginService().getUser().getUid();
+                        for (DataSnapshot x:dataSnapshot.getChildren() )
+                        {
+                         Go<Usuario> usuariox = new Go<>(new Usuario());
+                         usuariox.setObject(x.getValue(usuariox.getObject().getClass()));
+                         if(!userActual.equals(x.getKey())){
+                             lista.add(usuariox.getObject().getToken());
+                         }
+                        }
+
+                        ApiNotification api = retrofit.create(ApiNotification.class);
+                        for(String token: lista) {
+
+                            Call<ResponseBody> call = api.sendNotification(token, title, body);
+                            call.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    Toast.makeText(getContext(), response.body().toString(), Toast.LENGTH_LONG).show();
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                }
+                            });
+                        }
+
+                    }
+
+                });
 
     //TODO: traer la lista de tokens y actualizarlos al loguearse
-        lista.add("dIAf2g4IOqA:APA91bEJEj1xH5FMJ30GzjT0xM5yWun8Z3dyrr6hihM09UTOxlJMAs4SIORMu5OfnV1MseODSUoPS_rLGFcU2VQ_dw_yzNWMA_oxdkmZbp2qE7kv33gFGR9NzFXB7mDf44EInmQND5j0");
+        //lista.add("dIAf2g4IOqA:APA91bEJEj1xH5FMJ30GzjT0xM5yWun8Z3dyrr6hihM09UTOxlJMAs4SIORMu5OfnV1MseODSUoPS_rLGFcU2VQ_dw_yzNWMA_oxdkmZbp2qE7kv33gFGR9NzFXB7mDf44EInmQND5j0");
 
-     ApiNotification api = retrofit.create(ApiNotification.class);
-    for(String token: lista){
 
-        Call<ResponseBody> call = api.sendNotification(token,title,body);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Toast.makeText(getContext(),response.body().toString(),Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
-
-    }
 
     }
 
