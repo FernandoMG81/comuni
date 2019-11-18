@@ -30,6 +30,7 @@ public class LoginService {
     Db db = new Db();
     String fotoUrl ="";
     private FireUrl fireUrl = new FireUrl();
+    private Go<Usuario> usuario = new Go<>(new Usuario());
 
     public interface data{
         static void url(String url){};
@@ -122,7 +123,8 @@ public class LoginService {
         return user.updatePassword(contrasena);
     }
 
-    public Task<Void> changeEmail(Go<Usuario> usuario,String emailViejo, String contrasena){
+    public Task<Void> changeEmail(Go<Usuario> usuariox,String emailViejo, String contrasena){
+        usuario = usuariox;
         FirebaseUser user = fireAuth.getCurrentUser();
         AuthCredential credential = EmailAuthProvider
                 .getCredential(emailViejo, contrasena);

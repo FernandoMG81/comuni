@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -145,6 +146,7 @@ public class PerfilFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_perfil_usuario, container, false);
 
         getData();
+        usuario.setKey(new LoginService().getUser().getUid());
         usuario = new LoginService().getGoUser();
         new UsuarioService(usuario).getObject()
                 .addValueEventListener(new ValueEventListener() {
