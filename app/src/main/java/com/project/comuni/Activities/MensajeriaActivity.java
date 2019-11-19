@@ -9,6 +9,12 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.Manifest;
 import android.app.Activity;
@@ -39,22 +45,30 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project.comuni.Adapters.Mensajes.RAdapterMensajes;
 
+import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Firebase.MensajePersonal;
 import com.project.comuni.Models.Logica.LMensajePersonal;
 import com.project.comuni.Models.Logica.LUser;
+import com.project.comuni.Models.Usuario;
+import com.project.comuni.Notifications.ApiNotification;
 import com.project.comuni.Persistencia.MensajeriaDAO;
 import com.project.comuni.Persistencia.UsuarioDAO;
 import com.project.comuni.R;
+import com.project.comuni.Servicios.LoginService;
+import com.project.comuni.Servicios.UsuarioService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.project.comuni.Utils.Constantes.NODO_MENSAJES;
+import static com.project.comuni.Utils.Util.truncate;
 
 public class MensajeriaActivity extends AppCompatActivity {
 
@@ -124,6 +138,22 @@ public class MensajeriaActivity extends AppCompatActivity {
                     mensaje.setContieneFoto(false);
                     mensaje.setKeyEmisor(UsuarioDAO.getInstance().getKeyUsuario());
                     MensajeriaDAO.getInstance().nuevoMensaje(UsuarioDAO.getInstance().getKeyUsuario(),KEY_RECEPTOR,mensaje);
+                    Go<Usuario> usuarioGo = new Go<>(KEY_RECEPTOR, new Usuario());
+                    new UsuarioService(usuarioGo).getObject().addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot x:dataSnapshot.getChildren()) {
+                                String usuarioEmisor = mAuth.getCurrentUser().getDisplayName();
+                                String tokenReceptor = x.getValue(usuarioGo.getObject().getClass()).getToken();
+                                sendNotificationWithToken(usuarioEmisor, truncate(mensajeEnviar,20),tokenReceptor);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                     SendNotification();
                     txtMensaje.setText("");
                 }
@@ -349,6 +379,30 @@ public class MensajeriaActivity extends AppCompatActivity {
 
 
     }
+
+    private void sendNotificationWithToken(String title, String body, String token) {
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://comuniapp-316d5.firebaseapp.com/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ApiNotification api = retrofit.create(ApiNotification.class);
+
+        Call<ResponseBody> call = api.sendNotification(token, title, body);
+        call.enqueue(new Callback<ResponseBody>() {
+              @Override
+              public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Toast.makeText(MensajeriaActivity.this, response.body().toString(), Toast.LENGTH_LONG).show();
+                }
+              @Override
+              public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+              }
+            });
+    }
+
+
 
     private void displayNotification(){
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,CHANNEL_ID)

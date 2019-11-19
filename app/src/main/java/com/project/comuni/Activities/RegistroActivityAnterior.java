@@ -59,6 +59,7 @@ public class RegistroActivityAnterior extends AppCompatActivity {
     private CircleImageView fotoPerfil;
     private TextInputEditText txtClaveProfesional;
     private TextInputEditText txtNombre;
+    private TextInputEditText txtApellido;
     private TextInputEditText txtCorreo;
     private TextInputEditText txtContraseña;
     private TextInputEditText txtContraseñaRepetida;
@@ -71,8 +72,6 @@ public class RegistroActivityAnterior extends AppCompatActivity {
     private Uri fotoPerfilUri;
     private String pickerPath;
     private ProgressBar regProgreso;
-
-
 
 
     @Override
@@ -89,8 +88,6 @@ public class RegistroActivityAnterior extends AppCompatActivity {
         btnIngresar = findViewById(R.id.buttonIrAIngreso);
         regProgreso = findViewById(R.id.idRegistroProgressBar);
         regProgreso.setVisibility(View.INVISIBLE);
-
-
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -176,6 +173,7 @@ public class RegistroActivityAnterior extends AppCompatActivity {
 
                 String correo = txtCorreo.getText().toString();
                 String nombre = txtNombre.getText().toString();
+                String apellido = txtApellido.getText().toString();
                 if(isValidEmail(correo) && validarContraseña() && validaNombre(nombre)){
                     String contraseña = txtContraseña.getText().toString();
 
@@ -198,12 +196,13 @@ public class RegistroActivityAnterior extends AppCompatActivity {
                                                                         User usuario = new User();
                                                                         usuario.setEmail(correo);
                                                                         usuario.setNombre(nombre);
+                                                                        usuario.setApellido(apellido);
                                                                         usuario.setFotoPerfilURL(url);
                                                                         usuario.setToken(task.getResult().getToken());
                                                                         FirebaseUser currentUser = mAuth.getCurrentUser();
                                                                         DatabaseReference reference = database.getReference("Usuarios/"+currentUser.getUid());
                                                                         reference.setValue(usuario);
-                                                                        actualizarDatosUsuario(usuario.getNombre(),fotoPerfilUri,mAuth.getCurrentUser());
+                                                                        actualizarDatosUsuario(usuario.getNombre()+" "+usuario.getApellido(),fotoPerfilUri,mAuth.getCurrentUser());
                                                                         finish();
                                                                         Toast.makeText(RegistroActivityAnterior.this, "Se registro correctamente", Toast.LENGTH_LONG).show();
                                                                     }else{
