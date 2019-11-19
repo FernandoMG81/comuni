@@ -175,7 +175,20 @@ public class RegistroActivityAnterior extends AppCompatActivity {
                 String correo = txtCorreo.getText().toString();
                 String nombre = txtNombre.getText().toString();
                 String apellido = txtApellido.getText().toString();
-                if(isValidEmail(correo) && validarContraseña() && validaNombre(nombre, apellido)){
+                if(!isValidEmail(correo).equals("Ok")){
+                    Toast.makeText(RegistroActivityAnterior.this, isValidEmail(correo), Toast.LENGTH_SHORT).show();
+                    regProgreso.setVisibility(View.INVISIBLE);
+                    btnRegistrar.setEnabled(true);
+                } else if(!validarContraseña().equals("Ok")){
+                    Toast.makeText(RegistroActivityAnterior.this, validarContraseña(), Toast.LENGTH_SHORT).show();
+                    regProgreso.setVisibility(View.INVISIBLE);
+                    btnRegistrar.setEnabled(true);
+                } else if(!validaNombre(nombre, apellido).equals("Ok")) {
+                    Toast.makeText(RegistroActivityAnterior.this, validaNombre(nombre, apellido), Toast.LENGTH_SHORT).show();
+                    regProgreso.setVisibility(View.INVISIBLE);
+                    btnRegistrar.setEnabled(true);
+                }
+                else{
                     String contraseña = txtContraseña.getText().toString();
                     if(fotoPerfilUri!=null) {
                         mAuth.createUserWithEmailAndPassword(correo, contraseña)
@@ -228,10 +241,6 @@ public class RegistroActivityAnterior extends AppCompatActivity {
                         regProgreso.setVisibility(View.INVISIBLE);
                         btnRegistrar.setEnabled(true);
                     }
-                } else {
-                    Toast.makeText(RegistroActivityAnterior.this, "Revise los datos ingresados.", Toast.LENGTH_LONG).show();
-                    regProgreso.setVisibility(View.INVISIBLE);
-                    btnRegistrar.setEnabled(true);
                 }
             }
         });
@@ -252,29 +261,35 @@ public class RegistroActivityAnterior extends AppCompatActivity {
         }
     }
 
-    private boolean isValidEmail(CharSequence target){
-        return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    private String isValidEmail(CharSequence target){
+        if(TextUtils.isEmpty(target)) {
+            return "Debe llenar el email.";
+        }
+        if(!Patterns.EMAIL_ADDRESS.matcher(target).matches()) {
+            return "No ingresó un email válido.";
+        }
+            return "Ok";
     }
 
-    public boolean validarContraseña(){
+    public String validarContraseña(){
         String contraseña, contraseñaRepetida;
         contraseña = txtContraseña.getText().toString();
         contraseñaRepetida = txtContraseñaRepetida.getText().toString();
         if(contraseña.equals(contraseñaRepetida)){
             if(contraseña.length()>=6 && contraseña.length()<=16){
-                return true;
-            } else return false;
-        }else return false;
+                return "Ok";
+            } else return "La contraseña debe tener 6 o más caracteres.";
+        }else return "Las contraseñas deben coincidir.";
     }
 
-    public boolean validaNombre(String nombre, String apellido){
-        if(!nombre.isEmpty()) {
-            return false;
+    public String validaNombre(String nombre, String apellido){
+        if(nombre.isEmpty()) {
+            return "Debe escribir su nombre.";
         }
-        if (!apellido.isEmpty()){
-            return  false;
+        if (apellido.isEmpty()){
+            return  "Debe escribir su apellido";
         }
-        return true;
+        return "Ok";
     }
 
     @Override
