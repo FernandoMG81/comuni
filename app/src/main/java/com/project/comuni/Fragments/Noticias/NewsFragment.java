@@ -325,7 +325,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
                             call.enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                    Toast.makeText(getContext(), response.body().toString(), Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(getContext(), response.body().toString(), Toast.LENGTH_LONG).show();
                                 }
 
                                 @Override
