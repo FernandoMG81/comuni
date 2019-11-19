@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -58,6 +59,7 @@ public class MessagesFragment extends Fragment {
     private Button botonNuevoMensaje;
     private RecyclerView recyclerView;
     private EditText search;
+    private TextView vacio;
 
     private void getdata(){
 
@@ -67,6 +69,8 @@ public class MessagesFragment extends Fragment {
         recyclerView = view.findViewById(R.id.RVMesages);
         botonNuevoMensaje = view.findViewById(R.id.addBtnMensaje);
         search = view.findViewById(R.id.MessagesSearch);
+        vacio = view.findViewById(R.id.MessagesVacio);
+        vacio.setVisibility(View.GONE);
     }
 
     private void setSearch(){
@@ -232,10 +236,10 @@ public class MessagesFragment extends Fragment {
                                                         if (mensajes.size() > 0) {
                                                             filterData();
                                                             setRecycler();
-                                                            //vacio.setVisibility(View.GONE);
+                                                            vacio.setVisibility(View.GONE);
                                                         }
                                                         else{
-                                                            //vacio.setVisibility(View.VISIBLE);
+                                                            vacio.setVisibility(View.VISIBLE);
                                                         }
                                                     }
                                                 });
