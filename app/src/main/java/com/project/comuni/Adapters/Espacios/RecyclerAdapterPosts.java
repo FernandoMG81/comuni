@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +18,6 @@ import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,7 +33,6 @@ import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.PostService;
 import com.project.comuni.Servicios.UsuarioService;
-import com.project.comuni.Utils.PopUp;
 
 import java.util.ArrayList;
 
@@ -142,7 +138,7 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
             Tag = itemView.findViewById(R.id.Tag);
             Titulo = itemView.findViewById(R.id.PlacesTituloPosteo);
             Descripcion = itemView.findViewById(R.id.PlacesDescripcionPosteo);
-            RL = itemView.findViewById(R.id.RVPosts);
+            RL = itemView.findViewById(R.id.postRV);
             FotoUsuario = itemView.findViewById(R.id.PlacesFotoUsuario);
             NombreUsuario = itemView.findViewById(R.id.PlacesUsuario);
         }

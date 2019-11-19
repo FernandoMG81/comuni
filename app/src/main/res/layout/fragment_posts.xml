@@ -7,7 +7,7 @@
     tools:context=".Activities.MainActivity">
 
     <Button
-        android:id="@+id/PlacesButtonPost"
+        android:id="@+id/postButtonPost"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"
@@ -18,10 +18,10 @@
         android:textColor="#fff"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/placesLinearLayout" />
+        app:layout_constraintEnd_toEndOf="@+id/postLinearLayout" />
 
     <Button
-        android:id="@+id/PlacesButtonConfig"
+        android:id="@+id/postButtonConfig"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"
@@ -31,11 +31,11 @@
         android:textAlignment="center"
         android:textColor="#fff"
         android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@+id/PlacesButtonPost"
-        app:layout_constraintEnd_toEndOf="@+id/placesLinearLayout" />
+        app:layout_constraintBottom_toTopOf="@+id/postButtonPost"
+        app:layout_constraintEnd_toEndOf="@+id/postLinearLayout" />
 
     <LinearLayout
-        android:id="@+id/placesLinearLayout"
+        android:id="@+id/postLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -61,7 +61,7 @@
             </ImageView>
 
             <EditText
-                android:id="@+id/placesNewsSearch"
+                android:id="@+id/postNewsSearch"
                 android:layout_width="match_parent"
                 android:layout_height="27dp"
                 android:background="@drawable/searchbox"
@@ -77,7 +77,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/PlacesPostsVacio"
+            android:id="@+id/postsVacio"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@mipmap/fondo_vacio_cromatico"
@@ -89,7 +89,7 @@
             android:textSize="24sp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RVPosts"
+            android:id="@+id/postRV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@mipmap/fondo_vacio_cromatico"
@@ -100,4 +100,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/postProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/postLinearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
