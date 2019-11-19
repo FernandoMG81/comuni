@@ -5,6 +5,7 @@ public class User {
 
     private String fotoPerfilURL;
     private String nombre;
+    private String apellido;
     private String email;
     private String token;
 
@@ -40,5 +41,11 @@ public class User {
         this.email = email;
     }
 
+    public String getApellido() {
+        return apellido;
+    }
 
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
 }

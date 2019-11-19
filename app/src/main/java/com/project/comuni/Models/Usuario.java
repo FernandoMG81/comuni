@@ -14,13 +14,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Utils.Constantes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
 
-public class Usuario {
+public class Usuario implements Serializable {
 
     private String email;
     private String nombre;
