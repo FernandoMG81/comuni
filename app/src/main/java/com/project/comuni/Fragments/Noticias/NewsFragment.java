@@ -3,15 +3,9 @@ package com.project.comuni.Fragments.Noticias;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import android.app.Dialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -41,31 +35,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.project.comuni.Adapters.Noticias.RecyclerAdapterNews;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Noticia;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.Notifications.ApiNotification;
-import com.project.comuni.Notifications.NotificationHandler;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.LoginService;
 import com.project.comuni.Servicios.UsuarioService;
 import com.project.comuni.Utils.Constantes;
 
-import org.json.JSONObject;
-
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -78,6 +62,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 import static com.project.comuni.Utils.Util.filtrarString;
+import static com.project.comuni.Utils.Util.truncate;
 
 public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItemListener {
 
@@ -168,7 +153,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
                     }
                 });
 
-        search = view.findViewById(R.id.NewsSearch);
+        search = view.findViewById(R.id.placesNewsSearch);
         postRecyclerView = view.findViewById(R.id.RVNews);
         postRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         addNewsButton = view.findViewById(R.id.newsButton);
@@ -294,8 +279,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
                                                  ,popupDescription.getText().toString()
                                                  ,currentUser.getUid());
                    addNews(noticia);
-                   sendNotifications(popupTitle.getText().toString(), popupDescription.getText().toString());
-                   //displayNotification();
+                   sendNotifications(popupTitle.getText().toString(), truncate(popupDescription.getText().toString(),20));
                 }
 
             }
@@ -357,10 +341,6 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
                     }
 
                 });
-
-    //TODO: traer la lista de tokens y actualizarlos al loguearse
-        //lista.add("dIAf2g4IOqA:APA91bEJEj1xH5FMJ30GzjT0xM5yWun8Z3dyrr6hihM09UTOxlJMAs4SIORMu5OfnV1MseODSUoPS_rLGFcU2VQ_dw_yzNWMA_oxdkmZbp2qE7kv33gFGR9NzFXB7mDf44EInmQND5j0");
-
 
 
     }

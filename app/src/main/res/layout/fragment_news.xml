@@ -48,7 +48,7 @@
             </ImageView>
 
             <EditText
-                android:id="@+id/NewsSearch"
+                android:id="@+id/placesNewsSearch"
                 android:layout_width="match_parent"
                 android:layout_height="27dp"
                 android:background="@drawable/searchbox"

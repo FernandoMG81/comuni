@@ -18,7 +18,7 @@
         android:textColor="#fff"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout" />
+        app:layout_constraintEnd_toEndOf="@+id/placesLinearLayout" />
 
     <Button
         android:id="@+id/PlacesButtonConfig"
@@ -32,10 +32,10 @@
         android:textColor="#fff"
         android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/PlacesButtonPost"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout" />
+        app:layout_constraintEnd_toEndOf="@+id/placesLinearLayout" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/placesLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -61,7 +61,7 @@
             </ImageView>
 
             <EditText
-                android:id="@+id/NewsSearch"
+                android:id="@+id/placesNewsSearch"
                 android:layout_width="match_parent"
                 android:layout_height="27dp"
                 android:background="@drawable/searchbox"
