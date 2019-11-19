@@ -68,8 +68,8 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
                holder.Mensaje.setTypeface(null, Typeface.BOLD_ITALIC);
            }
            else{
-               holder.Contacto.setText(mensajes.get(position).getObject().getReceptor().getObject().getNombre()
-                       + " " + mensajes.get(position).getObject().getReceptor().getObject().getApellido());
+               holder.Contacto.setText(mensajes.get(position).getObject().getEmisor().getObject().getNombre()
+                       + " " + mensajes.get(position).getObject().getEmisor().getObject().getApellido());
                Glide.with(context).load(mensajes.get(position).getObject().getEmisor().getObject().getFotoPerfilURL()).into(holder.FotoUsuarioCircular);
                //EN caso que el ultimo mensaje sea Foto
                holder.Mensaje.setText(" Te envio un archivo.");
