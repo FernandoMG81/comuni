@@ -93,7 +93,7 @@ public class InnerPostsFragment extends Fragment {
 
     public void setRecycler(){
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        RecyclerAdapterComentarios adapter = new RecyclerAdapterComentarios(comentarios,this.getContext());
+        RecyclerAdapterComentarios adapter = new RecyclerAdapterComentarios(comentarios,this.getContext(),espacio,usuario);
         recyclerView.setAdapter(adapter);
     }
 

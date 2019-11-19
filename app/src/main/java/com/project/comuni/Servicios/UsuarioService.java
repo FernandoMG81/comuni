@@ -99,5 +99,15 @@ public class UsuarioService {
         return db.DbRef().child(url.getRoot());
     }
 
+    public Boolean isAdmin(Go<Espacio> espacio){
+        for (Map.Entry<String,Espacio> x: usuario.getObject().getAdministradores().entrySet())
+        {
+                if(x.getKey().equals(espacio.getKey())){
+                    return true;
+                }
+        }
+        return false;
+    }
+
 }
 

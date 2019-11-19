@@ -35,6 +35,7 @@ import com.project.comuni.Models.Post;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.PostService;
+import com.project.comuni.Servicios.UsuarioService;
 import com.project.comuni.Utils.PopUp;
 
 import java.util.ArrayList;
@@ -97,12 +98,15 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
                 onClick(holder.RL);
             });
 
+        if(new UsuarioService(usuario).isAdmin(espacio)){
             holder.RL.setOnLongClickListener((view -> {
                 this.post = posts.get(position);
                 setPopUp();
                 popUp.show();
                 return true;
             }));
+        }
+
     }
 
     @Override
