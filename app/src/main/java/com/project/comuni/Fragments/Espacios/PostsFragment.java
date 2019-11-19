@@ -210,7 +210,7 @@ public class PostsFragment extends Fragment {
                                                             postx.setKey(x.getKey());
                                                             postx.setObject(x.getValue(postx.getObject().getClass()));
                                                             new UsuarioService(postx.getObject().getUsuario())
-                                                            .getObject().addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            .getObject().addValueEventListener(new ValueEventListener() {
                                                                 @Override
                                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                                     for (DataSnapshot y: dataSnapshot.getChildren()) {

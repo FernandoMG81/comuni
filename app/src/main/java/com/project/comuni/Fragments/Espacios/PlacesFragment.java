@@ -122,7 +122,7 @@ public class PlacesFragment extends Fragment {
                             usuario.setObject((x.getValue(usuario.getObject().getClass())));
                         }
 
-                        //salvameJebus();
+                        salvameJebus();
 
                         espacios = usuario.getObject().returnAllEspacios();
                         progressBar.setVisibility(View.INVISIBLE);
@@ -146,7 +146,7 @@ public class PlacesFragment extends Fragment {
     //Aaaaaleluya Aleluuya aleluuuuuuuyaaa!
     //Cantada en Do mayor
     public void salvameJebus(){
-        Go<Espacio> espacio = new Go<>("-LtMMd1njIO_i3WAAPr9",new Espacio());
+        Go<Espacio> espacio = new Go<>("-RQ1IqFaJlgbJhRdOuXqumwn3EAv2",new Espacio());
         espacio.getObject().getAdministradores().put(usuario.getKey(),usuario.getObject());
         espacio.getObject().setNombre("TSP");
         espacio.getObject().setDescripcion("Tecnicatura Superior en Programacion");
