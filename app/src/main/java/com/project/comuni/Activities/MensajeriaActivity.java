@@ -393,7 +393,7 @@ public class MensajeriaActivity extends AppCompatActivity {
         call.enqueue(new Callback<ResponseBody>() {
               @Override
               public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Toast.makeText(MensajeriaActivity.this, response.body().toString(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(MensajeriaActivity.this, response.body().toString(), Toast.LENGTH_LONG).show();
                 }
               @Override
               public void onFailure(Call<ResponseBody> call, Throwable t) {
