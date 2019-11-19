@@ -175,16 +175,16 @@ public class RegistroActivityAnterior extends AppCompatActivity {
                 String correo = txtCorreo.getText().toString();
                 String nombre = txtNombre.getText().toString();
                 String apellido = txtApellido.getText().toString();
-                if(isValidEmail(correo) && validarContraseña() && validaNombre(nombre)){
+                if(isValidEmail(correo) && validarContraseña() && validaNombre(nombre, apellido)){
                     String contraseña = txtContraseña.getText().toString();
+                    if(fotoPerfilUri!=null) {
+                        mAuth.createUserWithEmailAndPassword(correo, contraseña)
+                                .addOnCompleteListener(RegistroActivityAnterior.this, new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            // Sign in success, update UI with the signed-in user's information
 
-                    mAuth.createUserWithEmailAndPassword(correo, contraseña)
-                            .addOnCompleteListener(RegistroActivityAnterior.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
-                                        if(fotoPerfilUri!=null){
 
                                             UsuarioDAO.getInstance().subirFotoUri(fotoPerfilUri, new UsuarioDAO.IDevolverURLfoto() {
                                                 @Override
@@ -193,7 +193,7 @@ public class RegistroActivityAnterior extends AppCompatActivity {
                                                             .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                                                                    if (task.isSuccessful()){
+                                                                    if (task.isSuccessful()) {
                                                                         User usuario = new User();
                                                                         usuario.setEmail(correo);
                                                                         usuario.setNombre(nombre);
@@ -201,12 +201,12 @@ public class RegistroActivityAnterior extends AppCompatActivity {
                                                                         usuario.setFotoPerfilURL(url);
                                                                         usuario.setToken(task.getResult().getToken());
                                                                         FirebaseUser currentUser = mAuth.getCurrentUser();
-                                                                        DatabaseReference reference = database.getReference("Usuarios/"+currentUser.getUid());
+                                                                        DatabaseReference reference = database.getReference("Usuarios/" + currentUser.getUid());
                                                                         reference.setValue(usuario);
-                                                                        actualizarDatosUsuario(usuario.getNombre()+" "+usuario.getApellido(),fotoPerfilUri,mAuth.getCurrentUser());
+                                                                        actualizarDatosUsuario(usuario.getNombre() + " " + usuario.getApellido(), fotoPerfilUri, mAuth.getCurrentUser());
                                                                         finish();
                                                                         Toast.makeText(RegistroActivityAnterior.this, "Se registro correctamente", Toast.LENGTH_LONG).show();
-                                                                    }else{
+                                                                    } else {
                                                                         Toast.makeText(RegistroActivityAnterior.this, "Error al registrar ID", Toast.LENGTH_LONG).show();
                                                                     }
                                                                 }
@@ -214,43 +214,25 @@ public class RegistroActivityAnterior extends AppCompatActivity {
                                                 }
                                             });
 
+                                        } else {
+                                            // If sign in fails, display a message to the user.
+                                            regProgreso.setVisibility(View.INVISIBLE);
+                                            btnRegistrar.setEnabled(true);
 
-                                        }else{
-                                            FirebaseInstanceId.getInstance().getInstanceId()
-                                                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                                                            if (task.isSuccessful()){
-                                                                User usuario = new User();
-                                                                usuario.setEmail(correo);
-                                                                usuario.setNombre(nombre);
-                                                                usuario.setApellido(apellido);
-                                                                usuario.setToken(task.getResult().getToken());
-                                                                usuario.setFotoPerfilURL(Constantes.URL_FOTO_POR_DEFECTO_USUARIOS);
-                                                                FirebaseUser currentUser = mAuth.getCurrentUser();
-                                                                DatabaseReference reference = database.getReference("Usuarios/"+currentUser.getUid());
-                                                                reference.setValue(usuario);
-                                                                actualizarDatosUsuario(usuario.getNombre()+" "+usuario.getApellido(),fotoPerfilUri,mAuth.getCurrentUser());
-                                                                finish();
-                                                                Toast.makeText(RegistroActivityAnterior.this, "Se registro correctamente", Toast.LENGTH_LONG).show();
-                                                            }else{
-                                                                Toast.makeText(RegistroActivityAnterior.this, "Error al registrar ID", Toast.LENGTH_LONG).show();
-                                                            }
-                                                        }
-                                                    });
+                                            Toast.makeText(RegistroActivityAnterior.this, "Error al registrarse", Toast.LENGTH_LONG).show();
                                         }
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-                                        regProgreso.setVisibility(View.INVISIBLE);
-                                        btnRegistrar.setEnabled(true);
-
-                                        Toast.makeText(RegistroActivityAnterior.this, "Error al registrarse", Toast.LENGTH_LONG).show();
                                     }
-                                }
-                            });
-
-                } else Toast.makeText(RegistroActivityAnterior.this, "Validacion funcionando", Toast.LENGTH_LONG).show();
-
+                                });
+                    }else{
+                        Toast.makeText(RegistroActivityAnterior.this, "Debe seleccionar una foto.", Toast.LENGTH_SHORT).show();
+                        regProgreso.setVisibility(View.INVISIBLE);
+                        btnRegistrar.setEnabled(true);
+                    }
+                } else {
+                    Toast.makeText(RegistroActivityAnterior.this, "Revise los datos ingresados.", Toast.LENGTH_LONG).show();
+                    regProgreso.setVisibility(View.INVISIBLE);
+                    btnRegistrar.setEnabled(true);
+                }
             }
         });
 
@@ -285,8 +267,14 @@ public class RegistroActivityAnterior extends AppCompatActivity {
         }else return false;
     }
 
-    public boolean validaNombre(String nombre){
-        return !nombre.isEmpty();
+    public boolean validaNombre(String nombre, String apellido){
+        if(!nombre.isEmpty()) {
+            return false;
+        }
+        if (!apellido.isEmpty()){
+            return  false;
+        }
+        return true;
     }
 
     @Override
