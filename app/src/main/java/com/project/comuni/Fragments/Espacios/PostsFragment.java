@@ -209,10 +209,15 @@ public class PostsFragment extends Fragment {
                                                     @Override
                                                     public void onDataChange(DataSnapshot snapshot) {
                                                         posts.clear();
+                                                        if (snapshot.getChildrenCount() == 0){
+                                                            progressBar.setVisibility(View.INVISIBLE);
+                                                            postsVacios.setVisibility(View.VISIBLE);
+                                                        }
                                                         for (DataSnapshot x : snapshot.getChildren()) {
                                                             Go<Post> postx = new Go<>(new Post());
                                                             postx.setKey(x.getKey());
                                                             postx.setObject(x.getValue(postx.getObject().getClass()));
+
                                                             new UsuarioService(postx.getObject().getUsuario())
                                                             .getObject().addValueEventListener(new ValueEventListener() {
                                                                 @Override
@@ -223,7 +228,7 @@ public class PostsFragment extends Fragment {
                                                                         postx.getObject().setUsuario(usuarioy);
                                                                     }
                                                                     posts.add(postx);
-
+                                                                    progressBar.setVisibility(View.INVISIBLE);
                                                                     setSearch();
                                                                     if (posts.size() > 0) {
                                                                         recyclerView.setVisibility(View.VISIBLE);
@@ -233,12 +238,12 @@ public class PostsFragment extends Fragment {
                                                                     else{
                                                                         postsVacios.setVisibility(View.VISIBLE);
                                                                     }
-                                                                    progressBar.setVisibility(View.INVISIBLE);
+
                                                                 }
 
                                                                 @Override
                                                                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                                                                    progressBar.setVisibility(View.INVISIBLE);
                                                                 }
                                                             });
                                                         }

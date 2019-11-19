@@ -12,10 +12,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnPausedListener;
 import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Fragments.Espacios.PostsFragment;
 import com.project.comuni.Models.Espacio;
@@ -141,7 +144,7 @@ public class CreatePostFragment extends Fragment {
     private void setRecyclerTags(){
 
         ArrayAdapter<Go<Tag>> spinnerAdapter = new ArrayAdapter<>(
-                this.getContext(), android.R.layout.simple_spinner_item, tags);
+                getContext(), android.R.layout.simple_spinner_item, tags);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tagSpinner.setAdapter(spinnerAdapter);
         tagSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -167,7 +170,7 @@ public class CreatePostFragment extends Fragment {
         setLayoutReference(view);
 
         new TagService().getAllFromEspacios(espacio)
-                .addValueEventListener(new ValueEventListener() {
+                .addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -199,7 +202,4 @@ public class CreatePostFragment extends Fragment {
 
         return view;
     }
-
-
-
 }
