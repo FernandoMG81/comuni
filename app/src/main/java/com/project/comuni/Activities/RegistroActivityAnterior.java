@@ -88,6 +88,7 @@ public class RegistroActivityAnterior extends AppCompatActivity {
         btnIngresar = findViewById(R.id.buttonIrAIngreso);
         regProgreso = findViewById(R.id.idRegistroProgressBar);
         regProgreso.setVisibility(View.INVISIBLE);
+        txtApellido = findViewById(R.id.idRegistroApellido);
 
 
         mAuth = FirebaseAuth.getInstance();
