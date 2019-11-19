@@ -63,7 +63,11 @@ public class RAdapterMensajes extends RecyclerView.Adapter<RAdapterMensajes.Hold
         LUser lUsuario = lMensaje.getlUsuario();
 
         if(lUsuario!=null){
-            holder.getNombre().setText(lUsuario.getUsuario().getNombre());
+            if (lUsuario.getUsuario().getApellido()!= null){
+                holder.getNombre().setText(lUsuario.getUsuario().getNombre() + " "
+                + lUsuario.getUsuario().getApellido());
+            }
+
             Glide.with(c).load(lUsuario.getUsuario().getFotoPerfilURL()).into(holder.getFotoMensajePerfil());
         }
 

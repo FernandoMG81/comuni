@@ -14,6 +14,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.project.comuni.Activities.ListadoUsuariosActivity;
+import com.project.comuni.Activities.MainActivity;
+import com.project.comuni.Fragments.Espacios.ConfigPlaceFragment;
 import com.project.comuni.Models.Firebase.Go;
 import com.project.comuni.Models.Firebase.MensajePersonal;
 import com.project.comuni.Models.Mensaje;
@@ -27,6 +29,7 @@ import com.project.comuni.Servicios.UsuarioService;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -111,8 +114,13 @@ public class MessagesFragment extends Fragment {
         botonNuevoMensaje.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ListadoUsuariosActivity.class);
-                startActivity(intent);
+                AppCompatActivity activity = (MainActivity) v.getContext();
+                Fragment myFragment = new ListadoContactosFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("usuario",usuario);
+                myFragment.setArguments(args);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myFragment).addToBackStack(null).commit();
+
             }
         });
     }

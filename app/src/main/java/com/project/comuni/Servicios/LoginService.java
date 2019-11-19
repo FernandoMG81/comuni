@@ -166,6 +166,27 @@ public class LoginService {
         return fotoUrl;
     }
 
+    public Task updateUser(Go<Usuario> usuariox){
+        usuario = usuariox;
+        FirebaseUser user = fireAuth.getCurrentUser();
+/*        AuthCredential credential = EmailAuthProvider
+                .getCredential(emailViejo, contrasena);
+        user.reauthenticate(credential);*/
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(usuario.getObject().getNombre() + " "
+                        + usuario.getObject().getApellido())
+                .build();
+        user.updateProfile(profileUpdates);
+        return user.updateEmail(usuario.getObject().getEmail()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    new UsuarioService(usuario).update();
+                }
+            }
+        });
+    }
+
     public Task<Void> updateToken(String keyUsuario, String token){
         Map<String,Object> mapToken = new HashMap<>();
         mapToken.put("token",token);
