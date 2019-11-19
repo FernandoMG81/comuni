@@ -402,20 +402,4 @@ public class MensajeriaActivity extends AppCompatActivity {
             });
     }
 
-
-
-    private void displayNotification(){
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notif_icon)
-                .setContentTitle("Titulo de prueba")
-                .setContentText("Prueba de notificacion")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-        NotificationManagerCompat notificationMC = NotificationManagerCompat.from(this);
-        notificationMC.notify(1,mBuilder.build());
-    }
-
-
-
-
 }

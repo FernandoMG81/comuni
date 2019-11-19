@@ -51,8 +51,8 @@
                 android:paddingStart="4dp"
                 android:paddingTop="6dp"
                 android:paddingEnd="4dp"
-                android:paddingBottom="16dp"
-                android:text="asdads"
+                android:paddingBottom="0dp"
+                android:text="asdasd"
                 android:textColor="@color/textColorCommon"
                 android:textSize="@dimen/parrafos" />
 
