@@ -10,8 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.android.gms.common.api.internal.ListenerHolders;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
@@ -75,7 +73,7 @@ public class PostsFragment extends Fragment {
     }
 
     public void setLayoutReferences(View v){
-        search = v.findViewById(R.id.NewsSearch);
+        search = v.findViewById(R.id.placesNewsSearch);
         postsVacios = v.findViewById(R.id.PlacesPostsVacio);
         recyclerView = v.findViewById(R.id.RVPosts);
         ConfigPlacesButton = v.findViewById(R.id.PlacesButtonConfig);

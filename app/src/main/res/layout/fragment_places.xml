@@ -7,7 +7,7 @@
     tools:context=".Activities.MainActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/placesLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@mipmap/fondo_vacio_cromatico"
@@ -34,7 +34,7 @@
             </ImageView>
 
             <EditText
-                android:id="@+id/NewsSearch"
+                android:id="@+id/placesNewsSearch"
                 android:layout_width="match_parent"
                 android:layout_height="27dp"
                 android:background="@drawable/searchbox"
@@ -50,7 +50,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/PlacesTextVacio"
+            android:id="@+id/placesTextVacio"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@mipmap/fondo_vacio_cromatico"
@@ -62,7 +62,7 @@
             android:textSize="24sp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RVPlaces"
+            android:id="@+id/placesRV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="8dp"
@@ -73,4 +73,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/placesProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/placesLinearLayout"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

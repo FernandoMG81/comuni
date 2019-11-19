@@ -47,7 +47,7 @@ public class NotificationHandler extends ContextWrapper {
             //highChannel.setVibrationPattern(new long[]{100,200,300,400,500,400,300,200,400}); //Patron de vibracion
             //Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION); //Audio personalizado
             //highChannel.setSound(defaultSoundUri,null);// audio personalizado
-            highChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            highChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
 
             NotificationChannel lowChannel = new NotificationChannel(CHANNEL_LOW_ID, CHANNEL_LOW_NAME,NotificationManager.IMPORTANCE_LOW);
             lowChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);

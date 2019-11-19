@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.comuni.Activities.MainActivity;
-import com.project.comuni.Fragments.Espacios.InnerPostsFragment;
 import com.project.comuni.Fragments.Espacios.PostsFragment;
 import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
@@ -88,7 +86,7 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
             super(itemView);
             Nombre = itemView.findViewById(R.id.RVPlacesNombre);
             Descripcion = itemView.findViewById(R.id.RVPlacesDescripcion);
-            RL = itemView.findViewById(R.id.RVPlaces);
+            RL = itemView.findViewById(R.id.placesRV);
         }
     }
 }

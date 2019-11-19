@@ -6,16 +6,12 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,22 +19,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.project.comuni.Activities.MainActivity;
 import com.project.comuni.Adapters.Espacios.RecyclerAdapterPlaces;
-import com.project.comuni.Adapters.Espacios.RecyclerAdapterPosts;
 import com.project.comuni.Models.Espacio;
 import com.project.comuni.Models.Firebase.Go;
-import com.project.comuni.Models.Post;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.EspacioService;
 import com.project.comuni.Servicios.LoginService;
-import com.project.comuni.Servicios.PostService;
 import com.project.comuni.Servicios.UsuarioService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.project.comuni.Utils.Util.filtrarString;
 
@@ -56,12 +46,15 @@ public class PlacesFragment extends Fragment {
     private TextView vacio;
     private EditText search;
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
 
 
     public void setLayoutReferences(View v){
-        vacio = v.findViewById(R.id.PlacesTextVacio);
-        search = v.findViewById(R.id.NewsSearch);
-        recyclerView = v.findViewById(R.id.RVPlaces);
+        vacio = v.findViewById(R.id.placesTextVacio);
+        search = v.findViewById(R.id.placesNewsSearch);
+        recyclerView = v.findViewById(R.id.placesRV);
+        progressBar = v.findViewById(R.id.placesProgressBar);
+        progressBar.setVisibility(View.VISIBLE);
 
         vacio.setVisibility(View.GONE);
     }
@@ -124,6 +117,7 @@ public class PlacesFragment extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         espacios.clear();
 
+
                         for (DataSnapshot x: dataSnapshot.getChildren()) {
                             usuario.setObject((x.getValue(usuario.getObject().getClass())));
                         }
@@ -131,12 +125,13 @@ public class PlacesFragment extends Fragment {
                         //salvameJebus();
 
                         espacios = usuario.getObject().returnAllEspacios();
-
+                        progressBar.setVisibility(View.INVISIBLE);
                         setSearch();
                         if (espacios.size() > 0) {
                             filterData();
                             setRecycler();
                             vacio.setVisibility(View.GONE);
+
                         }
                         else{
                             vacio.setVisibility(View.VISIBLE);
