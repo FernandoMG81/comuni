@@ -77,10 +77,19 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
             holder.Titulo.setText(posts.get(position).getObject().getTitulo());
             if(posts.get(position).getObject().getTag() != null) {
                 if (posts.get(position).getObject().getTag().getObject()!= null) {
-                    holder.Tag.setText(posts.get(position).getObject().getTag().getObject().getText());
-                    holder.Tag.setBackgroundColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().ColorB()));
-                    holder.Tag.setTextColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().ColorT()));
+                    if (!posts.get(position).getObject().getTag().getObject().getText().isEmpty()) {
+                        holder.Tag.setText(posts.get(position).getObject().getTag().getObject().getText());
+                        holder.Tag.setBackgroundColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().ColorB()));
+                        holder.Tag.setTextColor(Color.parseColor(posts.get(position).getObject().getTag().getObject().ColorT()));
+                    }
+                    else{
+                        holder.TagCardView.setVisibility(View.GONE);
+                    }
+                }else{
+                    holder.TagCardView.setVisibility(View.GONE);
                 }
+            }else{
+                holder.TagCardView.setVisibility(View.GONE);
             }
             holder.Fecha.setText(posts.get(position).getObject().getCreated());
             //String TextoTruncado = truncate(posts.get(position).getObject().getTexto(), 50);
@@ -131,6 +140,7 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
         CircleImageView FotoUsuario;
         TextView NombreUsuario;
         RelativeLayout RL;
+        CardView TagCardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -141,6 +151,7 @@ public class RecyclerAdapterPosts extends RecyclerView.Adapter<RecyclerAdapterPo
             RL = itemView.findViewById(R.id.postRV);
             FotoUsuario = itemView.findViewById(R.id.PlacesFotoUsuario);
             NombreUsuario = itemView.findViewById(R.id.PlacesUsuario);
+            TagCardView = itemView.findViewById(R.id.CardViewRecyclerPostsTag);
         }
     }
 
