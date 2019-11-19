@@ -122,7 +122,7 @@ public class PlacesFragment extends Fragment {
                             usuario.setObject((x.getValue(usuario.getObject().getClass())));
                         }
 
-                        salvameJebus();
+                        //salvameJebus();
 
                         espacios = usuario.getObject().returnAllEspacios();
                         progressBar.setVisibility(View.INVISIBLE);
