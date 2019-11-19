@@ -153,7 +153,7 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
                     }
                 });
 
-        search = view.findViewById(R.id.placesNewsSearch);
+        search = view.findViewById(R.id.postNewsSearch);
         postRecyclerView = view.findViewById(R.id.RVNews);
         postRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         addNewsButton = view.findViewById(R.id.newsButton);

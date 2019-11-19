@@ -51,7 +51,7 @@ public class PlacesFragment extends Fragment {
 
     public void setLayoutReferences(View v){
         vacio = v.findViewById(R.id.placesTextVacio);
-        search = v.findViewById(R.id.placesNewsSearch);
+        search = v.findViewById(R.id.postNewsSearch);
         recyclerView = v.findViewById(R.id.placesRV);
         progressBar = v.findViewById(R.id.placesProgressBar);
         progressBar.setVisibility(View.VISIBLE);

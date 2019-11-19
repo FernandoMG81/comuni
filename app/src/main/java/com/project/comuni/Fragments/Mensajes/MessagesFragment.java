@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -60,6 +61,7 @@ public class MessagesFragment extends Fragment {
     private RecyclerView recyclerView;
     private EditText search;
     private TextView vacio;
+    private ProgressBar progressBar;
 
     private void getdata(){
 
@@ -71,6 +73,8 @@ public class MessagesFragment extends Fragment {
         search = view.findViewById(R.id.MessagesSearch);
         vacio = view.findViewById(R.id.MessagesVacio);
         vacio.setVisibility(View.GONE);
+        progressBar = view.findViewById(R.id.mensajesProgressBar);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     private void setSearch(){
@@ -241,6 +245,7 @@ public class MessagesFragment extends Fragment {
                                                         else{
                                                             vacio.setVisibility(View.VISIBLE);
                                                         }
+                                                        progressBar.setVisibility(View.INVISIBLE);
                                                     }
                                                 });
                                     }

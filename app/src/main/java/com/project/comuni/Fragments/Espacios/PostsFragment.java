@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -65,6 +66,7 @@ public class PostsFragment extends Fragment {
     private ValueEventListener listenerEspacio;
     private Query getPost;
     private ValueEventListener listenerPost;
+    private ProgressBar progressBar;
 
     private void getData() {
         Bundle bundle = getArguments();
@@ -73,11 +75,13 @@ public class PostsFragment extends Fragment {
     }
 
     public void setLayoutReferences(View v){
-        search = v.findViewById(R.id.placesNewsSearch);
-        postsVacios = v.findViewById(R.id.PlacesPostsVacio);
-        recyclerView = v.findViewById(R.id.RVPosts);
-        ConfigPlacesButton = v.findViewById(R.id.PlacesButtonConfig);
-        newPostButton = v.findViewById(R.id.PlacesButtonPost);
+        search = v.findViewById(R.id.postNewsSearch);
+        postsVacios = v.findViewById(R.id.postsVacio);
+        recyclerView = v.findViewById(R.id.postRV);
+        ConfigPlacesButton = v.findViewById(R.id.postButtonConfig);
+        newPostButton = v.findViewById(R.id.postButtonPost);
+        progressBar = v.findViewById(R.id.postProgressBar);
+        progressBar.setVisibility(View.VISIBLE);
 
         postsVacios.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
@@ -229,6 +233,7 @@ public class PostsFragment extends Fragment {
                                                                     else{
                                                                         postsVacios.setVisibility(View.VISIBLE);
                                                                     }
+                                                                    progressBar.setVisibility(View.INVISIBLE);
                                                                 }
 
                                                                 @Override
