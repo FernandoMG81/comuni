@@ -224,12 +224,13 @@ public class RegistroActivityAnterior extends AppCompatActivity {
                                                                 User usuario = new User();
                                                                 usuario.setEmail(correo);
                                                                 usuario.setNombre(nombre);
+                                                                usuario.setApellido(apellido);
                                                                 usuario.setToken(task.getResult().getToken());
                                                                 usuario.setFotoPerfilURL(Constantes.URL_FOTO_POR_DEFECTO_USUARIOS);
                                                                 FirebaseUser currentUser = mAuth.getCurrentUser();
                                                                 DatabaseReference reference = database.getReference("Usuarios/"+currentUser.getUid());
                                                                 reference.setValue(usuario);
-                                                                actualizarDatosUsuario(usuario.getNombre(),fotoPerfilUri,mAuth.getCurrentUser());
+                                                                actualizarDatosUsuario(usuario.getNombre()+" "+usuario.getApellido(),fotoPerfilUri,mAuth.getCurrentUser());
                                                                 finish();
                                                                 Toast.makeText(RegistroActivityAnterior.this, "Se registro correctamente", Toast.LENGTH_LONG).show();
                                                             }else{
