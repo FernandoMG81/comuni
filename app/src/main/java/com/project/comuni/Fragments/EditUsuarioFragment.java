@@ -157,7 +157,7 @@ public class EditUsuarioFragment extends Fragment {
                     Toast.makeText(getContext(), usuarioAGuardar.getObject().validarDatos(), Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new UsuarioService(usuarioAGuardar).update()
+                    new LoginService().updateUser(usuario)
                             .addOnCompleteListener(getActivity(), new OnCompleteListener() {
                                 @Override
                                 public void onComplete(@NonNull Task task) {
