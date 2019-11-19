@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,10 +76,12 @@ public class InnerPostsFragment extends Fragment {
 
         TextoVacio = view.findViewById(R.id.InnerPostsVacio);
         TextoVacio.setVisibility(View.GONE);
+
         recyclerView = view.findViewById(R.id.RVInnerPosts);
 
         comentarioTexto = view.findViewById(R.id.InnerFragmentComentarioTexto);
         comentarioSubmit = view.findViewById(R.id.InnerFragmentComentarioSubmit);
+
 
         Titulo.setText(post.getObject().getTitulo());
         Descripcion.setText(post.getObject().getTexto());

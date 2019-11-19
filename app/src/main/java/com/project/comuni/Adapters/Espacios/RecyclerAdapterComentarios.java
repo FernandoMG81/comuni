@@ -130,6 +130,8 @@ public class RecyclerAdapterComentarios extends RecyclerView.Adapter<RecyclerAda
             @Override
             public void onClick(View view) {
                 delete();
+                comentarios.remove(comentario);
+                notifyDataSetChanged();
                 popUp.dismiss();
             }
         });
