@@ -288,9 +288,6 @@ public class NewsFragment extends Fragment implements RecyclerAdapterNews.OnItem
 
     private void sendNotifications(String title, String body) {
 
-        String titulo = title;
-        String texto = body;
-
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://comuniapp-316d5.firebaseapp.com/api/")
