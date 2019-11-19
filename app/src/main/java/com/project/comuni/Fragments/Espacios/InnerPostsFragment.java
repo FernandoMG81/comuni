@@ -29,6 +29,7 @@ import com.project.comuni.Models.Post;
 import com.project.comuni.Models.Usuario;
 import com.project.comuni.R;
 import com.project.comuni.Servicios.ComentarioService;
+import com.project.comuni.Servicios.UsuarioService;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -144,15 +145,34 @@ public class InnerPostsFragment extends Fragment {
                                 Go<Comentario> comentariox = new Go<>(new Comentario());
                                 comentariox.setKey(x.getKey());
                                 comentariox.setObject(x.getValue(comentariox.getObject().getClass()));
-                                comentarios.add(comentariox);
+                                new UsuarioService(comentariox.getObject().getUsuario()).getObject()
+                                        .addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                for (DataSnapshot y : dataSnapshot.getChildren()) {
+                                                    Go<Usuario> usuariox = new Go<>(y.getKey(), new Usuario());
+                                                    usuariox.setObject(y.getValue(usuario.getObject().getClass()));
+                                                    comentariox.getObject().setUsuario(usuariox);
+
+                                                }
+                                                comentarios.add(comentariox);
+
+                                                if (comentarios.size() > 0) {
+                                                    setRecycler();
+                                                    TextoVacio.setVisibility(View.GONE);
+                                                } else {
+                                                    TextoVacio.setVisibility(View.VISIBLE);
+                                                }
+                                            }
+
+
+                                        });
                             }
-                                if(comentarios.size()>0) {
-                                    setRecycler();
-                                    TextoVacio.setVisibility(View.GONE);
-                                }
-                                else{
-                                    TextoVacio.setVisibility(View.VISIBLE);
-                                }
                         }
                     });
 

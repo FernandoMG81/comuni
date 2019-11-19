@@ -164,7 +164,7 @@ public class EditUsuarioFragment extends Fragment {
                                     if (!task.isSuccessful()) {
                                         Toast.makeText(getContext(), "Ocurrio un error", Toast.LENGTH_LONG).show();
                                     } else {
-                                        Toast.makeText(getContext(), "Contraseña Actualizada", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext(), "Datos Actualizados", Toast.LENGTH_LONG).show();
                                         goToPerfil();
                                     }
                                 }

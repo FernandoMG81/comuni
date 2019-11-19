@@ -211,17 +211,33 @@ public class PostsFragment extends Fragment {
                                                             Go<Post> postx = new Go<>(new Post());
                                                             postx.setKey(x.getKey());
                                                             postx.setObject(x.getValue(postx.getObject().getClass()));
-                                                            posts.add(postx);
-                                                        }
+                                                            new UsuarioService(postx.getObject().getUsuario())
+                                                            .getObject().addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                                    for (DataSnapshot y: dataSnapshot.getChildren()) {
+                                                                        Go<Usuario> usuarioy = new Go<>(y.getKey(), new Usuario());
+                                                                        usuarioy.setObject(y.getValue(usuarioy.getObject().getClass()));
+                                                                        postx.getObject().setUsuario(usuarioy);
+                                                                    }
+                                                                    posts.add(postx);
 
-                                                        setSearch();
-                                                        if (posts.size() > 0) {
-                                                            recyclerView.setVisibility(View.VISIBLE);
-                                                            filterData();
-                                                            setRecycler();
-                                                        }
-                                                        else{
-                                                            postsVacios.setVisibility(View.VISIBLE);
+                                                                    setSearch();
+                                                                    if (posts.size() > 0) {
+                                                                        recyclerView.setVisibility(View.VISIBLE);
+                                                                        filterData();
+                                                                        setRecycler();
+                                                                    }
+                                                                    else{
+                                                                        postsVacios.setVisibility(View.VISIBLE);
+                                                                    }
+                                                                }
+
+                                                                @Override
+                                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                                }
+                                                            });
                                                         }
                                                     }
                                                 });
