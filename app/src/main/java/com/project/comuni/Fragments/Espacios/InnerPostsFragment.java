@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +60,7 @@ public class InnerPostsFragment extends Fragment {
     //Escribir Comentario
     private TextView comentarioTexto;
     private Button comentarioSubmit;
+    private ProgressBar progressBar;
 
     public void getData() {
         Bundle bundle = getArguments();
@@ -74,6 +76,8 @@ public class InnerPostsFragment extends Fragment {
         Tag = view.findViewById(R.id.InnerPlacesTag);
         NombreUsuario = view.findViewById(R.id.InnerPlacesUsuario);
         Fecha = view.findViewById(R.id.InnerPlacesFecha);
+        progressBar = view.findViewById(R.id.InnerFragmentProgressbar);
+        progressBar.setVisibility(View.VISIBLE);
 
         TextoVacio = view.findViewById(R.id.InnerPostsVacio);
         TextoVacio.setVisibility(View.GONE);
@@ -146,6 +150,10 @@ public class InnerPostsFragment extends Fragment {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
                             comentarios.clear();
+                            if(snapshot.getChildrenCount()==0){
+                                progressBar.setVisibility(View.INVISIBLE);
+                                TextoVacio.setVisibility(View.VISIBLE);
+                            }
                             for (DataSnapshot x : snapshot.getChildren()) {
                                 Go<Comentario> comentariox = new Go<>(new Comentario());
                                 comentariox.setKey(x.getKey());
@@ -173,6 +181,7 @@ public class InnerPostsFragment extends Fragment {
                                                 } else {
                                                     TextoVacio.setVisibility(View.VISIBLE);
                                                 }
+                                                progressBar.setVisibility(View.INVISIBLE);
                                             }
 
 

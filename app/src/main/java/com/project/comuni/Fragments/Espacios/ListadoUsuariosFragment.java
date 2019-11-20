@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -64,6 +65,7 @@ public class ListadoUsuariosFragment extends Fragment {
     private TextView vacio;
     private EditText search;
     private RecyclerView recyclerViewUsuarios;
+    private ProgressBar progressBar;
 
     private void getData() {
         Bundle bundle = getArguments();
@@ -78,6 +80,8 @@ public class ListadoUsuariosFragment extends Fragment {
         vacio.setVisibility(View.GONE);
         search = v.findViewById(R.id.ContactosSearch);
         recyclerViewUsuarios = v.findViewById(R.id.RVContactos);
+        progressBar = v.findViewById(R.id.listadoUsuarios);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     private void setSearch(){
@@ -197,6 +201,7 @@ public class ListadoUsuariosFragment extends Fragment {
                                         } else {
                                             vacio.setVisibility(View.VISIBLE);
                                         }
+                                        progressBar.setVisibility(View.INVISIBLE);
                                     }
 
                                 });

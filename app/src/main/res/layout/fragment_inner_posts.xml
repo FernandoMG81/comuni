@@ -162,7 +162,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="334dp"
-            android:layout_height="48dp"
+            android:layout_height="52dp"
             android:layout_weight="1">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -182,5 +182,12 @@
             android:minWidth="150dp"
             android:text="Enviar" />
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/InnerFragmentProgressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
 
 </RelativeLayout>
