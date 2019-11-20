@@ -94,9 +94,15 @@ public class RecyclerAdapterMessages extends RecyclerView.Adapter<RecyclerAdapte
     @Override
     public void onClick(View view) {
         Intent intent = new Intent(context, MensajeriaActivity.class);
-        intent.putExtra("key_receptor",mensaje.getObject().getReceptor().getKey());
-        intent.putExtra("photo_receptor",mensaje.getObject().getReceptor().getObject().getFotoPerfilURL());
-        intent.putExtra("name_receptor",mensaje.getObject().getReceptor().getObject().getNombre());
+        if(usuario.getKey().equals(mensaje.getObject().getReceptor().getKey())){
+            intent.putExtra("key_receptor",mensaje.getObject().getEmisor().getKey());
+            intent.putExtra("photo_receptor",mensaje.getObject().getEmisor().getObject().getFotoPerfilURL());
+            intent.putExtra("name_receptor",mensaje.getObject().getEmisor().getObject().getNombre());
+        }else{
+            intent.putExtra("key_receptor",mensaje.getObject().getReceptor().getKey());
+            intent.putExtra("photo_receptor",mensaje.getObject().getReceptor().getObject().getFotoPerfilURL());
+            intent.putExtra("name_receptor",mensaje.getObject().getReceptor().getObject().getNombre());
+        }
         context.startActivity(intent);
     }
 
