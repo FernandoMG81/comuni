@@ -32,6 +32,7 @@ import com.project.comuni.R;
 import com.project.comuni.Servicios.ComentarioService;
 import com.project.comuni.Servicios.UsuarioService;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -109,8 +110,9 @@ public class InnerPostsFragment extends Fragment {
                 comentario.getObject().setPost(post);
                 comentario.getObject().setUsuario(usuario);
                 Date date = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy");
-                comentario.getObject().setCreated(sdf.format(date.getTime()));
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                comentario.getObject().setCreated(sdf.format(timestamp));
 
                 new ComentarioService(comentario).create()
                         .addOnCompleteListener(new OnCompleteListener() {
@@ -164,7 +166,7 @@ public class InnerPostsFragment extends Fragment {
 
                                                 }
                                                 comentarios.add(comentariox);
-
+                                                comentarioTexto.setText("");
                                                 if (comentarios.size() > 0) {
                                                     setRecycler();
                                                     TextoVacio.setVisibility(View.GONE);
